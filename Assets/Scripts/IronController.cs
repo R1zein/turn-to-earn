@@ -14,7 +14,7 @@ public class IronController : ResourceController
         else
         {
             resourceStore -= oneHitResource;
-            Player.playerInstance.AddPlayerIron(oneHitResource);
+            StoredResources.instance.AddPlayerIron(oneHitResource);
         }
     }
 }

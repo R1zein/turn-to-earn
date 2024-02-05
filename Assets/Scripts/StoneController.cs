@@ -14,7 +14,7 @@ public  class StoneController : ResourceController
         else
         {
             resourceStore -= oneHitResource;
-            Player.playerInstance.AddPlayerOre(oneHitResource);
+            StoredResources.instance.AddPlayerOre(oneHitResource);
         }
     }
 }                                                              

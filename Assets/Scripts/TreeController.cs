@@ -14,7 +14,7 @@ public class TreeController : ResourceController
         else
         {
             resourceStore -= oneHitResource;
-            Player.playerInstance.AddPlayerTree(oneHitResource);
+            StoredResources.instance.AddPlayerTree(oneHitResource);
         }
     }
 }

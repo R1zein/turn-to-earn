@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class StoredResources : MonoBehaviour
 {
     [SerializeField] int playerOreStore;
     [SerializeField] Text playerOreStoreText;
@@ -12,12 +12,22 @@ public class Player : MonoBehaviour
     [SerializeField] TMP_Text playerTreeStoreText;
     [SerializeField] int playerIronStore;
     [SerializeField] TMP_Text playerIronStoreText;
+    public int PlayerOreStore => playerOreStore;
+    public int PlayerTreeStore => playerTreeStore;
+    public int PlayerIronStore => playerIronStore;
 
-    public static Player playerInstance;
+    public static StoredResources instance;
 
     private void Awake()
     {
-        playerInstance = this;
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     //добавляет игроку руду
@@ -35,6 +45,15 @@ public class Player : MonoBehaviour
     {
         playerIronStore += newIron;
         playerIronStoreText.text = $"Добыто железа: {playerIronStore}";
+    }
+
+    public AllResources GetResources()
+    {
+        AllResources res = new AllResources();
+        res.iron = playerIronStore;
+        res.tree = playerTreeStore;
+        res.ore = playerOreStore;
+        return res;
     }
 
         // убирает игроку руду
