@@ -144,10 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6386981e44884b345b2455b21d357edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oreStore: 50
-  oneHitOre: 10
-  destroyStoneEffect: {fileID: 2006913474260269251}
+  destroyEffect: {fileID: 5508850351725424096, guid: 01d3026e89d9b7c4a8e9d582f1010911, type: 3}
   positionID: 0
+  resourse: 0
+  resourceStore: 150
+  oneHitResource: 30
 --- !u!1001 &6317040780197975331
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -212,10 +213,5 @@ PrefabInstance:
 --- !u!4 &2006913474260269248 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5508850351725424099, guid: 01d3026e89d9b7c4a8e9d582f1010911, type: 3}
-  m_PrefabInstance: {fileID: 6317040780197975331}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &2006913474260269251 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5508850351725424096, guid: 01d3026e89d9b7c4a8e9d582f1010911, type: 3}
   m_PrefabInstance: {fileID: 6317040780197975331}
   m_PrefabAsset: {fileID: 0}

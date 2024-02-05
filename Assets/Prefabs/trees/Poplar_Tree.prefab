@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 3367454}
   - component: {fileID: 2393902}
   - component: {fileID: 5728925674125322505}
+  - component: {fileID: 4439859897549523773}
+  - component: {fileID: -6162652266190606854}
+  - component: {fileID: -1476740470193493726}
   m_Layer: 0
   m_Name: Poplar_Tree
   m_TagString: Untagged
@@ -98,3 +101,50 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 186ad8f063dbf430da4d56ebc0cb14e0, type: 3}
+--- !u!114 &4439859897549523773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba99e4c4ee8ec141b9dd53629c297f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyEffect: {fileID: 8944714569178099255, guid: 0dc495e6dc8197c478f81ea1e6e64c21, type: 3}
+  positionID: 0
+  resourse: 1
+  resourceStore: 100
+  oneHitResource: 20
+--- !u!114 &-6162652266190606854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66575aeccca01d640bbd5fc87cde0c87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1476740470193493726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 1
+  outlineColor: {r: 0.8917625, g: 0.990566, b: 0.023362402, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

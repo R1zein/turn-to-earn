@@ -34,7 +34,7 @@ public class StoneSpawner : MonoBehaviour
             {
                 var stone = Instantiate(stonePrefabs[Random.Range(0, stonePrefabs.Count)], spawnPoints[point].position, Quaternion.identity);
                 positions[point] = 1;
-                stone.GetComponent<StoneController>().positionID = point;
+                stone.GetComponent<ResourceController>().positionID = point;
             }
         }
     }

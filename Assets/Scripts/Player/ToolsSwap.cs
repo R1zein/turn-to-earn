@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ToolsSwap : MonoBehaviour
 {
-    [SerializeField] private PickaxeController pickaxe;
-    [SerializeField] private PickaxeController axe;
+    [SerializeField] private ToolController pickaxe;
+    [SerializeField] private ToolController axe;
     // Start is called before the first frame update
     void Start()
     {
