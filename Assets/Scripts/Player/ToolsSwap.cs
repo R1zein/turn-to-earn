@@ -4,27 +4,45 @@ using UnityEngine;
 
 public class ToolsSwap : MonoBehaviour
 {
-    [SerializeField] private ToolController pickaxe;
-    [SerializeField] private ToolController axe;
+    public GameObject[] tools;
+    private int toolIndex;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Swap();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Q)) 
+        if (Input.GetKeyDown(KeyCode.Q)) 
         {
-            axe.gameObject.SetActive(true);
-            pickaxe.gameObject.SetActive(false);
+            toolIndex++;
+            if(toolIndex >= tools.Length)
+            {
+                toolIndex = 0;
+            }
+            Swap();
         }
 
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            axe.gameObject.SetActive(false);
-            pickaxe.gameObject.SetActive(true);
+            toolIndex--;
+            if (toolIndex < 0)
+            {
+                toolIndex = tools.Length - 1;
+            }
+            Swap();
         }
+    }
+
+    private void Swap()
+    {
+        foreach (var tool in tools)
+        {
+            tool.SetActive(false);
+        }
+        tools[toolIndex].SetActive(true);
     }
 }

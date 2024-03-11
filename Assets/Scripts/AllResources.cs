@@ -96,7 +96,7 @@ public class AllResources
     {
         AllResources res = new AllResources();
         res.iron = left.iron - right.iron;
-        res.tree = right.tree - right.tree;
+        res.tree = left.tree - right.tree;
         res.ore = left.ore - right.ore;
         return res;
     }

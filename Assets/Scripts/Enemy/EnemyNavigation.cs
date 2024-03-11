@@ -64,6 +64,7 @@ public class EnemyNavigation : MonoBehaviour
         if (Vector3.Distance(transform.position, target.transform.position) <= attackDistance)
         {
             animator.SetBool("Attack", true);
+            animator.SetBool("Run", false);
             return;
         }
     }

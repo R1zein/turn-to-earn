@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b0aea8515cbd742b704bb340cbe75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  param:
-    animationName: Attack
+  _params:
+  - animationName: Attack
+    value: 0
+  - animationName: Idle
+    value: 0
+  - animationName: Run
     value: 0
 --- !u!114 &-6986372365213215694
 MonoBehaviour:
@@ -27,8 +31,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b0aea8515cbd742b704bb340cbe75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  param:
-    animationName: Run
+  _params:
+  - animationName: Run
     value: 0
 --- !u!1101 &-6367314803205223854
 AnimatorStateTransition:
@@ -206,25 +210,25 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Idle
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Death
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -417,13 +421,13 @@ AnimatorStateMachine:
     m_Position: {x: 90, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 970911785426984342}
-    m_Position: {x: 310, y: 280, z: 0}
+    m_Position: {x: 300, y: 290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5961763559302261871}
-    m_Position: {x: 100, y: 370, z: 0}
+    m_Position: {x: 90, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3091281915686634775}
-    m_Position: {x: 310, y: 370, z: 0}
+    m_Position: {x: 300, y: 370, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 662546107666994569}
     m_Position: {x: 220, y: 610, z: 0}
@@ -439,9 +443,9 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours:
   - {fileID: 5292771241681300541}
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_AnyStatePosition: {x: 110, y: 30, z: 0}
+  m_EntryPosition: {x: 110, y: 130, z: 0}
+  m_ExitPosition: {x: 690, y: 320, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -3256455168186911665}
 --- !u!114 &5292771241681300541
@@ -456,9 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b0aea8515cbd742b704bb340cbe75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  param:
-    animationName: Idle
-    value: 0
+  _params: []
 --- !u!114 &5985064692622677216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -471,8 +473,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45b0aea8515cbd742b704bb340cbe75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  param:
-    animationName: 
+  _params:
+  - animationName: Idle
     value: 0
 --- !u!1101 &6549827675115383329
 AnimatorStateTransition:
