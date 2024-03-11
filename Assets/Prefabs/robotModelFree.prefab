@@ -186,7 +186,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.25
-  m_Speed: 3.5
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -206,9 +206,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5030082726617585826}
   serializedVersion: 2
-  m_Mass: 10
+  m_Mass: 70
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -226,6 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09ad6fb33454064bad0fda3d3619ecf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mineDistance: 3
   cooldown: 1
   startRadius: 1
 --- !u!1 &5030082726617585828

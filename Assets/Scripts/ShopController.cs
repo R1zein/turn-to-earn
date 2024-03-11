@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,32 +28,14 @@ public class ShopController : MonoBehaviour
 
     public void ByeBot()
     {
-        if(neadbleResources.CompareTo(StoredResources.instance.GetResources()) >= 1)
+        if(StoredResources.instance.CurrentResources >= neadbleResources)
         {
-            Instantiate(bot, botSpawnPosition.position, Quaternion.identity);
+            StoredResources.instance.DecreaseResources(neadbleResources);
+            for (int i = 0; i < 1; i++)
+            {
+                Instantiate(bot, botSpawnPosition.position, Quaternion.identity);
+            }
         }
     }
 }
-[Serializable]
-public class AllResources: IComparable<AllResources>
-{
-    public int iron;
-    public int tree;
-    public int ore;
 
-    public int CompareTo(AllResources other)
-    {
-        if(iron == other.iron && tree == other.tree && ore == other.ore)
-        {
-            return 0;
-        }
-        else if(iron > other.iron && tree > other.tree && ore > other.ore)
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
-        }
-    }
-}

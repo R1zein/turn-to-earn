@@ -7,6 +7,8 @@ public class BotNavigation : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
     private ResourceController currentResource;
+    public float mineDistance;
+
     public float cooldown;
     private float timer;
     private Animator animator;
@@ -34,7 +36,6 @@ public class BotNavigation : MonoBehaviour
     }
     private void FindResource()
     {
-        print(1);
         if(startRadius <= 0)
         {
             startRadius = 1;
@@ -48,7 +49,6 @@ public class BotNavigation : MonoBehaviour
             {
                 if (collider.TryGetComponent<ResourceController>(out var resource))
                 {
-                    print(2);
                     flag = false;
                     currentResource = resource;
                 }
@@ -80,7 +80,7 @@ public class BotNavigation : MonoBehaviour
         if (currentResource != null)
         {
             float distance = Vector3.Distance(transform.position, currentResource.transform.position);
-            if (distance <= 5f & timer>=cooldown)
+            if (distance <= mineDistance & timer>=cooldown)
             {
                 timer = 0;
                 BotMineResource();

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public  class StoneController : ResourceController
 {
-    //проверяет остаток руды                                   
+    //проверяет остаток руды                       
     public override void TakeHit()
     {
         if (resourceStore <= 0)
@@ -14,7 +14,7 @@ public  class StoneController : ResourceController
         else
         {
             resourceStore -= oneHitResource;
-            StoredResources.instance.AddPlayerOre(oneHitResource);
+            StoredResources.instance.AddResources(new AllResources(0, 0, oneHitResource)); 
         }
     }
 }                                                              
