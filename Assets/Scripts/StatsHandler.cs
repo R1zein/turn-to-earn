@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,13 @@ using UnityEngine;
 public class StatsHandler : MonoBehaviour
 {
     public float maxHP;
-    private float currHP;
+    public float currHP;
+    public event Action OnDamage;
 
     public void TakeDamage(float damage)
     {
         currHP -= damage;
+        OnDamage?.Invoke();
         if (currHP <= 0 ) 
         {
             Destroy(gameObject);
@@ -18,7 +21,9 @@ public class StatsHandler : MonoBehaviour
 
     private void Start()
     {
+
         currHP = maxHP;
     }
+
 
 }
