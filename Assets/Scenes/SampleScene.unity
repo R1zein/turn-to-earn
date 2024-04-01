@@ -4514,7 +4514,7 @@ TerrainCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1277535038}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d654371d5edb0724a93aa6c6761fc5f4, type: 2}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: 384362eeedc42ba42bac693f2cd5fd57, type: 2}
   m_EnableTreeColliders: 1
@@ -5672,6 +5672,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1290998650998930, guid: f72d03e48b3dbfd4ca0f692e695377c3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1470752732884384, guid: f72d03e48b3dbfd4ca0f692e695377c3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1564198705886454, guid: f72d03e48b3dbfd4ca0f692e695377c3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1979706888108350, guid: f72d03e48b3dbfd4ca0f692e695377c3, type: 3}
       propertyPath: m_Name
       value: GatelingGun_Yellow_L3
