@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4454386649493296}
   - component: {fileID: 33918616495050014}
   - component: {fileID: 23729248067936342}
+  - component: {fileID: 321587806803260882}
   m_Layer: 0
   m_Name: GatelingGun_L3_Base_LOD2
   m_TagString: Untagged
@@ -83,6 +84,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &321587806803260882
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021753530019252}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 4cd57fd1c1206f0498bb4e219f21e2a7, type: 3}
 --- !u!1 &1062619531001516
 GameObject:
   m_ObjectHideFlags: 0
@@ -5178,7 +5193,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: c707f1d8ec043614e9e1a46160b254b2, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10003,7 +10017,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10231,6 +10244,7 @@ GameObject:
   - component: {fileID: 4734397232454746}
   - component: {fileID: 33127196554900152}
   - component: {fileID: 23686297716175772}
+  - component: {fileID: 5810019947686938026}
   m_Layer: 0
   m_Name: GatelingGun_L3_Barrel_LOD2
   m_TagString: Untagged
@@ -10303,6 +10317,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5810019947686938026
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377504792607772}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: c4eeb6fc129c21042a87475331525ccb, type: 3}
 --- !u!1 &1470752732884384
 GameObject:
   m_ObjectHideFlags: 0
@@ -15077,7 +15105,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 9e906e7aa630220429430a20fca952a9, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20069,7 +20096,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: cf70051774cc47f41813eb9ec86fa9d4, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20131,6 +20157,7 @@ GameObject:
   - component: {fileID: 4174556694505022}
   - component: {fileID: 33295870550029918}
   - component: {fileID: 23134470094842202}
+  - component: {fileID: 7490713724119769513}
   m_Layer: 0
   m_Name: GatelingGun_L3_Arm_LOD2
   m_TagString: Untagged
@@ -20203,6 +20230,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7490713724119769513
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593440599589168}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: fee38b4e5bc7cf04bac3603ccdc5be6d, type: 3}
 --- !u!1 &1719166512221428
 GameObject:
   m_ObjectHideFlags: 0
@@ -20651,6 +20692,7 @@ GameObject:
   - component: {fileID: 4343088346953274}
   - component: {fileID: 33888224415017436}
   - component: {fileID: 23170395206664584}
+  - component: {fileID: 4886141814972188357}
   m_Layer: 0
   m_Name: GatelingGun_L3_GunBody_LOD2
   m_TagString: Untagged
@@ -20723,6 +20765,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4886141814972188357
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934820710770246}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 7fa2bf61b8c9b10418c720ec9112c804, type: 3}
 --- !u!1 &1979706888108350
 GameObject:
   m_ObjectHideFlags: 0
@@ -20769,8 +20825,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 15
+  m_Center: {x: 0, y: 3.301796, z: 0}
 --- !u!205 &205676091413216282
 LODGroup:
   m_ObjectHideFlags: 0
