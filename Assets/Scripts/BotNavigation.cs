@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
+using static UnityEngine.GraphicsBuffer;
 
 public class BotNavigation : MonoBehaviour
 {
@@ -33,6 +35,7 @@ public class BotNavigation : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         StartCoroutine(BotMine());
+        currentRadius = startRadius;
     }
     private void FindResource()
     {
@@ -40,26 +43,30 @@ public class BotNavigation : MonoBehaviour
         {
             startRadius = 1;
         }
-        currentRadius = startRadius;
+        
         bool flag = true;
-        while(flag)
+        if(flag)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, currentRadius);
+            float shortestDistance = Mathf.Infinity;
             foreach (Collider collider in colliders) 
             {
                 if (collider.TryGetComponent<ResourceController>(out var resource))
                 {
-                    flag = false;
-                    currentResource = resource;
-                }
-                
-                
+                    float distance = Vector3.Distance(transform.position, resource.transform.position);
+                    if (distance < shortestDistance)
+                    {
+                        shortestDistance = distance;
+                        flag = false;
+                        currentResource = resource;
+                    }
+                    
+                }                
             }
             if(flag == true)
             {
                 currentRadius *= 2;
             }
-
         }
 
         if (currentResource != null )
@@ -94,6 +101,7 @@ public class BotNavigation : MonoBehaviour
     {
         currentResource.TakeHit();
         animator.SetTrigger("Mine");
+        currentRadius = startRadius;
     }
 }
 
