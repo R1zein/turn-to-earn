@@ -40,7 +40,7 @@ public class GatlingGun : MonoBehaviour
         {
             timer = 0f;
             ScanForTarget();
-            if (target != null)
+            if (target == null)
             {
                 canFire = true;
             }

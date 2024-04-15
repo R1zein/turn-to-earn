@@ -11,12 +11,22 @@ public class EnemyNavigation : MonoBehaviour
     private NavMeshAgent agent;
     private BotNavigation target;
     private Animator animator;
+    private StatsHandler stats;
     private float timer;
-
+    public bool isDead;
     private void Start()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        stats = GetComponent<StatsHandler>();
+    }
+    private void OnEnable()
+    {
+        stats.OnDeath += Death;
+    }
+    private void OnDisable()
+    {
+        stats.OnDeath -= Death;
     }
 
     private void Update()
@@ -67,5 +77,14 @@ public class EnemyNavigation : MonoBehaviour
             animator.SetBool("Run", false);
             return;
         }
+    }
+
+    private void Death()
+    {
+        animator.Play("Death");
+        Destroy(this);
+        
+        
+
     }
 }

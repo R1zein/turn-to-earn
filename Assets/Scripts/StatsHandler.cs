@@ -8,6 +8,7 @@ public class StatsHandler : MonoBehaviour
     public float maxHP;
     public float currHP;
     public event Action OnDamage;
+    public event Action OnDeath;
 
     public void TakeDamage(float damage)
     {
@@ -15,7 +16,8 @@ public class StatsHandler : MonoBehaviour
         OnDamage?.Invoke();
         if (currHP <= 0 ) 
         {
-            Destroy(gameObject);
+            OnDeath?.Invoke();
+            Destroy(gameObject, 2);
         }
     }
 
