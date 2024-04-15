@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class GatlingGun : MonoBehaviour
 {
-    Transform target;
+    private EnemyNavigation target;
 
     public Transform go_baseRotation;
     public Transform go_GunBody;
@@ -15,12 +15,15 @@ public class GatlingGun : MonoBehaviour
     float currentRotationSpeed;
 
     public float firingRange;
-
-    // Particle system for the muzzel flash
     public ParticleSystem muzzelFlash;
 
     bool canFire = false;
     private float timer;
+
+    public float fireRate = 0.1f;
+    public float damage;
+
+    private float damageTimer;
 
     
     void Start()
@@ -30,8 +33,9 @@ public class GatlingGun : MonoBehaviour
 
     void Update()
     {
-        AimAndFire();
         timer += Time.deltaTime;
+        damageTimer += Time.deltaTime;
+        AimAndFire();
         if (timer > 1f)
         {
             timer = 0f;
@@ -60,10 +64,15 @@ public class GatlingGun : MonoBehaviour
 
         if (canFire)
         {
+            if(damageTimer > fireRate)
+            {
+                target.GetComponent<StatsHandler>().TakeDamage(damage);
+                damageTimer = 0;
+            }
             currentRotationSpeed = barrelRotationSpeed;
 
-            Vector3 baseTargetPostition = new Vector3(target.position.x, this.transform.position.y, target.position.z);
-            Vector3 gunBodyTargetPostition = new Vector3(target.position.x, target.position.y, target.position.z);
+            Vector3 baseTargetPostition = new Vector3(target.transform.position.x, this.transform.position.y, target.transform.position.z);
+            Vector3 gunBodyTargetPostition = new Vector3(target.transform.position.x, target.transform.position.y, target.transform.position.z);
 
             go_baseRotation.transform.LookAt(baseTargetPostition);
             go_GunBody.transform.LookAt(gunBodyTargetPostition);
@@ -89,13 +98,13 @@ public class GatlingGun : MonoBehaviour
         float shortestDistance = Mathf.Infinity;
         foreach (Collider collider in colliders)
         {
-            if (collider.TryGetComponent<EnemyNavigation>(out var bot))
+            if (collider.TryGetComponent<EnemyNavigation>(out var enemy))
             {
-                float distance = Vector3.Distance(transform.position, bot.transform.position);
+                float distance = Vector3.Distance(transform.position, enemy.transform.position);
                 if (distance < shortestDistance)
                 {
                     shortestDistance = distance;
-                    target = bot.transform;
+                    target = enemy;
                 }
             }
         }
