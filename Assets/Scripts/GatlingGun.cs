@@ -40,7 +40,7 @@ public class GatlingGun : MonoBehaviour
         {
             timer = 0f;
             ScanForTarget();
-            if (target == null)
+            if (target != null)
             {
                 canFire = true;
             }
@@ -64,11 +64,6 @@ public class GatlingGun : MonoBehaviour
 
         if (canFire)
         {
-            if(damageTimer > fireRate)
-            {
-                target.GetComponent<StatsHandler>().TakeDamage(damage);
-                damageTimer = 0;
-            }
             currentRotationSpeed = barrelRotationSpeed;
 
             Vector3 baseTargetPostition = new Vector3(target.transform.position.x, this.transform.position.y, target.transform.position.z);
@@ -80,6 +75,11 @@ public class GatlingGun : MonoBehaviour
             if (!muzzelFlash.isPlaying)
             {
                 muzzelFlash.Play();
+            }
+            if (damageTimer > fireRate)
+            {
+                target.GetComponent<StatsHandler>().TakeDamage(damage);
+                damageTimer = 0;
             }
         }
         else
@@ -96,6 +96,7 @@ public class GatlingGun : MonoBehaviour
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, firingRange);
         float shortestDistance = Mathf.Infinity;
+        EnemyNavigation currentTarget = null;
         foreach (Collider collider in colliders)
         {
             if (collider.TryGetComponent<EnemyNavigation>(out var enemy))
@@ -104,9 +105,28 @@ public class GatlingGun : MonoBehaviour
                 if (distance < shortestDistance)
                 {
                     shortestDistance = distance;
-                    target = enemy;
+                    currentTarget = enemy;
                 }
             }
         }
+        if (currentTarget != null && currentTarget != target)
+        {
+            currentTarget.GetComponent<StatsHandler>().OnDeath += CheckTarget;
+            if(target != null)
+            {
+                target.GetComponent<StatsHandler>().OnDeath -= CheckTarget;
+            }
+            target = currentTarget;
+        }
+    }
+    private void CheckTarget()
+    {
+        target.GetComponent<StatsHandler>().OnDeath -= CheckTarget;
+        target = null;
+        canFire = false;
+    }
+    private void OnDestroy()
+    {
+        target.GetComponent<StatsHandler>().OnDeath -= CheckTarget;
     }
 }

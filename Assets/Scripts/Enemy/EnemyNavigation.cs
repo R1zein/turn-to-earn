@@ -12,13 +12,17 @@ public class EnemyNavigation : MonoBehaviour
     private BotNavigation target;
     private Animator animator;
     private StatsHandler stats;
+    private Collider _collider;
+    private Rigidbody rb;
     private float timer;
     public bool isDead;
-    private void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         stats = GetComponent<StatsHandler>();
+        _collider = GetComponent<Collider>();
+        rb = GetComponent<Rigidbody>();
     }
     private void OnEnable()
     {
@@ -81,10 +85,9 @@ public class EnemyNavigation : MonoBehaviour
 
     private void Death()
     {
-        animator.Play("Death");
-        Destroy(this);
-        
-        
-
+        animator.SetBool("Death", true);
+        _collider.enabled = false;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        Destroy(gameObject,3);
     }
 }

@@ -17,15 +17,11 @@ public class StatsHandler : MonoBehaviour
         if (currHP <= 0 ) 
         {
             OnDeath?.Invoke();
-            Destroy(gameObject, 2);
         }
     }
 
     private void Start()
     {
-
         currHP = maxHP;
     }
-
-
 }
