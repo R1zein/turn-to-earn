@@ -82,7 +82,7 @@ public class EnemyNavigation : MonoBehaviour
             return;
         }
     }
-
+    //Привте!
     private void Death()
     {
         animator.SetBool("Death", true);
