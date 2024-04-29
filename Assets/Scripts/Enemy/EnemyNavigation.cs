@@ -7,31 +7,17 @@ public class EnemyNavigation : MonoBehaviour
 {
     public float sightDistance;
     public float attackDistance;
-
     private NavMeshAgent agent;
     private BotNavigation target;
     private Animator animator;
-    private StatsHandler stats;
-    private Collider _collider;
-    private Rigidbody rb;
     private float timer;
     public bool isDead;
     private void Awake()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        stats = GetComponent<StatsHandler>();
-        _collider = GetComponent<Collider>();
-        rb = GetComponent<Rigidbody>();
     }
-    private void OnEnable()
-    {
-        stats.OnDeath += Death;
-    }
-    private void OnDisable()
-    {
-        stats.OnDeath -= Death;
-    }
+
 
     private void Update()
     {
@@ -81,13 +67,5 @@ public class EnemyNavigation : MonoBehaviour
             animator.SetBool("Run", false);
             return;
         }
-    }
-
-    private void Death()
-    {
-        animator.SetBool("Death", true);
-        _collider.enabled = false;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
-        Destroy(gameObject,3);
     }
 }

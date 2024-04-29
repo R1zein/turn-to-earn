@@ -129,4 +129,10 @@ public class GatlingGun : MonoBehaviour
     {
         target.GetComponent<StatsHandler>().OnDeath -= CheckTarget;
     }
+
+    public void BuildTower()
+    {
+        GameObject buildPoint = GameObject.FindGameObjectWithTag("BuildingPoint");
+        Instantiate(gameObject,buildPoint.transform.position,Quaternion.identity);
+    }
 }
