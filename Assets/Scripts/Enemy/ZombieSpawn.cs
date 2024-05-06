@@ -15,7 +15,6 @@ public class ZombieSpawn : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        OpenPortal();
     }
 
     private void Update()
