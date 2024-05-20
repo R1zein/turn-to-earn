@@ -10,11 +10,18 @@ public class ShopController : MonoBehaviour
     public AllResources neadbleResources;
     public GameObject bot;
     public Transform botSpawnPosition;
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
     public void TryToSetActive()
     {
         if (!purchasePanel.activeSelf & !upgradePanel.activeSelf)
         {
             purchasePanel.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             Time.timeScale = 0f;
         }
     }
@@ -23,6 +30,8 @@ public class ShopController : MonoBehaviour
     {
         purchasePanel.SetActive(false);
         upgradePanel.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         Time.timeScale = 1f;
     }
 
