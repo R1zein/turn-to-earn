@@ -17,6 +17,25 @@ public class EnemyNavigation : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
     }
+    private void Start()
+    {
+        BotNavigation[] bots = FindObjectsOfType<BotNavigation>();
+        float distance = Mathf.Infinity;
+        foreach (BotNavigation bot in bots)
+        {
+            float currentDistance = Vector3.Distance(transform.position, bot.transform.position);
+            if (currentDistance < distance)
+            {
+                target = bot;
+                distance = currentDistance;
+            }
+
+        }
+        if (target == null)
+            return;
+        agent.SetDestination(target.transform.position);
+
+    }
 
 
     private void Update()
