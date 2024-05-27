@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.AI.Navigation;
 
 public class ZombieSpawn : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class ZombieSpawn : MonoBehaviour
     private Animator animator;
     private float timer;
     private float spawnTime;
+    [SerializeField] private NavMeshSurface surface;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -29,7 +31,7 @@ public class ZombieSpawn : MonoBehaviour
     }
     public void OpenPortal()
     {
-        animator.Play("OpenPortal");
+        animator.Play("/OpenPortal");
         spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
         timer = 0;
         StartCoroutine(StartSpawning());
@@ -43,6 +45,7 @@ public class ZombieSpawn : MonoBehaviour
     {
         float length = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(length);
+        surface.BuildNavMesh();
         while (timer < spawnTime)
         {
             yield return new WaitForSeconds(spawnRate);

@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 5575152895582975380}
   - component: {fileID: 3004494634473836026}
   m_Layer: 0
-  m_Name: robotModelFree
+  m_Name: RobotFarm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
