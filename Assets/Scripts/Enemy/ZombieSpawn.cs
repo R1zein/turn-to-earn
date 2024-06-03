@@ -31,7 +31,7 @@ public class ZombieSpawn : MonoBehaviour
     }
     public void OpenPortal()
     {
-        animator.Play("/OpenPortal");
+        animator.Play("OpenPortal");
         spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
         timer = 0;
         StartCoroutine(StartSpawning());
@@ -43,6 +43,7 @@ public class ZombieSpawn : MonoBehaviour
     }
     private IEnumerator StartSpawning()
     {
+        yield return null;
         float length = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(length);
         surface.BuildNavMesh();
