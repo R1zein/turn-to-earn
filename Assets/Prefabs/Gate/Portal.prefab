@@ -9835,8 +9835,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombie: {fileID: 4493914613880827488, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
-  minSpawnTime: 5
-  maxSpawnTime: 25
+  minSpawnTime: 25
+  maxSpawnTime: 35
   spawnRate: 1
   spawnPos: {fileID: 5655455643959854818}
   surface: {fileID: 0}
