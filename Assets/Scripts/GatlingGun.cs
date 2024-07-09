@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class GatlingGun : MonoBehaviour
 {
-    private NPSNavigation target;
+    private NPCNavigation target;
 
     public Transform go_baseRotation;
     public Transform go_GunBody;
@@ -96,10 +96,10 @@ public class GatlingGun : MonoBehaviour
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, firingRange);
         float shortestDistance = Mathf.Infinity;
-        NPSNavigation currentTarget = null;
+        NPCNavigation currentTarget = null;
         foreach (Collider collider in colliders)
         {
-            if (collider.TryGetComponent<NPSNavigation>(out var enemy))
+            if (collider.TryGetComponent<NPCNavigation>(out var enemy))
             {
                 float distance = Vector3.Distance(transform.position, enemy.transform.position);
                 if (distance < shortestDistance)

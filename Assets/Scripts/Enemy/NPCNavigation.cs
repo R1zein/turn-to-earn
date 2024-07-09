@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPSNavigation : MonoBehaviour
+public class NPCNavigation : MonoBehaviour
 {
     public float sightDistance;
     public float attackDistance;
@@ -37,7 +37,7 @@ public class NPSNavigation : MonoBehaviour
     }
     public void ChaseTarget<T>() where T : MonoBehaviour
     {
-        EnemyAnimationControl();
+        NPCAnimationControl();
 
         timer += Time.deltaTime;
         if (timer > 1f)
@@ -64,7 +64,7 @@ public class NPSNavigation : MonoBehaviour
         }
     }
 
-    private void EnemyAnimationControl()
+    private void NPCAnimationControl()
     {
         if (target == null)
         {

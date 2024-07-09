@@ -4,12 +4,12 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : NPSFasade
+public class Enemy : NPCFacade
 {
-    private NPSNavigation navigation;
+    private NPCNavigation navigation;
     private void Start()
     {
-        navigation = GetComponent<NPSNavigation>();
+        navigation = GetComponent<NPCNavigation>();
         navigation.FirstLook<BotNavigation>();
     }
     protected override void Navigation()

@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class BotDefender : NPSFasade
+public class BotDefender : NPCFacade
 {
-    private NPSNavigation navigation;
+    private NPCNavigation navigation;
     private void Start()
     {
-        navigation = GetComponent<NPSNavigation>();
+        navigation = GetComponent<NPCNavigation>();
         navigation.FirstLook<Enemy>();
     }
     protected override void Navigation()
