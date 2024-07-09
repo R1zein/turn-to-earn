@@ -11,9 +11,11 @@ public class Enemy : NPCFacade
     {
         navigation = GetComponent<NPCNavigation>();
         navigation.FirstLook<BotNavigation>();
+        navigation.FirstLook<BotDefender>();
     }
     protected override void Navigation()
     {
         navigation.ChaseTarget<BotNavigation>();
+        navigation.ChaseTarget<BotDefender>();
     }
 }
