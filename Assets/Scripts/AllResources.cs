@@ -100,5 +100,7 @@ public class AllResources
         res.ore = left.ore - right.ore;
         return res;
     }
+    
+
 }
 

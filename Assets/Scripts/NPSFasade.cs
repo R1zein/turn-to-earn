@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPSFasade : MonoBehaviour
+public abstract class NPSFasade : MonoBehaviour
 {
     private Animator animator;
     private NavMeshAgent agent;
     private Rigidbody rb;
     private Collider _collider;
-    private EnemyNavigation enemyNavigation;
+    private NPSNavigation enemyNavigation;
     private StatsHandler statsHandler;
 
     private void Awake()
@@ -16,7 +16,7 @@ public class NPSFasade : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
-        enemyNavigation = GetComponent<EnemyNavigation>();
+        enemyNavigation = GetComponent<NPSNavigation>();
         statsHandler = GetComponent<StatsHandler>();
     }
     private void Death()
@@ -37,4 +37,9 @@ public class NPSFasade : MonoBehaviour
     {
         statsHandler.OnDeath -= Death;
     }
+    private void Update()
+    {
+        Navigation();
+    }
+    protected abstract void Navigation();
 }

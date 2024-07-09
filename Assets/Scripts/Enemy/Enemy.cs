@@ -6,5 +6,14 @@ using UnityEngine.AI;
 
 public class Enemy : NPSFasade
 {
-    
+    private NPSNavigation navigation;
+    private void Start()
+    {
+        navigation = GetComponent<NPSNavigation>();
+        navigation.FirstLook<BotNavigation>();
+    }
+    protected override void Navigation()
+    {
+        navigation.ChaseTarget<BotNavigation>();
+    }
 }

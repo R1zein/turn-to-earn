@@ -19,7 +19,7 @@ public abstract class ResourceController : MonoBehaviour
     {
         meshColliderStone = GetComponent<MeshCollider>();
         meshRendererStone = GetComponent<MeshRenderer>();
-        spawner = FindObjectOfType<StoneSpawner>();
+        spawner = FindAnyObjectByType<StoneSpawner>();
     }
 
     //проверяет остаток руды                                   
