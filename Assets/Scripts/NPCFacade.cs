@@ -9,6 +9,7 @@ public abstract class NPCFacade : MonoBehaviour
     private Collider _collider;
     private NPCNavigation enemyNavigation;
     private StatsHandler statsHandler;
+    public AllResources requiredResources;
 
     private void Awake()
     {
@@ -25,7 +26,11 @@ public abstract class NPCFacade : MonoBehaviour
         _collider.enabled = false;
         rb.constraints = RigidbodyConstraints.FreezeAll;
         agent.enabled = false;
-        enemyNavigation.enabled = false;
+        if(enemyNavigation != null)
+        {
+            enemyNavigation.enabled = false;
+        }
+
         Destroy(gameObject, 3);
     }
 

@@ -3,26 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BotMiner : MonoBehaviour
+public class BotMiner : NPCFacade
 {
-    private StatsHandler stats;
-    private void Awake()
+    protected override void Navigation()
     {
-        stats = GetComponent<StatsHandler>();
-    }
-    private void OnEnable()
-    {
-        stats.OnDeath += Death;
-    }
 
-    private void OnDisable()
-    {
-        stats.OnDeath -= Death;
     }
-
-    private void Death()
-    {
-        Destroy(gameObject, 3f);
-    }
-
 }

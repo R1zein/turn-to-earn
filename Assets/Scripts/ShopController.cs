@@ -7,8 +7,7 @@ public class ShopController : MonoBehaviour
 
     public GameObject purchasePanel;
     public GameObject upgradePanel;
-    public AllResources neadbleResources;
-    public GameObject bot;
+    
     public Transform botSpawnPosition;
     private void Start()
     {
@@ -35,11 +34,11 @@ public class ShopController : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void ByeBot()
+    public void ByeBot(NPCFacade bot)
     {
-        if(StoredResources.instance.CurrentResources >= neadbleResources)
+        if(StoredResources.instance.CurrentResources >= bot.requiredResources)
         {
-            StoredResources.instance.DecreaseResources(neadbleResources);
+            StoredResources.instance.DecreaseResources(bot.requiredResources);
             for (int i = 0; i < 1; i++)
             {
                 Instantiate(bot, botSpawnPosition.position, Quaternion.identity);
