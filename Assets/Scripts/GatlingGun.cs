@@ -127,7 +127,7 @@ public class GatlingGun : MonoBehaviour
     }
     private void OnDestroy()
     {
-        target.GetComponent<StatsHandler>().OnDeath -= CheckTarget;
+
     }
 
     public void BuildTower()

@@ -18,8 +18,6 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
-        BuildTurret();
-
         if (ghost != null)
         {
             if(Input.GetKeyDown(KeyCode.F))
@@ -58,12 +56,5 @@ public class Inventory : MonoBehaviour
         buildPanel.SetActive(false);
     }
 
-    private void BuildTurret()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Instantiate(towerPrefab, buildingPlant.position, Quaternion.identity);
-        }
-    }
 }
 
