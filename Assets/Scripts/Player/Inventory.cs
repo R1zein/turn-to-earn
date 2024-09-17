@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -46,9 +43,14 @@ public class Inventory : MonoBehaviour
     }
     public void Build(Ghost ghostObject)
     {
+
         if (ghost == null)
         {
-            ghost = Instantiate(ghostObject);
+            if (StoredResources.instance.CurrentResources >= ghostObject.requiredResources)
+            {
+                StoredResources.instance.DecreaseResources(ghostObject.requiredResources);
+                ghost = Instantiate(ghostObject);
+            }               
         }
 
         Cursor.lockState = CursorLockMode.Locked;
