@@ -32,7 +32,8 @@ public class FirstPersonMovement : MonoBehaviour
         }
 
         Vector2 targetVelocity =new Vector2( Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
-
+        //Vector3 moveDirection = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
+        //Vector3 targetVelocity = moveDirection.normalized * targetMovingSpeed;
         _rigidbody.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, _rigidbody.linearVelocity.y, targetVelocity.y);
     }
 }

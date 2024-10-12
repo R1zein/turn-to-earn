@@ -32,6 +32,10 @@ public abstract class NPCFacade : MonoBehaviour
         }
 
         Destroy(gameObject, 3);
+        if(GameManager.instance.firstKillMaded == false ) 
+        {
+            GameManager.instance.firstKillMaded = true;
+        }
     }
 
     private void OnEnable()

@@ -42,6 +42,10 @@ public class ShopController : MonoBehaviour
             for (int i = 0; i < 1; i++)
             {
                 Instantiate(bot, botSpawnPosition.position, Quaternion.identity);
+                if(GameManager.instance.firstBotCreated == false)
+                {
+                    GameManager.instance.firstBotCreated = true;
+                }
             }
         }
     }

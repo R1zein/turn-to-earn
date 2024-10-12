@@ -21,6 +21,10 @@ public class Inventory : MonoBehaviour
             {
                 Instantiate(ghost.prefab, ghost.transform.position, ghost.transform.rotation);
                 Destroy(ghost.gameObject);
+                if(GameManager.instance.firstBuildCreated == false)
+                {
+                    GameManager.instance.firstBuildCreated = true;
+                }
             }
             RaycastHit hit;
             Ray screenRay = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
