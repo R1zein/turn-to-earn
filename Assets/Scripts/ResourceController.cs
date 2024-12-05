@@ -20,16 +20,14 @@ public abstract class ResourceController : MonoBehaviour
         meshColliderStone = GetComponent<MeshCollider>();
         meshRendererStone = GetComponent<MeshRenderer>();
         spawner = FindAnyObjectByType<StoneSpawner>();
-    }
+    }                                
 
-    //проверяет остаток руды                                   
-
-    private IEnumerator DeathEffect()
+    private async Awaitable DeathEffect()
     {
         meshColliderStone.enabled = false;
         meshRendererStone.enabled = false;
         Instantiate(destroyEffect, transform.position, Quaternion.identity);
-        yield return new WaitForSeconds(2f);
+        await Awaitable.WaitForSecondsAsync(2f);
         spawner.FindDestroyed(positionID);
         Destroy(gameObject);
     }
@@ -37,7 +35,7 @@ public abstract class ResourceController : MonoBehaviour
     {
         if(isDying == false)
         {
-            StartCoroutine(DeathEffect());
+            DeathEffect();
             isDying = true;
         }
     }

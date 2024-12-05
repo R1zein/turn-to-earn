@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -1066,7 +1067,7 @@ GameObject:
   - component: {fileID: 201629064}
   - component: {fileID: 201629063}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Icon Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1086,10 +1087,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2005827067}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 978.5488, y: -0.0020618}
-  m_SizeDelta: {x: 365.3626, y: 220.33}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -162.16608, y: -0.0020618}
+  m_SizeDelta: {x: 260.6002, y: 220.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &201629063
 MonoBehaviour:
@@ -1612,7 +1613,7 @@ GameObject:
   - component: {fileID: 415497998}
   - component: {fileID: 415497997}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Dialog Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3049,6 +3050,7 @@ GameObject:
   - component: {fileID: 642719460}
   - component: {fileID: 642719463}
   - component: {fileID: 642719464}
+  - component: {fileID: 642719465}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -3176,6 +3178,22 @@ MonoBehaviour:
   playerOreStoreText: {fileID: 1519015211}
   playerTreeStoreText: {fileID: 2132656632}
   playerIronStoreText: {fileID: 433688205}
+--- !u!114 &642719465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 642719458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebfcf13ddd91d9b44a7d239422ae4d79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogPanel: {fileID: 2005827066}
+  dialogText: {fileID: 0}
+  characterIcon: {fileID: 0}
+  characterNameText: {fileID: 1766976488}
 --- !u!1 &660798721
 GameObject:
   m_ObjectHideFlags: 0
@@ -3719,10 +3737,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6563268082044603938, guid: e47c3fe9269727742b186b0184a90e6d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2017189349}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e47c3fe9269727742b186b0184a90e6d, type: 3}
 --- !u!1 &710510156
 GameObject:
@@ -5137,7 +5152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1122491073
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8864,7 +8879,7 @@ GameObject:
   - component: {fileID: 1766976489}
   - component: {fileID: 1766976488}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Name Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10136,30 +10151,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005827066}
   m_CullTransparentMesh: 1
---- !u!1 &2017189348 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6563268082044603938, guid: e47c3fe9269727742b186b0184a90e6d, type: 3}
+--- !u!4 &2017189352 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2714104781720842905, guid: e47c3fe9269727742b186b0184a90e6d, type: 3}
   m_PrefabInstance: {fileID: 706366362}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2017189349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017189348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebfcf13ddd91d9b44a7d239422ae4d79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogSpeeches:
-  - {fileID: 11400000, guid: d8c80c2421b94e54894d793bdb31ff17, type: 2}
-  ToggleDiatnce: 5
-  DialogPanel: {fileID: 2005827066}
-  textSpeech: {fileID: 415497997}
-  characterImage: {fileID: 201629063}
-  characterNameText: {fileID: 1766976488}
 --- !u!1 &2022899653
 GameObject:
   m_ObjectHideFlags: 0
@@ -12684,6 +12680,8 @@ GameObject:
   - component: {fileID: 5286307983498875567}
   - component: {fileID: 5286307983498875568}
   - component: {fileID: 5286307983498875569}
+  - component: {fileID: 5286307983498875570}
+  - component: {fileID: 5286307983498875571}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -12991,6 +12989,54 @@ MonoBehaviour:
   buildPanel: {fileID: 140546386}
   buildDistance: 5
   scrollSpeed: 10
+--- !u!114 &5286307983498875570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5241267463478828222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Graph: {fileID: 8607139008668399295, guid: f1cbe24038f42344da37b51a3bd92c49, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 1984798041958253091
+  - rid: 2097807839508038068
+  references:
+    version: 2
+    RefIds:
+    - rid: 1984798041958253091
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 5241267463478828222}
+    - rid: 2097807839508038068
+      type: {class: 'BlackboardVariable`1[[UnityEngine.Transform, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 14174245922870355093
+          m_Value1: 16213707124204033252
+        Name: Target
+        m_Value: {fileID: 2017189352}
+--- !u!114 &5286307983498875571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5241267463478828222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab89a6924aed79a488403280bb112e4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onDialogButtonPressed: {fileID: 11400000, guid: ff0105a58c3eb72459c83782d982965f, type: 2}
 --- !u!81 &5304019297247137796
 AudioListener:
   m_ObjectHideFlags: 0

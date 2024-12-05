@@ -7,5 +7,4 @@ public class CharacterSpeech
     public string CharacterName;
     public Sprite CharacterSprite;
     [TextArea] public string Speech;
-    public Quest quest;
 }

@@ -9874,14 +9874,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SerializedVersion: 1
   m_AgentTypeID: 0
   m_StartPoint: {x: 0, y: -0.052556634, z: 0}
   m_EndPoint: {x: 0, y: -0.29953218, z: 0}
-  m_StartTransform: {fileID: 9117521641927464108}
-  m_EndTransform: {fileID: 5588505273699186017}
+  m_StartTransform: {fileID: 8865541205212256561}
+  m_EndTransform: {fileID: 6155188709110395515}
   m_Activated: 1
   m_Width: 2
-  m_CostModifier: -1
+  m_CostModifier: 1
+  m_IsOverridingCost: 0
   m_Bidirectional: 1
   m_AutoUpdatePosition: 0
   m_Area: 0
@@ -9913,7 +9915,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.578, z: 6.550003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6155188709110395515}
   m_Father: {fileID: 3537467885222887840}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3738341586994144665
@@ -14869,6 +14872,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7179516375676937442, guid: 83976775dc4905344baa890ba1c1cfeb, type: 3}
+--- !u!1 &5233303253497056424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8865541205212256561}
+  m_Layer: 0
+  m_Name: Link Start Portal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8865541205212256561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5233303253497056424}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -6.5293067e-18, w: 1}
+  m_LocalPosition: {x: -6.8631677e-19, y: -0.052556634, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9117521641927464108}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5655455643959854819
 GameObject:
   m_ObjectHideFlags: 0
@@ -19770,6 +19804,38 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.5780002, z: 4.739998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8865541205212256561}
   m_Father: {fileID: 3537467885222887840}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8870085996334416972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6155188709110395515}
+  m_Layer: 0
+  m_Name: Link End Portal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6155188709110395515
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8870085996334416972}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -6.5293067e-18, w: 1}
+  m_LocalPosition: {x: -3.911474e-18, y: -0.29953212, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5588505273699186017}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

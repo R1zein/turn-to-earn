@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -129,6 +130,8 @@ GameObject:
   - component: {fileID: 326104367}
   - component: {fileID: 326104366}
   - component: {fileID: 326104365}
+  - component: {fileID: 326104368}
+  - component: {fileID: 326104369}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -210,6 +213,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &326104368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326104364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+--- !u!114 &326104369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326104364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Graph: {fileID: 8607139008668399295, guid: f1cbe24038f42344da37b51a3bd92c49, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 1984798199248847755
+  - rid: 458845544154923225
+  - rid: 458845544154923226
+  - rid: 458845544154923245
+  references:
+    version: 2
+    RefIds:
+    - rid: 458845544154923225
+      type: {class: 'BlackboardVariable`1[[Quest, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 18054577873486516332
+          m_Value1: 12326890381667284969
+        Name: First Quest
+        m_Value: {fileID: 11400000, guid: b6ef73b256e44014ca3faeb012a8f25d, type: 2}
+    - rid: 458845544154923226
+      type: {class: 'BlackboardVariable`1[[Quest, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 9153728582349476808
+          m_Value1: 17736646862074553339
+        Name: Second Quest
+        m_Value: {fileID: 11400000, guid: 5db629ae8e924af44b3858aac688b683, type: 2}
+    - rid: 458845544154923245
+      type: {class: 'BlackboardVariable`1[[Quest, Assembly-CSharp]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 13518149650821654024
+          m_Value1: 8739235613814202202
+        Name: Thirde QUest
+        m_Value: {fileID: 11400000, guid: 3f746d43ca9d9b044b89d81262709174, type: 2}
+    - rid: 1984798199248847755
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 326104364}
 --- !u!1 &1657009565
 GameObject:
   m_ObjectHideFlags: 0

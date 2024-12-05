@@ -1,6 +1,6 @@
 using UnityEngine;
 [CreateAssetMenu(fileName = "FirstBuildQuest", menuName = "Quest/FirstBuildQuest")]
-public class FirstBuildQstScript : Quest
+public class FirstBuildQuest : Quest
 {
     public override bool IsQuestComplited()
     {
