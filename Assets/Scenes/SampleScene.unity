@@ -3191,8 +3191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DialogPanel: {fileID: 2005827066}
-  dialogText: {fileID: 0}
-  characterIcon: {fileID: 0}
+  dialogText: {fileID: 415497997}
+  characterIcon: {fileID: 201629063}
   characterNameText: {fileID: 1766976488}
 --- !u!1 &660798721
 GameObject:
