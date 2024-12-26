@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 988a423bf1d2f2845afd0ab268e4e000, type: 3}
-  m_Name: FirstBuildQuest
+  m_Script: {fileID: 11500000, guid: f0e05b9c93c20b14b98d46aee50426eb, type: 3}
+  m_Name: ResourceQuest
   m_EditorClassIdentifier: 
-  characterSpeech: []
+  dialogData: {fileID: 11400000, guid: da3810c22807eb246917e27d23035fea, type: 2}
+  IsTaken: 0
+  currentIndex: 0
+  stone: 10
+  tree: 0
+  iron: 0

@@ -15,22 +15,16 @@ public partial class PlayQuestAction : Action
     protected override Status OnStart()
     {
         dialogManager = GameObject.FindAnyObjectByType<DialogManager>();
-        
+        Quest.Value.IsTaken = true;
         return Status.Running;
     }
 
     protected override Status OnUpdate()
     {
-        Quest.Value.IsTaken = true;
-        if (dialogManager.StartDialog(Quest.Value))
-        {
-            return Status.Success;
-        }
-        else
-        {
-            return Status.Failure;
-        }
+        dialogManager.StartDialog(Quest.Value);
+        return Status.Success;
     }
+    
 
     protected override void OnEnd()
     {

@@ -3163,6 +3163,7 @@ MonoBehaviour:
   purchasePanel: {fileID: 263947144}
   upgradePanel: {fileID: 871979795}
   botSpawnPosition: {fileID: 2108099451}
+  onBotCreated: {fileID: 11400000, guid: 0e670c9e59a0c88419b1bb148daab0e8, type: 2}
 --- !u!114 &642719464
 MonoBehaviour:
   m_ObjectHideFlags: 0

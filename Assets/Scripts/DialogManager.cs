@@ -10,28 +10,18 @@ public class DialogManager : MonoBehaviour
     public TMP_Text dialogText;
     public Image characterIcon;
     public TMP_Text characterNameText;
-    private int currentDialogIndex = 0;
-
-    public bool StartDialog(Quest quest)
+    public void StartDialog(Quest quest)
     {
-        Toggle(true);
-        PlayCharacterSpeech(quest.dialogData.CharacterSpeeches[quest.currentIndex]);
+        DialogPanel.SetActive(true);
         quest.currentIndex++;
-        if (quest.currentIndex >= quest.dialogData.CharacterSpeeches.Length - 1)
+        if (quest.currentIndex > quest.dialogData.CharacterSpeeches.Length)
         {
-            return false;
+            DialogPanel.SetActive(false);
+            return;
         }
-        else
-        {
-            return true;
-        }
-    }
+        PlayCharacterSpeech(quest.dialogData.CharacterSpeeches[quest.currentIndex - 1]);
 
-    private void Toggle(bool value)
-    {
-        DialogPanel.SetActive(value);
     }
-
     private void PlayCharacterSpeech(CharacterSpeech speech)
     {
         dialogText.text = speech.Speech;

@@ -9,6 +9,7 @@ public class ShopController : MonoBehaviour
     public GameObject upgradePanel;
     
     public Transform botSpawnPosition;
+    public OnBotCreated onBotCreated;
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -42,10 +43,7 @@ public class ShopController : MonoBehaviour
             for (int i = 0; i < 1; i++)
             {
                 Instantiate(bot, botSpawnPosition.position, Quaternion.identity);
-                if(GameManager.instance.firstBotCreated == false)
-                {
-                    GameManager.instance.firstBotCreated = true;
-                }
+                onBotCreated.SendEventMessage();
             }
         }
     }
