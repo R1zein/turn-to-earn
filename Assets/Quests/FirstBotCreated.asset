@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aca5c31e171a044e8ac3acddf63ba45, type: 3}
   m_Name: FirstBotCreated
   m_EditorClassIdentifier: 
+  rewardGained: 1
   dialogData: {fileID: 11400000, guid: da3810c22807eb246917e27d23035fea, type: 2}
-  IsTaken: 0
-  currentIndex: 0
+  IsTaken: 1
+  currentIndex: 5
+  onBotCreated: {fileID: 11400000, guid: 0e670c9e59a0c88419b1bb148daab0e8, type: 2}

@@ -5,19 +5,19 @@ using UnityEngine;
 using Unity.Properties;
 
 #if UNITY_EDITOR
-[CreateAssetMenu(menuName = "Behavior/Event Channels/OnBotCreated")]
+[CreateAssetMenu(menuName = "Behavior/Event Channels/OnNPCDeath")]
 #endif
 [Serializable, GeneratePropertyBag]
-[EventChannelDescription(name: "OnBotCreated", message: "when bot created", category: "Events", id: "160249bfb7999d0de98da0cb94b89f36")]
-public partial class OnBotCreated : EventChannelBase
+[EventChannelDescription(name: "OnNPCDeath", message: "fire when NpC is dead", category: "Events", id: "b859eb023a38829e4378c9247d3e2ad6")]
+public partial class OnNpcDeath : EventChannelBase
 {
-    public delegate void OnBotCreatedEventHandler();
-    public event OnBotCreatedEventHandler Event;
-    public bool firstBotCrea6ted;
-
+    public delegate void OnNpcDeathEventHandler();
+    public event OnNpcDeathEventHandler Event;
+    public int countNPC;
 
     public void SendEventMessage()
     {
+        countNPC ++;
         Event?.Invoke();
     }
 
@@ -28,7 +28,7 @@ public partial class OnBotCreated : EventChannelBase
 
     public override Delegate CreateEventHandler(BlackboardVariable[] vars, System.Action callback)
     {
-        OnBotCreatedEventHandler del = () =>
+        OnNpcDeathEventHandler del = () =>
         {
             callback();
         };
@@ -37,12 +37,12 @@ public partial class OnBotCreated : EventChannelBase
 
     public override void RegisterListener(Delegate del)
     {
-        Event += del as OnBotCreatedEventHandler;
+        Event += del as OnNpcDeathEventHandler;
     }
 
     public override void UnregisterListener(Delegate del)
     {
-        Event -= del as OnBotCreatedEventHandler;
+        Event -= del as OnNpcDeathEventHandler;
     }
 }
 

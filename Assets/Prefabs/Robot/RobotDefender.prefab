@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 8054639023739946068}
   m_Layer: 0
   m_Name: RobotDefender
-  m_TagString: Untagged
+  m_TagString: Bot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,6 +145,7 @@ Transform:
   m_Children:
   - {fileID: 5030082726617220340}
   - {fileID: 5030082726617220288}
+  - {fileID: 2120866010518914439}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5030082726608235264
@@ -282,6 +283,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0076dcd41a56a4ab06f72633d42dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredResources:
+    iron: 0
+    tree: 0
+    ore: 0
+  onNpcDeath: {fileID: 11400000, guid: 9a452fe9626bee34eb899aa8869030cd, type: 2}
 --- !u!1 &5030082726617585828
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,6 +896,72 @@ Transform:
   - {fileID: 5030082726617220338}
   m_Father: {fileID: 5030082726617220328}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &370525657884529758
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5030082726617220290}
+    m_Modifications:
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.157
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758056243674, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: m_Name
+      value: Centre
+      objectReference: {fileID: 0}
+    - target: {fileID: 1750364758987110943, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+      propertyPath: statsHandler
+      value: 
+      objectReference: {fileID: 3004494634473836026}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+--- !u!4 &2120866010518914439 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1750364758056243673, guid: 73b03fbf8f8bde842ad41ccabb651aef, type: 3}
+  m_PrefabInstance: {fileID: 370525657884529758}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &501469074661333420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1005,6 +1077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38177ed20bc2d2741856cc2c9a428361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  botDamage: 50
 --- !u!4 &502758174354350158 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4420664804571618, guid: 8fc40ebf5a41b30428929f5ba3697759, type: 3}

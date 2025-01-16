@@ -5606,6 +5606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e5341ec107b2e4ea03b191756d050b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 50
 --- !u!136 &1151436382
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12683,6 +12684,8 @@ GameObject:
   - component: {fileID: 5286307983498875569}
   - component: {fileID: 5286307983498875570}
   - component: {fileID: 5286307983498875571}
+  - component: {fileID: 5286307983498875572}
+  - component: {fileID: 5286307983498875573}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -13038,6 +13041,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onDialogButtonPressed: {fileID: 11400000, guid: ff0105a58c3eb72459c83782d982965f, type: 2}
+--- !u!114 &5286307983498875572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5241267463478828222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61a82aaaea336b44fa70bff8fcad5022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currHP: 0
+--- !u!114 &5286307983498875573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5241267463478828222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeb73b4c6c2dc47409c4883f2b88278f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!81 &5304019297247137796
 AudioListener:
   m_ObjectHideFlags: 0

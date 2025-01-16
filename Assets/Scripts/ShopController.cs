@@ -44,6 +44,7 @@ public class ShopController : MonoBehaviour
             {
                 Instantiate(bot, botSpawnPosition.position, Quaternion.identity);
                 onBotCreated.SendEventMessage();
+                onBotCreated.firstBotCrea6ted = true;
             }
         }
     }

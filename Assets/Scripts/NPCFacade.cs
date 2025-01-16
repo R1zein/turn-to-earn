@@ -10,6 +10,7 @@ public abstract class NPCFacade : MonoBehaviour
     private NPCNavigation enemyNavigation;
     private StatsHandler statsHandler;
     public AllResources requiredResources;
+    public OnNpcDeath onNpcDeath;
 
     private void Awake()
     {
@@ -30,12 +31,10 @@ public abstract class NPCFacade : MonoBehaviour
         {
             enemyNavigation.enabled = false;
         }
-
+        onNpcDeath.SendEventMessage();
         Destroy(gameObject, 3);
-        if(GameManager.instance.firstKillMaded == false ) 
-        {
-            GameManager.instance.firstKillMaded = true;
-        }
+
+
     }
 
     private void OnEnable()

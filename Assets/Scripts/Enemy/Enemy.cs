@@ -17,5 +17,6 @@ public class Enemy : NPCFacade
     {
         navigation.ChaseTarget<BotNavigation>();
         navigation.ChaseTarget<BotDefender>();
+        navigation .ChaseTarget<FirstPersonMovement>();
     }
 }

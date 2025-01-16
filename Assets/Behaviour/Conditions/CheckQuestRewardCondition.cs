@@ -3,19 +3,18 @@ using Unity.Behavior;
 using UnityEngine;
 
 [Serializable, Unity.Properties.GeneratePropertyBag]
-[Condition(name: "Check Quest Completion", story: "Check if the [quest] is completed", category: "Conditions", id: "de71ce97c5911f75e1076c31390a92d5")]
-public partial class CheckQuestCompletionCondition : Condition
+[Condition(name: "CheckQuestReward", story: "check if [quest] reward gained", category: "Conditions", id: "22b5a78887866254d7377f63defb2303")]
+public partial class CheckQuestRewardCondition : Condition
 {
     [SerializeReference] public BlackboardVariable<Quest> Quest;
 
     public override bool IsTrue()
     {
-        return Quest.Value.IsQuestComplited();
+        return Quest.Value.rewardGained;
     }
 
     public override void OnStart()
     {
-        
     }
 
     public override void OnEnd()
