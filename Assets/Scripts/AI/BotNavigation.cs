@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
-using static UnityEngine.GraphicsBuffer;
-
 public class BotNavigation : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
@@ -76,7 +72,6 @@ public class BotNavigation : MonoBehaviour
             animator.SetBool("Run", true);
         }
     }
-
     private void MoveToResource()
     {
         navMeshAgent.SetDestination(currentResource.transform.position);
@@ -96,7 +91,6 @@ public class BotNavigation : MonoBehaviour
             }
         }
     }
-
     private void BotMineResource()
     {
         currentResource.TakeHit();

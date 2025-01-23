@@ -8,7 +8,7 @@ public abstract class ResourceController : MonoBehaviour
 
     private MeshCollider meshColliderStone;
     private MeshRenderer meshRendererStone;
-    private StoneSpawner spawner;
+    private ResourceSpawner spawner;
     [HideInInspector] public int positionID;
     public MineableResourses resourse;
     private bool isDying = false;
@@ -19,7 +19,7 @@ public abstract class ResourceController : MonoBehaviour
     {
         meshColliderStone = GetComponent<MeshCollider>();
         meshRendererStone = GetComponent<MeshRenderer>();
-        spawner = FindAnyObjectByType<StoneSpawner>();
+        spawner = FindAnyObjectByType<ResourceSpawner>();
     }                                
 
     private async Awaitable DeathEffect()

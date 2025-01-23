@@ -7,7 +7,7 @@ public abstract class NPCFacade : MonoBehaviour
     private NavMeshAgent agent;
     private Rigidbody rb;
     private Collider _collider;
-    private NPCNavigation enemyNavigation;
+    protected NPCNavigation navigation;
     private StatsHandler statsHandler;
     public AllResources requiredResources;
     public OnNpcDeath onNpcDeath;
@@ -18,25 +18,9 @@ public abstract class NPCFacade : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
-        enemyNavigation = GetComponent<NPCNavigation>();
+        navigation = GetComponent<NPCNavigation>();
         statsHandler = GetComponent<StatsHandler>();
     }
-    private void Death()
-    {
-        animator.SetBool("Death", true);
-        _collider.enabled = false;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
-        agent.enabled = false;
-        if(enemyNavigation != null)
-        {
-            enemyNavigation.enabled = false;
-        }
-        onNpcDeath.SendEventMessage();
-        Destroy(gameObject, 3);
-
-
-    }
-
     private void OnEnable()
     {
         statsHandler.OnDeath += Death;
@@ -48,6 +32,19 @@ public abstract class NPCFacade : MonoBehaviour
     private void Update()
     {
         Navigation();
+    }
+    private void Death()
+    {
+        animator.SetBool("Death", true);
+        _collider.enabled = false;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        agent.enabled = false;
+        if(navigation != null)
+        {
+            navigation.enabled = false;
+        }
+        onNpcDeath.SendEventMessage();
+        Destroy(gameObject, 3);
     }
     protected abstract void Navigation();
 }

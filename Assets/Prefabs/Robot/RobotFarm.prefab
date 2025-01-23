@@ -120,9 +120,9 @@ GameObject:
   - component: {fileID: -3813692583472546563}
   - component: {fileID: 2276487625838635118}
   - component: {fileID: 827910225028722305}
-  - component: {fileID: -6023159880533593942}
   - component: {fileID: 5575152895582975380}
   - component: {fileID: 3004494634473836026}
+  - component: {fileID: 5442173694480960467}
   m_Layer: 0
   m_Name: RobotFarm
   m_TagString: Bot
@@ -242,21 +242,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &-6023159880533593942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5030082726617585826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d09ad6fb33454064bad0fda3d3619ecf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mineDistance: 3
-  cooldown: 1
-  startRadius: 1
 --- !u!114 &5575152895582975380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +273,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currHP: 0
+--- !u!114 &5442173694480960467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5030082726617585826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b67b55a2cd377a2428b7a884a7dfae8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sightDistance: 100
+  attackDistance: 0
+  isDead: 0
 --- !u!1 &5030082726617585828
 GameObject:
   m_ObjectHideFlags: 0

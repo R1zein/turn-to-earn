@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,14 +17,14 @@ public class NPCNavigation : MonoBehaviour
     }
     public void FirstLook<T>() where T: MonoBehaviour
     {
-        T[] bots = FindObjectsByType<T>(FindObjectsSortMode.None);
+        T[] ObjectsT = FindObjectsByType<T>(FindObjectsSortMode.None);
         float distance = Mathf.Infinity;
-        foreach (T bot in bots)
+        foreach (T objectT in ObjectsT)
         {
-            float currentDistance = Vector3.Distance(transform.position, bot.transform.position);
+            float currentDistance = Vector3.Distance(transform.position, objectT.transform.position);
             if (currentDistance < distance)
             {
-                target = bot.transform;
+                target = objectT.transform;
                 distance = currentDistance;
             }
 

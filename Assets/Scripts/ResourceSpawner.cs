@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public class StoneSpawner : MonoBehaviour
+public class ResourceSpawner : MonoBehaviour
 {
     [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeField] private List<GameObject> stonePrefabs = new List<GameObject>();
@@ -32,7 +32,7 @@ public class StoneSpawner : MonoBehaviour
             positions.TryGetValue(point, out value);
             if (value == 0)
             {
-                var stone = Instantiate(stonePrefabs[Random.Range(0, stonePrefabs.Count)], spawnPoints[point].position, Quaternion.identity);
+                var stone = Instantiate(stonePrefabs[Random.Range(0, stonePrefabs.Count)], spawnPoints[point].position, Quaternion.identity, transform);
                 positions[point] = 1;
                 stone.GetComponent<ResourceController>().positionID = point;
             }
