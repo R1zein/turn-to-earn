@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class GatlingGun : MonoBehaviour
 {
-    private NPCNavigation target;
+    private Enemy target;
 
     public Transform go_baseRotation;
     public Transform go_GunBody;
@@ -17,6 +17,8 @@ public class GatlingGun : MonoBehaviour
     public float firingRange;
     public ParticleSystem muzzelFlash;
 
+    public StatsHandler stats;
+
     bool canFire = false;
     private float timer;
 
@@ -26,9 +28,20 @@ public class GatlingGun : MonoBehaviour
     private float damageTimer;
 
     
-    void Start()
+    void Awake()
     {
-        this.GetComponent<SphereCollider>().radius = firingRange;
+        GetComponent<SphereCollider>().radius = firingRange;
+        stats = GetComponent<StatsHandler>();
+    }
+
+    private void OnEnable()
+    {
+        stats.OnDeath += Death;
+    }
+
+    private void OnDisable()
+    {
+        stats.OnDeath -= Death;
     }
 
     void Update()
@@ -96,10 +109,10 @@ public class GatlingGun : MonoBehaviour
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, firingRange);
         float shortestDistance = Mathf.Infinity;
-        NPCNavigation currentTarget = null;
+        Enemy currentTarget = null;
         foreach (Collider collider in colliders)
         {
-            if (collider.TryGetComponent<NPCNavigation>(out var enemy))
+            if (collider.TryGetComponent<Enemy>(out var enemy))
             {
                 float distance = Vector3.Distance(transform.position, enemy.transform.position);
                 if (distance < shortestDistance)
@@ -125,14 +138,17 @@ public class GatlingGun : MonoBehaviour
         target = null;
         canFire = false;
     }
-    private void OnDestroy()
-    {
 
-    }
 
     public void BuildTower()
     {
         GameObject buildPoint = GameObject.FindGameObjectWithTag("BuildingPoint");
         Instantiate(gameObject,buildPoint.transform.position,Quaternion.identity);
     }
+    private void Death()
+    {
+        Destroy(gameObject);
+    }
+
+
 }

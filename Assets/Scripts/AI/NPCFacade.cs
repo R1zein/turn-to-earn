@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public abstract class NPCFacade : MonoBehaviour
 {
-    private Animator animator;
-    private NavMeshAgent agent;
-    private Rigidbody rb;
-    private Collider _collider;
+    protected Animator animator;
+    protected NavMeshAgent agent;
+    protected Rigidbody rb;
+    protected Collider _collider;
     protected NPCNavigation navigation;
-    private StatsHandler statsHandler;
+    protected StatsHandler statsHandler;
     public AllResources requiredResources;
     public OnNpcDeath onNpcDeath;
 
@@ -29,9 +30,10 @@ public abstract class NPCFacade : MonoBehaviour
     {
         statsHandler.OnDeath -= Death;
     }
-    private void Update()
+    protected void Update()
     {
         Navigation();
+        NPCAnimationControl();
     }
     private void Death()
     {
@@ -47,4 +49,22 @@ public abstract class NPCFacade : MonoBehaviour
         Destroy(gameObject, 3);
     }
     protected abstract void Navigation();
+
+
+
+    protected virtual void NPCAnimationControl()
+    {
+        if (navigation.target == null)
+        {
+            animator.SetBool("Idle", true);
+            return;
+        }
+        animator.SetBool("Run", true);
+        if (Vector3.Distance(transform.position, navigation.target.transform.position) <= navigation.attackDistance)
+        {
+            animator.SetBool("Attack", true);
+            animator.SetBool("Run", false);
+            return;
+        }
+    }
 }

@@ -259,6 +259,8 @@ MonoBehaviour:
     tree: 0
     ore: 0
   onNpcDeath: {fileID: 11400000, guid: 9a452fe9626bee34eb899aa8869030cd, type: 2}
+  mineDistance: 2
+  cooldown: 3
 --- !u!114 &3004494634473836026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,7 +288,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sightDistance: 100
-  attackDistance: 0
+  attackDistance: 2
+  target: {fileID: 0}
   isDead: 0
 --- !u!1 &5030082726617585828
 GameObject:

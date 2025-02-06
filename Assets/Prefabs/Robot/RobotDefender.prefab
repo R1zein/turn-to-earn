@@ -121,8 +121,8 @@ GameObject:
   - component: {fileID: 2276487625838635118}
   - component: {fileID: 827910225028722305}
   - component: {fileID: 3004494634473836026}
-  - component: {fileID: 2625244802582635331}
   - component: {fileID: 8054639023739946068}
+  - component: {fileID: 8420902637644959895}
   m_Layer: 0
   m_Name: RobotDefender
   m_TagString: Bot
@@ -256,21 +256,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currHP: 0
---- !u!114 &2625244802582635331
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5030082726617585826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b60e95f2072ba6244a5b2c565488d17d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sightDistance: 100
-  attackDistance: 2
-  isDead: 0
 --- !u!114 &8054639023739946068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +273,22 @@ MonoBehaviour:
     tree: 0
     ore: 0
   onNpcDeath: {fileID: 11400000, guid: 9a452fe9626bee34eb899aa8869030cd, type: 2}
+--- !u!114 &8420902637644959895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5030082726617585826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b67b55a2cd377a2428b7a884a7dfae8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sightDistance: 100
+  attackDistance: 2
+  target: {fileID: 0}
+  isDead: 0
 --- !u!1 &5030082726617585828
 GameObject:
   m_ObjectHideFlags: 0

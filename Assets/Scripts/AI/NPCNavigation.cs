@@ -6,7 +6,7 @@ public class NPCNavigation : MonoBehaviour
     public float sightDistance;
     public float attackDistance;
     private NavMeshAgent agent;
-    private Transform target;
+    [HideInInspector]public Transform target;
     private Animator animator;
     private float timer;
     public bool isDead;
@@ -35,7 +35,7 @@ public class NPCNavigation : MonoBehaviour
     }
     public void ChaseTarget<T>() where T : MonoBehaviour
     {
-        NPCAnimationControl();
+        
 
         timer += Time.deltaTime;
         if (timer > 1f)
@@ -62,19 +62,5 @@ public class NPCNavigation : MonoBehaviour
         }
     }
 
-    private void NPCAnimationControl()
-    {
-        if (target == null)
-        {
-            animator.SetBool("Idle", true);
-            return;
-        }
-        animator.SetBool("Run", true);
-        if (Vector3.Distance(transform.position, target.transform.position) <= attackDistance)
-        {
-            animator.SetBool("Attack", true);
-            animator.SetBool("Run", false);
-            return;
-        }
-    }
+    
 }

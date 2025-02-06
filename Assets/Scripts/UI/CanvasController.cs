@@ -7,7 +7,8 @@ public class CanvasController : MonoBehaviour
 {
     public Image hpBar;
     public StatsHandler statsHandler;
-
+    public float visableDistance;
+    public Canvas canvas;
     private void ChangeHPBar()
     {
         hpBar.fillAmount = statsHandler.currHP/statsHandler.maxHP;
@@ -28,5 +29,13 @@ public class CanvasController : MonoBehaviour
     void LateUpdate()
     {
         transform.LookAt(transform.position + Camera.main.transform.forward);
+        if(Vector3.Distance(Camera.main.transform.position, transform.position) > visableDistance)
+        {
+            canvas.enabled = false;
+        }
+        else
+        {
+            canvas.enabled = true;
+        }
     }
 }

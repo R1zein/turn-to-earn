@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc9b8f0fab0353041a260180a1965b52, type: 3}
   m_Name: On Npc Death
   m_EditorClassIdentifier: 
+  countNPC: -2147483648

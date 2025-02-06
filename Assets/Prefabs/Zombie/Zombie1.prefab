@@ -1862,7 +1862,7 @@ GameObject:
   - component: {fileID: 1023868877}
   - component: {fileID: 1023868883}
   - component: {fileID: 1284650868752199256}
-  - component: {fileID: 1507630159111162643}
+  - component: {fileID: 8099205486760493439}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: Enemy
@@ -2026,7 +2026,7 @@ MonoBehaviour:
     tree: 0
     ore: 0
   onNpcDeath: {fileID: 11400000, guid: 9a452fe9626bee34eb899aa8869030cd, type: 2}
---- !u!114 &1507630159111162643
+--- !u!114 &8099205486760493439
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2035,11 +2035,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4493914613880827488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b60e95f2072ba6244a5b2c565488d17d, type: 3}
+  m_Script: {fileID: 11500000, guid: b67b55a2cd377a2428b7a884a7dfae8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightDistance: 10
+  sightDistance: 20
   attackDistance: 2
+  target: {fileID: 0}
   isDead: 0
 --- !u!1 &4710940672626480558
 GameObject:

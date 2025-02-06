@@ -4,12 +4,14 @@ public class Enemy : NPCFacade
     {
         navigation.FirstLook<BotMiner>();
         navigation.FirstLook<BotDefender>();
-        navigation.ChaseTarget<Player>();
+        navigation.FirstLook<Player>();
+        navigation.FirstLook<GatlingGun>();
     }
     protected override void Navigation()
     {
         navigation.ChaseTarget<BotMiner>();
         navigation.ChaseTarget<BotDefender>();
         navigation.ChaseTarget<Player>();
+        navigation.ChaseTarget<GatlingGun>();
     }
 }
