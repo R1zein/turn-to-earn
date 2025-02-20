@@ -14,7 +14,8 @@ public class BotMiner : NPCFacade
 
     private void Start()
     {
-        navigation.FirstLook<ResourceController>();
+        navigation.FirstLook<ResourceController>(10);
+        navigation.SetAndRefresh();
     }
 
     protected void Update()
@@ -51,6 +52,8 @@ public class BotMiner : NPCFacade
 
     protected override void Navigation()
     {
-        navigation.ChaseTarget<ResourceController>();
+        navigation.ChaseTarget<ResourceController>(10);
+        navigation.SetAndRefresh();
+
     }
 }

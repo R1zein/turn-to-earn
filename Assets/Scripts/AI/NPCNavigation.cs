@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class NPCNavigation : MonoBehaviour
 {
+    private Dictionary<Transform, float> priorityTargets = new ();
     public float sightDistance;
     public float attackDistance;
     private NavMeshAgent agent;
@@ -15,52 +18,82 @@ public class NPCNavigation : MonoBehaviour
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
     }
-    public void FirstLook<T>() where T: MonoBehaviour
+    private void Update()
+    {
+        if (target != null)
+        {
+            agent.SetDestination(target.position);
+        }
+    }
+    public void FirstLook<T>(int priority) where T: MonoBehaviour
     {
         T[] ObjectsT = FindObjectsByType<T>(FindObjectsSortMode.None);
-        float distance = Mathf.Infinity;
+        Transform newTarget = null;
+        float score = 0;
         foreach (T objectT in ObjectsT)
         {
             float currentDistance = Vector3.Distance(transform.position, objectT.transform.position);
-            if (currentDistance < distance)
+            float currScore = priority / currentDistance;
+            if (currScore > score)
             {
-                target = objectT.transform;
-                distance = currentDistance;
+                newTarget = objectT.transform;
+                score = currScore;
             }
 
         }
-        if (target == null)
-            return;
-        agent.SetDestination(target.transform.position);
-    }
-    public void ChaseTarget<T>() where T : MonoBehaviour
-    {
-        
+        if (newTarget != null)
+        {
+            priorityTargets.Add(newTarget, score);
+        }
 
+
+
+    }
+    public void ChaseTarget<T>(int priority) where T : MonoBehaviour
+    {
         timer += Time.deltaTime;
         if (timer > 1f)
         {
             timer = 0f;
             Collider[] colliders = Physics.OverlapSphere(transform.position, sightDistance);
-            float shortestDistance = Mathf.Infinity;
+            Transform newTarget = null;
+            float score = 0;
             foreach (Collider collider in colliders)
             {
                 if (collider.TryGetComponent<T>(out var bot))
                 {
                     float distance = Vector3.Distance(transform.position, bot.transform.position);
-                    if (distance < shortestDistance)
+                    float currentScore = priority / distance;
+                    if (currentScore > score)
                     {
-                        shortestDistance = distance;
-                        target = bot.transform;
+                        score = currentScore;
+                        newTarget = bot.transform;
                     }
                 }
             }
-            if (target != null && agent.isActiveAndEnabled)
+
+            if (newTarget != null)
             {
-                agent.SetDestination(target.transform.position);
+                priorityTargets.Add(newTarget, score);
             }
         }
     }
 
-    
+
+    public void SetAndRefresh()
+    {
+        float currentScore = 0;
+        foreach (var target in priorityTargets)
+        {
+            if (target.Value > currentScore)
+            {
+                currentScore = target.Value;
+            }
+        }
+        var newTarget = priorityTargets.FirstOrDefault(x => x.Value.Equals(currentScore)).Key;
+        target = newTarget;
+        priorityTargets.Clear();
+    }
+
+
 }
