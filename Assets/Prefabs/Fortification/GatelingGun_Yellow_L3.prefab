@@ -21055,8 +21055,9 @@ MonoBehaviour:
   barrelRotationSpeed: 1000
   firingRange: 15
   muzzelFlash: {fileID: 198562569527715984}
+  stats: {fileID: 0}
   fireRate: 0.1
-  damage: 2
+  damage: 5
 --- !u!114 &1914985273686563301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21069,7 +21070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a82aaaea336b44fa70bff8fcad5022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 500
+  maxHP: 50
   currHP: 0
 --- !u!1001 &8297979530800346880
 PrefabInstance:

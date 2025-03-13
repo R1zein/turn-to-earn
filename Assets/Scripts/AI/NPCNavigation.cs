@@ -83,6 +83,10 @@ public class NPCNavigation : MonoBehaviour
     public void SetAndRefresh()
     {
         float currentScore = 0;
+        if (priorityTargets.Count == 0)
+        {
+            return;
+        }
         foreach (var target in priorityTargets)
         {
             if (target.Value > currentScore)
