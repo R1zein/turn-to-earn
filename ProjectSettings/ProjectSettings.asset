@@ -705,11 +705,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 28113c0e-e6ef-4e68-8342-d03d56d57109
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: turn-to-earn
+  organizationId: yarovenko2012
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
