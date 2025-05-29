@@ -16,7 +16,7 @@ public class ToolsSwap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) 
+        if (Input.GetAxis("Mouse ScrollWheel")> 0) 
         {
             toolIndex++;
             if(toolIndex >= tools.Length)
@@ -26,7 +26,7 @@ public class ToolsSwap : MonoBehaviour
             Swap();
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             toolIndex--;
             if (toolIndex < 0)
