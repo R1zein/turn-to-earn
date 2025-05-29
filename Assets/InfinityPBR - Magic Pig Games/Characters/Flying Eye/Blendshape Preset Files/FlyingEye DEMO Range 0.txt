@@ -1,0 +1,1 @@
+SFB_BlendShapesManager V2,Eyeball,IrisSizePlus,-100,100,Eyeball,PupilSizePlus,-100,100,Eyeball,EyeballSizePlus,-100,100,Eyeball,IrisDepthSizePlus,-100,100,Tendrils,VeinsSizePlus,-100,100,Tendrils,TendrilsHubPlus,-100,100,Tendrils,TendrilMuscles01,0,100,Tendrils,TendrilMuscles02,0,100,Tendrils,TendrilGirth01Plus,-100,100,Tendrils,TendrilGirth02Plus,-100,100
