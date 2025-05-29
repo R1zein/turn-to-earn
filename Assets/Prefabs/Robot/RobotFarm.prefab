@@ -977,6 +977,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pickaxe_LOD1
       objectReference: {fileID: 0}
+    - target: {fileID: 108562, guid: d94616396dd214a47a7db19f795a9ef2, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 439376, guid: d94616396dd214a47a7db19f795a9ef2, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.69
