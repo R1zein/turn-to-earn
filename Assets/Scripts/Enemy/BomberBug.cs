@@ -37,4 +37,9 @@ public class BomberBug :NPCFacade
         }
 
     }
+
+    public void PlayAudio()
+    {
+        
+    }
 }
