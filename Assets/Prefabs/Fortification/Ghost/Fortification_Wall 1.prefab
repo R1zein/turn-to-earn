@@ -102,5 +102,5 @@ MonoBehaviour:
   prefab: {fileID: 1802939323137932, guid: c6b771275223a97468bae7983cd0d365, type: 3}
   requiredResources:
     iron: 0
-    tree: 10
+    tree: 0
     ore: 0

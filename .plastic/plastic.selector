@@ -1,4 +1,0 @@
-repository "turn-to-earn/turn-to-earn@10170833207643@cloud"
-  path "/"
-    br "/main"
-    co "/main"
