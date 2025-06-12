@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0847ea51e8faa8240b0140891502633a, type: 3}
+  m_Name: Night
+  m_EditorClassIdentifier: 
+  periodStart: 1
+  periodEnd: 7
+  currentProgress: 0.098296136
+  skyboxMaterial: {fileID: 2100000, guid: 42eaf2c5dbb13dc498f15df5a5b05fda, type: 2}
+  soundEffect: {fileID: 8300000, guid: 1e3081616bbf3b343844683f9b2de4ce, type: 3}
