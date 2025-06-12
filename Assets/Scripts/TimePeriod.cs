@@ -8,18 +8,21 @@ public class TimePeriod : ScriptableObject
     public float currentProgress;
     public Material skyboxMaterial;
     public AudioClip soundEffect;
+    public AnimationCurve curve;
     
+    private Light directionalLight;
     private AudioSource source;
     private float duration;
     private float secondsPerHour;
-    private bool isInPeriod;
+    private bool wasInPeriod;
 
-    public void InitSettings(float secondsPerHour, AudioSource source)
+    public void InitSettings(float secondsPerHour, AudioSource source, Light directionalLight)
     {
         this.secondsPerHour = secondsPerHour;
         this.source = source;
+        this.directionalLight = directionalLight;
         currentProgress = 0;
-        isInPeriod = false;
+        wasInPeriod = false;
     }
 
     public bool ProgressTime(float time)
@@ -42,9 +45,8 @@ public class TimePeriod : ScriptableObject
 
         if (currentlyInPeriod)
         {
-            if (!isInPeriod)
+            if (!wasInPeriod)
             {
-                isInPeriod = true;
                 OnPeriodEnter();
             }
 
@@ -54,20 +56,15 @@ public class TimePeriod : ScriptableObject
 
             float end = startTime < endTime ? endTime : endTime + 24 * secondsPerHour;
             currentProgress = Mathf.InverseLerp(startTime, end, t);
-            return true;
         }
-        else
-        {
-            isInPeriod = false;
-            return false;
-        }
+        directionalLight.intensity = curve.Evaluate(currentProgress);
+        wasInPeriod = currentlyInPeriod;
+        return currentlyInPeriod;
     }
 
-    protected virtual void OnPeriodEnter()
+    private void OnPeriodEnter()
     {
         RenderSettings.skybox = skyboxMaterial;
         DynamicGI.UpdateEnvironment();
-        source.clip = soundEffect;
-        source.Play();
     }
 }

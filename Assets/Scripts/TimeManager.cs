@@ -11,14 +11,16 @@ public class TimeManager : MonoBehaviour
     private float timer;
     private int hours;
     private int minutes;
+    
 
 
-    private void Start()
+    private void Awake()
     {
+        Light directionlLight = GameObject.Find("Directional Light").GetComponent<Light>();
         AudioSource audio = GetComponent<AudioSource>();
         foreach (TimePeriod timePeriod in timePeriods)
         {
-            timePeriod.InitSettings(secondsPerHour, audio);
+            timePeriod.InitSettings(secondsPerHour, audio, directionlLight);
         }
     }
 
