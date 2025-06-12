@@ -12,9 +12,13 @@ public class ResourceSpawner : MonoBehaviour
     [SerializeField] private int timer;
 
 
-    private Dictionary<int, int> positions = new Dictionary<int, int>(); 
+    private Dictionary<int, int> positions = new Dictionary<int, int>();
 
-
+    private void Awake()
+    {
+        spawnPoints.AddRange(GetComponentsInChildren<Transform>());
+        spawnPoints.Remove(transform);
+    }
     private void Start()
     {
         for (int i = 0; i < spawnPoints.Count; i++)

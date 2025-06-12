@@ -1,4 +1,4 @@
 ﻿public enum MineableResourses
 {
-    Stones, Wood, Clay, Iron
+    Stones, Wood, Gold, Iron
 }

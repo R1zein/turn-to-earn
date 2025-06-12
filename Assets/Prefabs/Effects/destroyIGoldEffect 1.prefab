@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 22985309155431266}
   - component: {fileID: 3159364385608573582}
   m_Layer: 0
-  m_Name: destroyIronEffect
+  m_Name: destroyIGoldEffect 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4838,7 +4838,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: beed9b556ca684d4f91384f69c2c6941, type: 2}
+  - {fileID: 2100000, guid: bd732e0619b2d064280a8c53da95930a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

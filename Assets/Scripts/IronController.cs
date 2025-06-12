@@ -14,7 +14,11 @@ public class IronController : ResourceController
         else
         {
             resourceStore -= oneHitResource;
-            StoredResources.instance.AddResources(new AllResources(oneHitResource, 0, 0)); 
+            StoredResources.instance.AddResources(new AllResources(oneHitResource, 0, 0, 0));
+            if (resourceStore <= 0)
+            {
+                Death();
+            }
         }
     }
 }
