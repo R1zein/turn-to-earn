@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "My Data", menuName = "Scriptable Objects/TimePeriod")]
@@ -15,6 +16,8 @@ public class TimePeriod : ScriptableObject
     private float duration;
     private float secondsPerHour;
     private bool wasInPeriod;
+
+    public event Action OnPeriodEnter;
 
     public void InitSettings(float secondsPerHour, AudioSource source, Light directionalLight)
     {
@@ -51,7 +54,7 @@ public class TimePeriod : ScriptableObject
 
         if (!wasInPeriod)
         {
-            OnPeriodEnter();
+            PeriodEnter();
             wasInPeriod = true;
         }
 
@@ -65,9 +68,10 @@ public class TimePeriod : ScriptableObject
         directionalLight.intensity = curve.Evaluate(currentProgress);
     }
 
-    private void OnPeriodEnter()
+    private void PeriodEnter()
     {
         RenderSettings.skybox = skyboxMaterial;
         DynamicGI.UpdateEnvironment();
+        OnPeriodEnter?.Invoke();
     }
 }

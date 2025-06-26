@@ -2,57 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.AI.Navigation;
+using System.Threading.Tasks;
 
 public class ZombieSpawn : MonoBehaviour
 {
     [SerializeField] private GameObject zombie;
-    [SerializeField] private float minSpawnTime;
-    [SerializeField] private float maxSpawnTime;
-    [SerializeField] private float spawnRate;
     [SerializeField] private Transform spawnPos;
-    private Animator animator;
-    private float timer;
-    private float spawnTime;
-    [SerializeField] private NavMeshSurface surface;
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
+    [SerializeField] private float spawnTime;
+    [SerializeField] private int spawnCount;
+    [SerializeField] private TimePeriod timePeriod;
+    [SerializeField] private GameObject portalEffect;
 
-    private void Update()
+    private void OnEnable()
     {
-        timer += Time.deltaTime;
+        timePeriod.OnPeriodEnter += OpenPortal;
     }
-
-    private void SpawnEnemy()
+    private void OnDisable()
     {
-        Instantiate(zombie, spawnPos.position, Quaternion.identity);
-        
+        timePeriod.OnPeriodEnter -= OpenPortal;
     }
-    public void OpenPortal()
+    public async void OpenPortal()
     {
-        animator.Play("OpenPortal");
-        spawnTime = Random.Range(minSpawnTime, maxSpawnTime);
-        timer = 0;
-        StartCoroutine(StartSpawning());
-    }
-    private void ClosePortal()
-    {
-        animator.Play("ClosePortal");
-        timer = 0;
-    }
-    private IEnumerator StartSpawning()
-    {
-        yield return null;
-        float length = animator.GetCurrentAnimatorStateInfo(0).length;
-        yield return new WaitForSeconds(length);
-        surface.BuildNavMesh();
-        while (timer < spawnTime)
+        portalEffect.SetActive(true);
+        for (int i = 0; i < spawnCount; i++)
         {
-            yield return new WaitForSeconds(spawnRate);
-            SpawnEnemy();
+            Instantiate(zombie, spawnPos.position, Quaternion.identity);
+            await Awaitable.WaitForSecondsAsync(spawnTime);  
         }
-        ClosePortal();
-        
+        portalEffect.SetActive(false);
     }
+
+
 }

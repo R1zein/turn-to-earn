@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   periodStart: 7
   periodEnd: 23
-  currentProgress: 0.99988955
+  currentProgress: 0.109103955
   skyboxMaterial: {fileID: 2100000, guid: 614a3d8218d370d40895a63854c838b3, type: 2}
   soundEffect: {fileID: 8300000, guid: 6ba6e28d5b9004991a4ff9f8be8d67d5, type: 3}
   curve:
