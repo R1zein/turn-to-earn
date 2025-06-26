@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -37,12 +38,8 @@ public class TimeManager : MonoBehaviour
         timeText.text = $"{hours}:{minutes}";
         foreach (TimePeriod timePeriod in timePeriods)
         {
-            if (timePeriod.ProgressTime(timer))
-            {
-                return;
-            }
+            timePeriod.ProgressTime(timer);
         }
-
     }
 }
 

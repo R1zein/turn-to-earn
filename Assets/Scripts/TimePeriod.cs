@@ -24,8 +24,7 @@ public class TimePeriod : ScriptableObject
         currentProgress = 0;
         wasInPeriod = false;
     }
-
-    public bool ProgressTime(float time)
+    public void ProgressTime(float time)
     {
         float startTime = periodStart * secondsPerHour;
         float endTime = periodEnd * secondsPerHour;
@@ -43,23 +42,27 @@ public class TimePeriod : ScriptableObject
             currentlyInPeriod = adjustedTime >= startTime && adjustedTime < adjustedEnd;
         }
 
-        if (currentlyInPeriod)
+        if (!currentlyInPeriod)
         {
-            if (!wasInPeriod)
-            {
-                OnPeriodEnter();
-            }
-
-            float t = time < startTime && startTime > endTime
-                ? time + 24 * secondsPerHour
-                : time;
-
-            float end = startTime < endTime ? endTime : endTime + 24 * secondsPerHour;
-            currentProgress = Mathf.InverseLerp(startTime, end, t);
+            wasInPeriod = false;
+            currentProgress = 0;
+            return;
         }
+
+        if (!wasInPeriod)
+        {
+            OnPeriodEnter();
+            wasInPeriod = true;
+        }
+
+        float t = time < startTime && startTime > endTime
+            ? time + 24 * secondsPerHour
+            : time;
+
+        float end = startTime < endTime ? endTime : endTime + 24 * secondsPerHour;
+        currentProgress = Mathf.InverseLerp(startTime, end, t);
+
         directionalLight.intensity = curve.Evaluate(currentProgress);
-        wasInPeriod = currentlyInPeriod;
-        return currentlyInPeriod;
     }
 
     private void OnPeriodEnter()
