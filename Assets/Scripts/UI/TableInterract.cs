@@ -2,9 +2,16 @@
 
 public class TableInterract : Interactable
 {
-    public ShopController shopController;
+    public Transform spawnPosition;
+
+    private ShopController shopController;
+
+    private void Start()
+    {
+        shopController = FindAnyObjectByType<ShopController>();
+    }
     public override void Interract()
     {
-        shopController.TryToSetActive();
+        shopController.TryToSetActive(spawnPosition.position);
     }
 }

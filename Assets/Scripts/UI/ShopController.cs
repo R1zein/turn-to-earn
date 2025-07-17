@@ -1,28 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShopController : MonoBehaviour
 {
-
+    public event Action<bool> OnPanelStateChange;
     public GameObject purchasePanel;
     public GameObject upgradePanel;
     
-    public Transform botSpawnPosition;
+    private Vector3 botSpawnPosition;
     public OnBotCreated onBotCreated;
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    public void TryToSetActive()
+    public void TryToSetActive(Vector3 spawnPosition)
     {
+        botSpawnPosition = spawnPosition;
         if (!purchasePanel.activeSelf & !upgradePanel.activeSelf)
         {
             purchasePanel.SetActive(true);
+            OnPanelStateChange?.Invoke(false);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            Time.timeScale = 0f;
         }
     }
 
@@ -30,9 +32,9 @@ public class ShopController : MonoBehaviour
     {
         purchasePanel.SetActive(false);
         upgradePanel.SetActive(false);
+        OnPanelStateChange?.Invoke(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        Time.timeScale = 1f;
     }
 
     public void ByeBot(NPCFacade bot)
@@ -42,7 +44,7 @@ public class ShopController : MonoBehaviour
             StoredResources.instance.DecreaseResources(bot.requiredResources);
             for (int i = 0; i < 1; i++)
             {
-                Instantiate(bot, botSpawnPosition.position, Quaternion.identity);
+                Instantiate(bot, botSpawnPosition, Quaternion.identity);
                 onBotCreated.SendEventMessage();
                 onBotCreated.firstBotCrea6ted = true;
             }
