@@ -10,6 +10,7 @@ public class TimePeriod : ScriptableObject
     public Material skyboxMaterial;
     public AudioClip soundEffect;
     public AnimationCurve curve;
+    public ReflectionProbe reflectionProbe;
     
     private Light directionalLight;
     private AudioSource source;
@@ -19,11 +20,12 @@ public class TimePeriod : ScriptableObject
 
     public event Action OnPeriodEnter;
 
-    public void InitSettings(float secondsPerHour, AudioSource source, Light directionalLight)
+    public void InitSettings(float secondsPerHour, AudioSource source, Light directionalLight, ReflectionProbe reflectionProbe)
     {
         this.secondsPerHour = secondsPerHour;
         this.source = source;
         this.directionalLight = directionalLight;
+        this.reflectionProbe = reflectionProbe;
         currentProgress = 0;
         wasInPeriod = false;
     }
@@ -66,8 +68,8 @@ public class TimePeriod : ScriptableObject
         currentProgress = Mathf.InverseLerp(startTime, end, t);
 
         directionalLight.intensity = curve.Evaluate(currentProgress);
+        reflectionProbe.intensity = curve.Evaluate(currentProgress);
     }
-
     private void PeriodEnter()
     {
         RenderSettings.skybox = skyboxMaterial;

@@ -8,11 +8,12 @@ public class TimeManager : MonoBehaviour
     public TMP_Text timeText;
     public float secondsPerHour;
     public Light directionLight;
+    public ReflectionProbe reflectionProbe;
     public TimePeriod[] timePeriods;
     private float timer;
     private int hours;
     private int minutes;
-    
+
 
 
     private void Awake()
@@ -22,7 +23,7 @@ public class TimeManager : MonoBehaviour
         AudioSource audio = GetComponent<AudioSource>();
         foreach (TimePeriod timePeriod in timePeriods)
         {
-            timePeriod.InitSettings(secondsPerHour, audio, directionlLight);
+            timePeriod.InitSettings(secondsPerHour, audio, directionlLight, reflectionProbe);
         }
     }
 
