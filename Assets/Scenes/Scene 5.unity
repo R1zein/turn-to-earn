@@ -4855,6 +4855,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1655288669553048662, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_Name
+      value: CloseButton(base)
+      objectReference: {fileID: 0}
     - target: {fileID: 2669786907444782005, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -4879,6 +4883,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -468.74445
       objectReference: {fileID: 0}
+    - target: {fileID: 4620204603127983141, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_Name
+      value: Bot/swap txt
+      objectReference: {fileID: 0}
     - target: {fileID: 4747434884106621160, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4898,6 +4906,18 @@ PrefabInstance:
     - target: {fileID: 4747434884106621160, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -468.74445
+      objectReference: {fileID: 0}
+    - target: {fileID: 4819214492803315387, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_Name
+      value: BasePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4967077670265716854, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_Name
+      value: Bot/swap.txt
+      objectReference: {fileID: 0}
+    - target: {fileID: 5102220397975358122, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_Name
+      value: Base/swap button
       objectReference: {fileID: 0}
     - target: {fileID: 5869425815251953982, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -4983,6 +5003,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6057423282590129014, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_Name
+      value: Bot/swap button
+      objectReference: {fileID: 0}
+    - target: {fileID: 6684995880358079890, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_Name
+      value: CloseButton(Bot)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7455513485953859453, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_text
+      value: BOT
+      objectReference: {fileID: 0}
     - target: {fileID: 7579517724909681799, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4998,6 +5030,16 @@ PrefabInstance:
     - target: {fileID: 7579517724909681799, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7672428280779335163, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_text
+      value: 'BASE
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7742125479493996707, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+      propertyPath: m_Name
+      value: BotPanel
       objectReference: {fileID: 0}
     - target: {fileID: 8309331441554381580, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

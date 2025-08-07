@@ -24,7 +24,7 @@ public class ZombieSpawn : MonoBehaviour
     public async void OpenPortal()
     {
         portalEffect.SetActive(true);
-        for (int i = 0; i < spawnCount; i++)
+        for (int i = 0; i < spawnCount + timePeriod.dayNumber*2; i++)
         {
             Instantiate(zombie, spawnPos.position, Quaternion.identity);
             await Awaitable.WaitForSecondsAsync(spawnTime);  

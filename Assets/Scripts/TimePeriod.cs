@@ -10,8 +10,9 @@ public class TimePeriod : ScriptableObject
     public Material skyboxMaterial;
     public AudioClip soundEffect;
     public AnimationCurve curve;
-    public ReflectionProbe reflectionProbe;
-    
+    public int dayNumber = 0;
+
+    private ReflectionProbe reflectionProbe;
     private Light directionalLight;
     private AudioSource source;
     private float duration;
@@ -28,6 +29,7 @@ public class TimePeriod : ScriptableObject
         this.reflectionProbe = reflectionProbe;
         currentProgress = 0;
         wasInPeriod = false;
+        dayNumber = 0;
     }
     public void ProgressTime(float time)
     {
@@ -72,6 +74,7 @@ public class TimePeriod : ScriptableObject
     }
     private void PeriodEnter()
     {
+        dayNumber++;
         RenderSettings.skybox = skyboxMaterial;
         DynamicGI.UpdateEnvironment();
         OnPeriodEnter?.Invoke();
