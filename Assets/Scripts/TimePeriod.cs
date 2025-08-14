@@ -20,6 +20,7 @@ public class TimePeriod : ScriptableObject
     private bool wasInPeriod;
 
     public event Action OnPeriodEnter;
+    public event Action OnPeriodExit;
 
     public void InitSettings(float secondsPerHour, AudioSource source, Light directionalLight, ReflectionProbe reflectionProbe)
     {
@@ -37,7 +38,6 @@ public class TimePeriod : ScriptableObject
         float endTime = periodEnd * secondsPerHour;
 
         bool currentlyInPeriod;
-
         if (startTime < endTime)
         {
             currentlyInPeriod = time >= startTime && time < endTime;
@@ -48,26 +48,33 @@ public class TimePeriod : ScriptableObject
             float adjustedEnd = endTime + 24 * secondsPerHour;
             currentlyInPeriod = adjustedTime >= startTime && adjustedTime < adjustedEnd;
         }
-
-        if (!currentlyInPeriod)
+        if (currentlyInPeriod && !wasInPeriod)
+        {
+            PeriodEnter();
+            wasInPeriod = true;
+        }
+        else if (!currentlyInPeriod && wasInPeriod)
+        {
+            PeriodExit();
+            wasInPeriod = false;
+            currentProgress = 0;
+            return;
+        }
+        else if (!currentlyInPeriod)
         {
             wasInPeriod = false;
             currentProgress = 0;
             return;
         }
-
-        if (!wasInPeriod)
+        float t = time;
+        if (startTime > endTime && time < startTime)
         {
-            PeriodEnter();
-            wasInPeriod = true;
+            t += 24 * secondsPerHour;
         }
 
-        float t = time < startTime && startTime > endTime
-            ? time + 24 * secondsPerHour
-            : time;
+        float endDuration = startTime < endTime ? endTime : endTime + 24 * secondsPerHour;
 
-        float end = startTime < endTime ? endTime : endTime + 24 * secondsPerHour;
-        currentProgress = Mathf.InverseLerp(startTime, end, t);
+        currentProgress = Mathf.InverseLerp(startTime, endDuration, t);
 
         directionalLight.intensity = curve.Evaluate(currentProgress);
         reflectionProbe.intensity = curve.Evaluate(currentProgress);
@@ -78,5 +85,9 @@ public class TimePeriod : ScriptableObject
         RenderSettings.skybox = skyboxMaterial;
         DynamicGI.UpdateEnvironment();
         OnPeriodEnter?.Invoke();
+    }
+    private void PeriodExit()
+    {
+        OnPeriodExit?.Invoke();
     }
 }
