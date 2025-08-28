@@ -2,15 +2,37 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private bool withInZone;
+    private bool isGateOpen = false;
+    public Animation animation;
+    private void OnTriggerStay(Collider other)
     {
-        
+        if (other.TryGetComponent<Player>(out var player))
+        {
+            withInZone = true;
+        }
+        else
+        {
+            withInZone = false;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (withInZone)
+        {
+            if (Input.GetKeyDown(KeyCode.F) && animation.isPlaying == false)
+            {
+                if (isGateOpen == false)
+                {
+                    animation.Play("GateOpen");
+                    isGateOpen = true;
+                }
+                else
+                {
+                    animation.Play("GateClose");
+                    isGateOpen = false;
+                }
+            }
+        }
     }
 }
