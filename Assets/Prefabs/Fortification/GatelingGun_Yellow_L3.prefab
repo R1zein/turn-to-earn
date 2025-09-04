@@ -21072,6 +21072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 50
   currHP: 0
+  fraction: 1
 --- !u!1001 &8297979530800346880
 PrefabInstance:
   m_ObjectHideFlags: 0

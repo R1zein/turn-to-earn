@@ -5,13 +5,17 @@ public class Gate : MonoBehaviour
     private bool withInZone;
     private bool isGateOpen = false;
     public Animation animation;
-    private void OnTriggerStay(Collider other)
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<Player>(out var player))
         {
             withInZone = true;
         }
-        else
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<Player>(out var player))
         {
             withInZone = false;
         }

@@ -9,6 +9,7 @@ public class StatsHandler : MonoBehaviour
     public float currHP;
     public event Action OnDamage;
     public event Action OnDeath;
+    public Fraction fraction;
 
     public void TakeDamage(float damage)
     {
@@ -24,4 +25,13 @@ public class StatsHandler : MonoBehaviour
     {
         currHP = maxHP;
     }
+
+}
+
+public enum Fraction
+{
+    Player,
+    Friendly,
+    Enemy,
+    Neutral,
 }

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 23386462741803098}
   - component: {fileID: 64549380269655866}
   - component: {fileID: 7683002646923182367}
+  - component: {fileID: 5154217054430306715}
+  - component: {fileID: 5380138048105753160}
   m_Layer: 0
   m_Name: Fortification_Wall
   m_TagString: Untagged
@@ -126,3 +128,30 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
   m_TimeToStationary: 0.5
+--- !u!114 &5154217054430306715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802939323137932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61a82aaaea336b44fa70bff8fcad5022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 1000
+  currHP: 0
+  fraction: 1
+--- !u!114 &5380138048105753160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1802939323137932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06adf92a94880284f8881be14fbb2d50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

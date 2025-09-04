@@ -2009,6 +2009,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currHP: 0
+  fraction: 2
 --- !u!114 &1284650868752199256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2025,6 +2026,7 @@ MonoBehaviour:
     iron: 0
     tree: 0
     ore: 0
+    gold: 0
   onNpcDeath: {fileID: 11400000, guid: 9a452fe9626bee34eb899aa8869030cd, type: 2}
 --- !u!114 &8099205486760493439
 MonoBehaviour:
