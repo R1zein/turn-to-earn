@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33185831696061894}
   - component: {fileID: 23324688025292070}
   - component: {fileID: 64399283143172948}
+  - component: {fileID: 6318100551861590872}
   m_Layer: 0
   m_Name: Fortification_Tower_Front (2)
   m_TagString: Untagged
@@ -109,6 +110,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 7d3c4adb8b7966e4fb2a5956db83a701, type: 3}
+--- !u!208 &6318100551861590872
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011472156462344}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.616, y: 3.1850002, z: 1.6150001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.007, y: 3.028, z: -0.014}
+  m_TimeToStationary: 0.5
 --- !u!1 &1013822165038050
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,7 +191,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5baa22f5badbc964daa9e698c5db6020, type: 2}
+  - {fileID: 2100000, guid: f448f05b66c5dd546a351a56d7e54bbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -230,6 +247,7 @@ GameObject:
   - component: {fileID: 33443649495908984}
   - component: {fileID: 23125593174760544}
   - component: {fileID: 64152019468033618}
+  - component: {fileID: 7578419084301922282}
   m_Layer: 0
   m_Name: Fortification_Wall (14)
   m_TagString: Untagged
@@ -327,6 +345,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &7578419084301922282
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016173958540894}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1029103160777364
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,6 +373,7 @@ GameObject:
   - component: {fileID: 33074166746796804}
   - component: {fileID: 23752677298602400}
   - component: {fileID: 64936646122166832}
+  - component: {fileID: 763478998639908282}
   m_Layer: 0
   m_Name: Fortification_Wall (1)
   m_TagString: Untagged
@@ -436,6 +471,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &763478998639908282
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029103160777364}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1058389942680584
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,7 +552,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5baa22f5badbc964daa9e698c5db6020, type: 2}
+  - {fileID: 2100000, guid: f448f05b66c5dd546a351a56d7e54bbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -557,6 +608,7 @@ GameObject:
   - component: {fileID: 33203592260622496}
   - component: {fileID: 23942004314980874}
   - component: {fileID: 64761209748734064}
+  - component: {fileID: 1850142247458578124}
   m_Layer: 0
   m_Name: Fortification_Wall (13)
   m_TagString: Untagged
@@ -654,6 +706,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &1850142247458578124
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077870968750134}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1104853356556192
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +734,7 @@ GameObject:
   - component: {fileID: 33687765690801064}
   - component: {fileID: 23896352258180508}
   - component: {fileID: 64872159560201232}
+  - component: {fileID: 3977637476307062881}
   m_Layer: 0
   m_Name: Fortification_Wall (15)
   m_TagString: Untagged
@@ -763,6 +832,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &3977637476307062881
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104853356556192}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1132217443648924
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,6 +860,7 @@ GameObject:
   - component: {fileID: 33493453885491770}
   - component: {fileID: 23740081072851602}
   - component: {fileID: 64054501519986494}
+  - component: {fileID: 1027188206750881191}
   m_Layer: 0
   m_Name: Fortification_Wall (18)
   m_TagString: Untagged
@@ -872,6 +958,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &1027188206750881191
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132217443648924}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1239921273958326
 GameObject:
   m_ObjectHideFlags: 0
@@ -937,7 +1039,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5baa22f5badbc964daa9e698c5db6020, type: 2}
+  - {fileID: 2100000, guid: f448f05b66c5dd546a351a56d7e54bbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -993,12 +1095,13 @@ GameObject:
   - component: {fileID: 33212673379862636}
   - component: {fileID: 23777518521388360}
   - component: {fileID: 64548643820513916}
+  - component: {fileID: 1002479725863847585}
   m_Layer: 0
   m_Name: DoorR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4611498860196186
 Transform:
@@ -1090,6 +1193,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: d457474785873ec4fbb689e3ce547226, type: 3}
+--- !u!208 &1002479725863847585
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250054851182826}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.75600004, y: 1.2700001, z: 0.098000005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.72400004, y: -0.98, z: -0.067}
+  m_TimeToStationary: 0.5
 --- !u!1 &1264669471860740
 GameObject:
   m_ObjectHideFlags: 0
@@ -1102,6 +1221,7 @@ GameObject:
   - component: {fileID: 33824440541830098}
   - component: {fileID: 23979935256493032}
   - component: {fileID: 64687649741947298}
+  - component: {fileID: 2339171819154893958}
   m_Layer: 0
   m_Name: Fortification_Tower_Corner (3)
   m_TagString: Untagged
@@ -1199,6 +1319,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 08c3528eac59116488f8a2b487773f06, type: 3}
+--- !u!208 &2339171819154893958
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264669471860740}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.6150001, y: 3.1850002, z: 1.616}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.024, y: 3.028, z: 0.003}
+  m_TimeToStationary: 0.5
 --- !u!1 &1267971499720158
 GameObject:
   m_ObjectHideFlags: 0
@@ -1211,6 +1347,7 @@ GameObject:
   - component: {fileID: 33645324291795650}
   - component: {fileID: 23476503396922958}
   - component: {fileID: 64830710431745382}
+  - component: {fileID: 1595253508959912481}
   m_Layer: 0
   m_Name: Fortification_Wall (11)
   m_TagString: Untagged
@@ -1308,6 +1445,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &1595253508959912481
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267971499720158}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1329276530952936
 GameObject:
   m_ObjectHideFlags: 0
@@ -1320,6 +1473,7 @@ GameObject:
   - component: {fileID: 33838100840864354}
   - component: {fileID: 23657550009416696}
   - component: {fileID: 64140751806748662}
+  - component: {fileID: 2815131201650680092}
   m_Layer: 0
   m_Name: Fortification_Tower_Corner
   m_TagString: Untagged
@@ -1417,6 +1571,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 08c3528eac59116488f8a2b487773f06, type: 3}
+--- !u!208 &2815131201650680092
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329276530952936}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.6150001, y: 3.1850002, z: 1.616}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.024, y: 3.028, z: 0.003}
+  m_TimeToStationary: 0.5
 --- !u!1 &1333389376758186
 GameObject:
   m_ObjectHideFlags: 0
@@ -1428,6 +1598,7 @@ GameObject:
   - component: {fileID: 4313953927845600}
   - component: {fileID: 2113290830505940080}
   - component: {fileID: 1553739500447494689}
+  - component: {fileID: 7690270919941341618}
   m_Layer: 0
   m_Name: gate
   m_TagString: Untagged
@@ -1470,7 +1641,7 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_UpdateMode: 0
-  m_CullingType: 1
+  m_CullingType: 0
 --- !u!65 &1553739500447494689
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1492,6 +1663,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 2, z: 5}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &7690270919941341618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333389376758186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fc839c262452044991447a53dc2dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animation: {fileID: 2113290830505940080}
 --- !u!1 &1371716770224732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,13 +1703,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371716770224732}
   serializedVersion: 2
-  m_LocalRotation: {x: -4.3209876e-12, y: 1, z: 0.000000037748965, w: 0.0001144409}
-  m_LocalPosition: {x: -11.58, y: 0, z: 1.915}
+  m_LocalRotation: {x: -0.0014716332, y: 0.98859173, z: -0.15023297, w: 0.010687598}
+  m_LocalPosition: {x: -11.586182, y: -0.03668976, z: 2.897705}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2407654620455289446}
-  m_LocalEulerAnglesHint: {x: 0, y: 179.98701, z: 0}
+  m_LocalEulerAnglesHint: {x: 17.278, y: 178.705, z: -0.367}
 --- !u!33 &33906004219455936
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1557,7 +1741,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5baa22f5badbc964daa9e698c5db6020, type: 2}
+  - {fileID: 2100000, guid: f448f05b66c5dd546a351a56d7e54bbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1666,7 +1850,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5baa22f5badbc964daa9e698c5db6020, type: 2}
+  - {fileID: 2100000, guid: f448f05b66c5dd546a351a56d7e54bbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1722,6 +1906,7 @@ GameObject:
   - component: {fileID: 33856936084600670}
   - component: {fileID: 23650911703482210}
   - component: {fileID: 64141042429798580}
+  - component: {fileID: 7110406521314650766}
   m_Layer: 0
   m_Name: Fortification_Wall (16)
   m_TagString: Untagged
@@ -1819,6 +2004,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &7110406521314650766
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407775678185466}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1495485036032924
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,6 +2032,7 @@ GameObject:
   - component: {fileID: 33498893374496304}
   - component: {fileID: 23165086982046488}
   - component: {fileID: 64075943186249302}
+  - component: {fileID: 6001617738501408473}
   m_Layer: 0
   m_Name: Fortification_Wall (17)
   m_TagString: Untagged
@@ -1928,6 +2130,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &6001617738501408473
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495485036032924}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1507993536217902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1993,7 +2211,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5baa22f5badbc964daa9e698c5db6020, type: 2}
+  - {fileID: 2100000, guid: f448f05b66c5dd546a351a56d7e54bbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2049,6 +2267,7 @@ GameObject:
   - component: {fileID: 33129904524372070}
   - component: {fileID: 23006105597731688}
   - component: {fileID: 64879942210389144}
+  - component: {fileID: 7733308446821358330}
   m_Layer: 0
   m_Name: Fortification_Wall (7)
   m_TagString: Untagged
@@ -2146,6 +2365,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &7733308446821358330
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544242054172126}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1547696994510106
 GameObject:
   m_ObjectHideFlags: 0
@@ -2158,6 +2393,7 @@ GameObject:
   - component: {fileID: 33763586818475380}
   - component: {fileID: 23833802275639418}
   - component: {fileID: 64032943561584780}
+  - component: {fileID: 475514254360142881}
   m_Layer: 0
   m_Name: Fortification_Tower_Front
   m_TagString: Untagged
@@ -2255,6 +2491,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 7d3c4adb8b7966e4fb2a5956db83a701, type: 3}
+--- !u!208 &475514254360142881
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547696994510106}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.18, y: 3.1850002, z: 1.6150001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.007, y: 3.028, z: -0.014}
+  m_TimeToStationary: 0.5
 --- !u!1 &1574927339251700
 GameObject:
   m_ObjectHideFlags: 0
@@ -2376,6 +2628,7 @@ GameObject:
   - component: {fileID: 33786873113919312}
   - component: {fileID: 23192446728704348}
   - component: {fileID: 64959680403706614}
+  - component: {fileID: 319372258730491695}
   m_Layer: 0
   m_Name: Fortification_Tower_Corner (2)
   m_TagString: Untagged
@@ -2473,6 +2726,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 08c3528eac59116488f8a2b487773f06, type: 3}
+--- !u!208 &319372258730491695
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596080775761102}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.6150001, y: 3.1850002, z: 1.616}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.024, y: 3.028, z: 0.003}
+  m_TimeToStationary: 0.5
 --- !u!1 &1622724539205910
 GameObject:
   m_ObjectHideFlags: 0
@@ -2485,6 +2754,7 @@ GameObject:
   - component: {fileID: 33574162931234468}
   - component: {fileID: 23098416373996502}
   - component: {fileID: 64282956104806920}
+  - component: {fileID: 4620520918895069338}
   m_Layer: 0
   m_Name: Fortification_Wall (6)
   m_TagString: Untagged
@@ -2582,6 +2852,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &4620520918895069338
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622724539205910}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1632452950379892
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,6 +2880,7 @@ GameObject:
   - component: {fileID: 33235423658420438}
   - component: {fileID: 23812957518436390}
   - component: {fileID: 64819039187926262}
+  - component: {fileID: 6674419980587654233}
   m_Layer: 0
   m_Name: Fortification_Wall (9)
   m_TagString: Untagged
@@ -2691,6 +2978,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &6674419980587654233
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632452950379892}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1634889274528252
 GameObject:
   m_ObjectHideFlags: 0
@@ -2703,6 +3006,7 @@ GameObject:
   - component: {fileID: 33405801585885570}
   - component: {fileID: 23774317734197042}
   - component: {fileID: 64008271383845204}
+  - component: {fileID: 3470410669206127349}
   m_Layer: 0
   m_Name: Fortification_Wall (5)
   m_TagString: Untagged
@@ -2800,6 +3104,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &3470410669206127349
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1634889274528252}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1654328617211498
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,6 +3132,7 @@ GameObject:
   - component: {fileID: 33515586136009756}
   - component: {fileID: 23595815837458798}
   - component: {fileID: 64303693313010782}
+  - component: {fileID: 6565165770670039319}
   m_Layer: 0
   m_Name: Fortification_Wall (12)
   m_TagString: Untagged
@@ -2909,6 +3230,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &6565165770670039319
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654328617211498}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.684}
+  m_TimeToStationary: 0.5
 --- !u!1 &1678185745943948
 GameObject:
   m_ObjectHideFlags: 0
@@ -2969,13 +3306,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1783410971455826}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00000002668625, y: 0.70727384, z: 0.000000026698865, w: -0.7069397}
-  m_LocalPosition: {x: -13.95, y: 0, z: 7.65}
+  m_LocalRotation: {x: -0.068651855, y: 0.6908842, z: -0.13522315, w: -0.7068809}
+  m_LocalPosition: {x: -12.878, y: -0.164, z: 7.786133}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2407654620455289446}
-  m_LocalEulerAnglesHint: {x: 0, y: 269.973, z: 0}
+  m_LocalEulerAnglesHint: {x: 16.493, y: 272.148, z: 5.765}
 --- !u!33 &33656155911907370
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3007,7 +3344,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5baa22f5badbc964daa9e698c5db6020, type: 2}
+  - {fileID: 2100000, guid: f448f05b66c5dd546a351a56d7e54bbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3116,7 +3453,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5baa22f5badbc964daa9e698c5db6020, type: 2}
+  - {fileID: 2100000, guid: f448f05b66c5dd546a351a56d7e54bbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3172,6 +3509,7 @@ GameObject:
   - component: {fileID: 33167751216895078}
   - component: {fileID: 23657878842985450}
   - component: {fileID: 64850261421564360}
+  - component: {fileID: 7660170466949248141}
   m_Layer: 0
   m_Name: Fortification_Wall (8)
   m_TagString: Untagged
@@ -3269,6 +3607,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &7660170466949248141
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825062413305236}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1854921548086450
 GameObject:
   m_ObjectHideFlags: 0
@@ -3281,6 +3635,7 @@ GameObject:
   - component: {fileID: 33344598978667692}
   - component: {fileID: 23244288782933988}
   - component: {fileID: 64307319001011158}
+  - component: {fileID: 2247505775011089518}
   m_Layer: 0
   m_Name: Fortification_Wall (4)
   m_TagString: Untagged
@@ -3378,6 +3733,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &2247505775011089518
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854921548086450}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1856960373630696
 GameObject:
   m_ObjectHideFlags: 0
@@ -3390,12 +3761,13 @@ GameObject:
   - component: {fileID: 33292811851490138}
   - component: {fileID: 23917453801206596}
   - component: {fileID: 64508708673159574}
+  - component: {fileID: 357209862386845945}
   m_Layer: 0
   m_Name: DoorL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4585073014591822
 Transform:
@@ -3487,6 +3859,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300004, guid: d457474785873ec4fbb689e3ce547226, type: 3}
+--- !u!208 &357209862386845945
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856960373630696}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.75600004, y: 1.2700001, z: 0.098000005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.72400004, y: -0.98, z: -0.067}
+  m_TimeToStationary: 0.5
 --- !u!1 &1870644728130062
 GameObject:
   m_ObjectHideFlags: 0
@@ -3499,6 +3887,7 @@ GameObject:
   - component: {fileID: 33305957281225630}
   - component: {fileID: 23222122442275620}
   - component: {fileID: 64735252343467446}
+  - component: {fileID: 2687222989175649476}
   m_Layer: 0
   m_Name: Fortification_Wall (3)
   m_TagString: Untagged
@@ -3596,6 +3985,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &2687222989175649476
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870644728130062}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1874474847863984
 GameObject:
   m_ObjectHideFlags: 0
@@ -3608,6 +4013,7 @@ GameObject:
   - component: {fileID: 33722954463585586}
   - component: {fileID: 23822111644916324}
   - component: {fileID: 64188821754501708}
+  - component: {fileID: 3232591573093213881}
   m_Layer: 0
   m_Name: Fortification_Wall
   m_TagString: Untagged
@@ -3705,6 +4111,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &3232591573093213881
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874474847863984}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1878475020882018
 GameObject:
   m_ObjectHideFlags: 0
@@ -3717,6 +4139,7 @@ GameObject:
   - component: {fileID: 33590928994870084}
   - component: {fileID: 23647093930322294}
   - component: {fileID: 64105316117521058}
+  - component: {fileID: 1522928683994558299}
   m_Layer: 0
   m_Name: Fortification_Tower_Front (1)
   m_TagString: Untagged
@@ -3814,6 +4237,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 7d3c4adb8b7966e4fb2a5956db83a701, type: 3}
+--- !u!208 &1522928683994558299
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878475020882018}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.155, y: 3.1850002, z: 1.6150001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.007, y: 3.028, z: -0.014}
+  m_TimeToStationary: 0.5
 --- !u!1 &1910068640665368
 GameObject:
   m_ObjectHideFlags: 0
@@ -3879,7 +4318,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5baa22f5badbc964daa9e698c5db6020, type: 2}
+  - {fileID: 2100000, guid: f448f05b66c5dd546a351a56d7e54bbd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3935,6 +4374,7 @@ GameObject:
   - component: {fileID: 33658562438609916}
   - component: {fileID: 23496949614143752}
   - component: {fileID: 64757584333699516}
+  - component: {fileID: 6668512868682497611}
   m_Layer: 0
   m_Name: Fortification_Tower_Corner (1)
   m_TagString: Untagged
@@ -4032,6 +4472,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 08c3528eac59116488f8a2b487773f06, type: 3}
+--- !u!208 &6668512868682497611
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942877409903800}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.6150001, y: 3.1850002, z: 1.616}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.024, y: 3.028, z: 0.003}
+  m_TimeToStationary: 0.5
 --- !u!1 &1946860145597396
 GameObject:
   m_ObjectHideFlags: 0
@@ -4044,6 +4500,7 @@ GameObject:
   - component: {fileID: 33089013414025798}
   - component: {fileID: 23170267917791082}
   - component: {fileID: 64077093459151370}
+  - component: {fileID: 3060214951709488683}
   m_Layer: 0
   m_Name: Fortification_Wall (2)
   m_TagString: Untagged
@@ -4141,6 +4598,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &3060214951709488683
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946860145597396}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.683}
+  m_TimeToStationary: 0.5
 --- !u!1 &1952140861508914
 GameObject:
   m_ObjectHideFlags: 0
@@ -4153,6 +4626,7 @@ GameObject:
   - component: {fileID: 33751382598214994}
   - component: {fileID: 23408937360506978}
   - component: {fileID: 64350421346203318}
+  - component: {fileID: 4023002503188463937}
   m_Layer: 0
   m_Name: Fortification_Tower_Front (3)
   m_TagString: Untagged
@@ -4250,6 +4724,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 7d3c4adb8b7966e4fb2a5956db83a701, type: 3}
+--- !u!208 &4023002503188463937
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952140861508914}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.616, y: 3.1850002, z: 1.6150001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.007, y: 3.028, z: -0.014}
+  m_TimeToStationary: 0.5
 --- !u!1 &1990764478637362
 GameObject:
   m_ObjectHideFlags: 0
@@ -4262,6 +4752,7 @@ GameObject:
   - component: {fileID: 33433735334154384}
   - component: {fileID: 23971795471212900}
   - component: {fileID: 64621508790272742}
+  - component: {fileID: 798265539692003199}
   m_Layer: 0
   m_Name: Fortification_Wall (10)
   m_TagString: Untagged
@@ -4359,6 +4850,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 9414f6bab5a827d4dba78882f9fa81fd, type: 3}
+--- !u!208 &798265539692003199
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990764478637362}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.055, y: 2.0080001, z: 0.80700004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.011000001, y: 1.9050001, z: 0.684}
+  m_TimeToStationary: 0.5
 --- !u!1 &2891276436873943822
 GameObject:
   m_ObjectHideFlags: 0
