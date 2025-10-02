@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class BsseManager : MonoBehaviour
 {
+    public GameObject fortButtons;
+    public GameObject fortPartButtons;
     public GameObject BasePanel;
     public Fortification[] fortifications;
     [HideInInspector]public Fortification currentFortification;

@@ -3544,6 +3544,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FortificationForest
       objectReference: {fileID: 0}
+    - target: {fileID: 1678185745943948, guid: 785a9490449c6894ca2821159f46fc6d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4510011695960072, guid: 785a9490449c6894ca2821159f46fc6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 196.21472
@@ -4125,6 +4129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50ae29e60c9e6544d9e318565b178202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BasePanel: {fileID: 1710493183}
   fortifications:
   - {fileID: 1419877267}
   - {fileID: 1983996590}
@@ -7873,11 +7878,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7579517724909681799, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 70
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7579517724909681799, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7579517724909681799, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -9215,6 +9220,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FortificationBeach
       objectReference: {fileID: 0}
+    - target: {fileID: 1678185745943948, guid: 785a9490449c6894ca2821159f46fc6d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4510011695960072, guid: 785a9490449c6894ca2821159f46fc6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.865723
@@ -9854,6 +9863,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d783c8e68d9376c40a4ad2e316e9e6db, type: 3}
+--- !u!1 &1710493183 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4819214492803315387, guid: 257ecfcc84ab34744973fdd92eca43c0, type: 3}
+  m_PrefabInstance: {fileID: 1249940697}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1736979307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10560,6 +10574,10 @@ PrefabInstance:
     - target: {fileID: 1678185745943948, guid: 785a9490449c6894ca2821159f46fc6d, type: 3}
       propertyPath: m_Name
       value: FortificationMountain
+      objectReference: {fileID: 0}
+    - target: {fileID: 1678185745943948, guid: 785a9490449c6894ca2821159f46fc6d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4510011695960072, guid: 785a9490449c6894ca2821159f46fc6d, type: 3}
       propertyPath: m_LocalPosition.x
