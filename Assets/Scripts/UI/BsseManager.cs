@@ -24,4 +24,9 @@ public class BsseManager : MonoBehaviour
 
         }
     }
+
+    public void BuildParts(GameObject part)
+    {
+        currentFortification.BuildParts(part);
+    }
 }
