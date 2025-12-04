@@ -1,5 +1,6 @@
 using MagicPigGames;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DroneControl : MonoBehaviour
@@ -7,6 +8,9 @@ public class DroneControl : MonoBehaviour
     private float side;
     private float forward;
     private float vertical;
+    private bool accelerate;
+    public float deceleration;
+    public float rotationSpeed;
     private Rigidbody rb;
     public float speed;
 
@@ -19,23 +23,29 @@ public class DroneControl : MonoBehaviour
     {
         ReadInput();
         Rotation();
+        HorizontalMovement();
     }
     private void FixedUpdate()
     {
         Movement();
+        VerticalMovement();
+
     }
     private void HorizontalMovement()
     {
-
+        transform.Rotate(forward * rotationSpeed * Time.deltaTime, 0, -side * rotationSpeed * Time.deltaTime, Space.Self);
     }
     private void VerticalMovement() 
     {
-
+        Vector3 move = transform.up * vertical * speed;
+        move *= Time.fixedDeltaTime;
+        rb.linearVelocity += move;
     } 
     private void ReadInput()
     {
         side = Input.GetAxis("Horizontal");
         forward = Input.GetAxis("Vertical");
+        accelerate = Input.GetKey(KeyCode.LeftShift);
         if (Input.GetKey(KeyCode.Space))
         {
             vertical = 1;
@@ -51,13 +61,14 @@ public class DroneControl : MonoBehaviour
     }
     private void Movement()
     {
-        Vector3 move = transform.forward * forward + transform.right * side + transform.up * vertical;
+        Vector3 move = transform.forward * speed*(accelerate ? 1 : 0);
         move *= Time.fixedDeltaTime;
-        //rb.MovePosition(transform.position + move*speed);
-        rb.linearVelocity += move*speed;
+        rb.linearVelocity += move;
+        var delta = 1 - deceleration * Time.fixedDeltaTime;
+        rb.linearVelocity *= delta;
     }
     private void Rotation()
     {
-        //transform.rotation=Camera.main.transform.rotation;
+        
     }
 }
