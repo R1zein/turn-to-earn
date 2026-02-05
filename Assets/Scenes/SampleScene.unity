@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deceleration: 0.1
   rotationSpeed: 240
+  restoreSpeed: 80
   speed: 150
   maxTilt: 45
   yawRate: 30

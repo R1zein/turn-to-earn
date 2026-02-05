@@ -12,6 +12,7 @@ public class DroneControl : MonoBehaviour
     private bool accelerate;
     public float deceleration;
     public float rotationSpeed;
+    public float restoreSpeed;
     private Rigidbody rb;
     public float speed;
     private Vector3 movementDirection;
@@ -99,6 +100,11 @@ public class DroneControl : MonoBehaviour
     }
     private void Rotation()
     {
+        if (accelerate == false)
+        {
+            return;
+        }
+
         float roll = GetSignedAngle(transform. eulerAngles.z);
         float pitch = GetSignedAngle(transform.eulerAngles.x);
 
@@ -111,23 +117,27 @@ public class DroneControl : MonoBehaviour
 
     private void RestoreRotation()
     {
-        if(accelerate == false)
+
+        var z = GetSignedAngle(transform.eulerAngles.z);
+        var angles = transform.eulerAngles;
+        var delta = restoreSpeed * Time.deltaTime;
+        if (Mathf.Abs(z) < 1 && side == 0)
         {
-            var z = GetSignedAngle(transform.eulerAngles.z);
-            var delta = rotationSpeed * Time.deltaTime;
-            if(z!=0)
-            {
-                if (z < 0f)
-                {
-                    transform.Rotate(0, 0, delta, Space.Self);
-                }
-                else
-                {
-                    transform.Rotate(0, 0, -delta, Space.Self);
-                }
-            }
-            
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0);
+            z = 0;
         }
+        if(z!=0)
+        {
+            if (z < 0f)
+            {
+                transform.Rotate(0, 0, delta, Space.Self);
+            }
+            else
+            {
+                transform.Rotate(0, 0, -delta, Space.Self);
+            }
+        }
+
     }
 
     private float GetSignedAngle(float angle)
