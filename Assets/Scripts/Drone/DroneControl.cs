@@ -2,6 +2,7 @@ using MagicPigGames;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class DroneControl : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class DroneControl : MonoBehaviour
     public float rotationSpeed;
     private Rigidbody rb;
     public float speed;
+    private Vector3 movementDirection;
+
+    public float maxTilt = 45f;
+    public float yawRate = 30f;
 
     private void Awake()
     {
@@ -24,6 +29,7 @@ public class DroneControl : MonoBehaviour
         ReadInput();
         Rotation();
         HorizontalMovement();
+        RestoreRotation();
     }
     private void FixedUpdate()
     {
@@ -33,7 +39,28 @@ public class DroneControl : MonoBehaviour
     }
     private void HorizontalMovement()
     {
-        transform.Rotate(forward * rotationSpeed * Time.deltaTime, 0, -side * rotationSpeed * Time.deltaTime, Space.Self);
+        Vector3 euler = transform.eulerAngles;
+        float currentPitch = GetSignedAngle(euler.x);
+        float currentRoll = GetSignedAngle(euler.z);
+
+        float pitchDelta = forward * rotationSpeed * Time.deltaTime;
+        float rollDelta = -side * rotationSpeed * Time.deltaTime;
+
+        float newPitch = currentPitch + pitchDelta;
+        float newRoll = currentRoll + rollDelta;
+
+        if (Mathf.Abs(newPitch) > maxTilt)
+        {
+            pitchDelta = Mathf.Clamp(newPitch, -maxTilt, maxTilt) - currentPitch;
+        }
+
+        if (Mathf.Abs(newRoll) > maxTilt)
+        {
+            rollDelta = Mathf.Clamp(newRoll, -maxTilt, maxTilt) - currentRoll;
+        }
+
+        transform.Rotate(pitchDelta, 0f, rollDelta, Space.Self);
+
     }
     private void VerticalMovement() 
     {
@@ -61,7 +88,10 @@ public class DroneControl : MonoBehaviour
     }
     private void Movement()
     {
-        Vector3 move = transform.forward * speed*(accelerate ? 1 : 0);
+        float roll = GetSignedAngle(transform.eulerAngles.z);
+        movementDirection = Quaternion.Euler(0f, -roll / 2f, 0f) * transform. forward;
+
+        Vector3 move = movementDirection * speed*(accelerate ? 1 : 0);
         move *= Time.fixedDeltaTime;
         rb.linearVelocity += move;
         var delta = 1 - deceleration * Time.fixedDeltaTime;
@@ -69,6 +99,41 @@ public class DroneControl : MonoBehaviour
     }
     private void Rotation()
     {
-        
+        float roll = GetSignedAngle(transform. eulerAngles.z);
+        float pitch = GetSignedAngle(transform.eulerAngles.x);
+
+        float cosValue = Mathf.Abs(Mathf.Cos(pitch * Mathf.Deg2Rad));
+        float yawDelta = -(roll / maxTilt) * yawRate * cosValue * cosValue * Time.deltaTime;
+
+        transform.Rotate(0f, yawDelta, 0f, Space.World);
+
+    }
+
+    private void RestoreRotation()
+    {
+        if(accelerate == false)
+        {
+            var z = GetSignedAngle(transform.eulerAngles.z);
+            var delta = rotationSpeed * Time.deltaTime;
+            if(z!=0)
+            {
+                if (z < 0f)
+                {
+                    transform.Rotate(0, 0, delta, Space.Self);
+                }
+                else
+                {
+                    transform.Rotate(0, 0, -delta, Space.Self);
+                }
+            }
+            
+        }
+    }
+
+    private float GetSignedAngle(float angle)
+    {
+        angle %= 360f;
+        if (angle > 180f) angle -= 360f;
+        return angle;
     }
 }
