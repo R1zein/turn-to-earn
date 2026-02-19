@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters;
 using System;
 using UnityEngine;
 
-public class Hovl_Laser : MonoBehaviour
+public class HovlLaser : MonoBehaviour
 {
     public int damageOverTime = 30;
 
@@ -118,6 +118,23 @@ public class Hovl_Laser : MonoBehaviour
             {
                 if (AllPs.isPlaying) AllPs.Stop();
             }
+        }
+    }
+
+    public void EnablePrepare()
+    {
+        if (Laser != null)
+        {
+            Laser.enabled = true;
+        }
+        UpdateSaver = false;
+        if (Effects != null)
+        {
+            foreach (var AllPs in Effects)
+            {
+                AllPs.Play();
+            }
+
         }
     }
 }

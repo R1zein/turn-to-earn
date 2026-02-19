@@ -5,6 +5,7 @@ public class DroneCamera : MonoBehaviour
     private Camera camera;
     public float distance;
     public float height;
+    public bool lookAtTarget = true;
 
 
     private void Awake()
@@ -15,6 +16,9 @@ public class DroneCamera : MonoBehaviour
     {
         Vector3 targetPosition = transform.position - transform.forward * distance + transform.up * height;
         camera.transform.position = targetPosition;
-        camera.transform.LookAt(transform.position, Vector3.up);
+        if (lookAtTarget)
+            camera.transform.LookAt(transform.position, Vector3.up);
+        
+        
     }
 }

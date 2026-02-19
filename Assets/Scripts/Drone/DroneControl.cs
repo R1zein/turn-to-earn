@@ -16,6 +16,7 @@ public class DroneControl : MonoBehaviour
     private Rigidbody rb;
     public float speed;
     private Vector3 movementDirection;
+    public HovlLaser laser;
 
     public float maxTilt = 45f;
     public float yawRate = 30f;
@@ -31,6 +32,7 @@ public class DroneControl : MonoBehaviour
         Rotation();
         HorizontalMovement();
         RestoreRotation();
+        Shooting();
     }
     private void FixedUpdate()
     {
@@ -145,5 +147,19 @@ public class DroneControl : MonoBehaviour
         angle %= 360f;
         if (angle > 180f) angle -= 360f;
         return angle;
+    }
+
+    
+    public void Shooting()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            laser.EnablePrepare();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            laser.DisablePrepare();
+        }
     }
 }

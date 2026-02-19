@@ -128,7 +128,7 @@ Material:
     - _NormalScale: 1
     - _Opacity: 1
     - _OpaqueCullMode: 2
-    - _QueueControl: -1
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _RayTracing: 0
     - _ReceivesSSR: 1

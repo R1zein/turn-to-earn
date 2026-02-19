@@ -20,7 +20,7 @@ public class Hovl_DemoLasers : MonoBehaviour
 
     private int Prefab;
     private GameObject Instance;
-    private Hovl_Laser LaserScript;
+    private HovlLaser LaserScript;
     private Hovl_Laser2 LaserScript2;
 
     //Double-click protection
@@ -43,7 +43,7 @@ public class Hovl_DemoLasers : MonoBehaviour
             Destroy(Instance);
             Instance = Instantiate(Prefabs[Prefab], FirePoint.transform.position, FirePoint.transform.rotation);
             Instance.transform.parent = transform;
-            LaserScript = Instance.GetComponent<Hovl_Laser>();
+            LaserScript = Instance.GetComponent<HovlLaser>();
             LaserScript2 = Instance.GetComponent<Hovl_Laser2>();
         }
 
