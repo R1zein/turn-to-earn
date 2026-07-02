@@ -17,8 +17,9 @@ Material:
   m_InvalidKeywords:
   - _ALPHABLEND_ON
   - _DOUBLESIDED_ON
+  - _EMISSION
   - _ENABLE_FOG_ON_TRANSPARENT
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
@@ -144,6 +145,7 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 10
+    - _DstBlendAlpha: 10
     - _Emission: 18
     - _EmissionEnabled: 0
     - _EnableBlendModePreserveSpecularLighting: 0
@@ -169,6 +171,7 @@ Material:
     - _SoftParticlesNearFadeDistance: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 5
+    - _SrcBlendAlpha: 1
     - _StencilRef: 0
     - _StencilRefDepth: 1
     - _StencilRefDistortionVec: 4
@@ -219,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 9
+  version: 10
 --- !u!114 &3770072344582642595
 MonoBehaviour:
   m_ObjectHideFlags: 11

@@ -16,13 +16,15 @@ public class DroneControl : MonoBehaviour
     private Rigidbody rb;
     public float speed;
     private Vector3 movementDirection;
-    public HovlLaser laser;
+    private DroneShooting shooting;
+    
 
     public float maxTilt = 45f;
     public float yawRate = 30f;
 
     private void Awake()
     {
+        shooting = GetComponent<DroneShooting>();
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -149,17 +151,10 @@ public class DroneControl : MonoBehaviour
         return angle;
     }
 
-    
+
     public void Shooting()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            laser.EnablePrepare();
-        }
+        shooting.Shoot();
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            laser.DisablePrepare();
-        }
     }
 }
