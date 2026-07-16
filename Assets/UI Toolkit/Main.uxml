@@ -1,0 +1,17 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Cyberpunk.uss?fileID=7433441132597879392&amp;guid=7f4a2e9b6c1d48a3b5e07f21c94d63ae&amp;type=3#Cyberpunk" />
+    <ui:Template name="DroneStats" src="project://database/Assets/UI%20Toolkit/DroneStats.uxml?fileID=9197481963319205126&amp;guid=e3b1c7a9d24f4e8ab6f05c1d9a72f3b4&amp;type=3#DroneStats" />
+    <ui:Instance template="DroneStats" name="DroneStatsPanel" picking-mode="Ignore" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;" />
+    <ui:VisualElement name="Boresight" class="cyber-boresight" picking-mode="Ignore">
+        <ui:VisualElement name="BoresightDiamond" class="cyber-boresight__diamond" picking-mode="Ignore" />
+        <ui:VisualElement name="BoresightDot" class="cyber-boresight__dot" picking-mode="Ignore" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Scope" class="cyber-reticle" picking-mode="Ignore">
+        <ui:VisualElement name="ScopeRing" class="cyber-reticle__ring" picking-mode="Ignore" />
+        <ui:VisualElement name="ScopeTickTop" class="cyber-reticle__tick cyber-reticle__tick--top" picking-mode="Ignore" />
+        <ui:VisualElement name="ScopeTickBottom" class="cyber-reticle__tick cyber-reticle__tick--bottom" picking-mode="Ignore" />
+        <ui:VisualElement name="ScopeTickLeft" class="cyber-reticle__tick cyber-reticle__tick--left" picking-mode="Ignore" />
+        <ui:VisualElement name="ScopeTickRight" class="cyber-reticle__tick cyber-reticle__tick--right" picking-mode="Ignore" />
+        <ui:VisualElement name="ScopeDot" class="cyber-reticle__dot" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>

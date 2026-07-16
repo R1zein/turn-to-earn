@@ -1,0 +1,205 @@
+/* Cyberpunk HUD kit: dark translucent surfaces, neon cyan edges, magenta accents.
+   Shared by the telemetry panel and the reticles.
+
+   The palette is declared on every component root rather than on :root, so a
+   subtree gets it no matter which document the sheet is attached to. */
+
+.cyber-panel,
+.cyber-reticle,
+.cyber-boresight {
+    --cyber-accent: rgb(0, 255, 213);
+    --cyber-accent-dim: rgba(0, 255, 213, 0.3);
+    --cyber-accent-line: rgba(0, 255, 213, 0.25);
+    --cyber-hot: rgb(255, 46, 136);
+    --cyber-caption: rgba(126, 196, 214, 0.75);
+    --cyber-surface: rgba(4, 10, 16, 0.82);
+}
+
+/* ---- panel ------------------------------------------------------------ */
+
+.cyber-panel {
+    width: 300px;
+    padding: 12px 14px 14px 14px;
+    background-color: var(--cyber-surface);
+    border-radius: 20px;
+
+    /* thick lit edge on the left, hairline glow around the rest */
+    border-left-width: 3px;
+    border-left-color: var(--cyber-accent);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-top-color: var(--cyber-accent-dim);
+    border-right-color: var(--cyber-accent-dim);
+    border-bottom-color: var(--cyber-accent-dim);
+}
+
+.cyber-panel--anchor-bottom-left {
+    position: absolute;
+    left: 40px;
+    bottom: 40px;
+}
+
+.cyber-panel__header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--cyber-accent-line);
+}
+
+.cyber-panel__title {
+    color: var(--cyber-accent);
+    font-size: 12px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+}
+
+.cyber-panel__dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--cyber-hot);
+}
+
+.cyber-row {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+/* the panel's own padding closes out the stack below the last row */
+.cyber-row--last {
+    margin-bottom: 0;
+}
+
+.cyber-row__caption {
+    color: var(--cyber-caption);
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.cyber-row__value {
+    color: var(--cyber-accent);
+    font-size: 16px;
+    -unity-font-style: bold;
+}
+
+.cyber-row__value--hot {
+    color: var(--cyber-hot);
+}
+
+/* ---- aim reticle (tracks the cursor) ---------------------------------- */
+
+/* Code writes left/top in panel pixels every frame; the translate keeps the
+   ring centred on that point instead of hanging off its top-left corner.
+   The 50% start is only what UI Builder and the first frame show. */
+.cyber-reticle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 44px;
+    height: 44px;
+}
+
+.cyber-reticle__ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-width: 2px;
+    border-color: var(--cyber-accent);
+    border-radius: 100%;
+}
+
+/* Children centre themselves with negative margins rather than a second
+   translate, keeping transforms off elements that already carry one. */
+.cyber-reticle__dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -2px;
+    margin-left: -2px;
+    width: 4px;
+    height: 4px;
+    background-color: var(--cyber-accent);
+    border-radius: 100%;
+}
+
+.cyber-reticle__tick {
+    position: absolute;
+    background-color: var(--cyber-accent);
+}
+
+.cyber-reticle__tick--top {
+    top: -7px;
+    left: 50%;
+    margin-left: -1px;
+    width: 2px;
+    height: 7px;
+}
+
+.cyber-reticle__tick--bottom {
+    bottom: -7px;
+    left: 50%;
+    margin-left: -1px;
+    width: 2px;
+    height: 7px;
+}
+
+.cyber-reticle__tick--left {
+    left: -7px;
+    top: 50%;
+    margin-top: -1px;
+    width: 7px;
+    height: 2px;
+}
+
+.cyber-reticle__tick--right {
+    right: -7px;
+    top: 50%;
+    margin-top: -1px;
+    width: 7px;
+    height: 2px;
+}
+
+/* ---- boresight (static, marks screen centre) -------------------------- */
+
+/* Deliberately a different shape and colour from the aim reticle - the two
+   overlap at rest, so they have to stay tellable apart. */
+.cyber-boresight {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    width: 30px;
+    height: 30px;
+}
+
+.cyber-boresight__diamond {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -10px;
+    margin-left: -10px;
+    width: 20px;
+    height: 20px;
+    rotate: 45deg;
+    border-width: 2px;
+    border-color: var(--cyber-hot);
+}
+
+.cyber-boresight__dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -2px;
+    margin-left: -2px;
+    width: 4px;
+    height: 4px;
+    background-color: var(--cyber-hot);
+}

@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor; // UI Toolkit ships its own Cursor type
 
 // War Thunder / WoT style "point-to-fly" drone control.
 //
@@ -19,11 +21,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class DroneControl : MonoBehaviour
 {
-    [Header("UI (assigned externally, Screen Space - Overlay canvas)")]
-    [SerializeField] private RectTransform aimReticle;       // desired direction, follows the cursor
-    [SerializeField] private RectTransform headingIndicator; // real forward, driven by code
-    [SerializeField] private Camera viewCamera;              // used to project forward onto screen
-    [SerializeField] private float indicatorDistance = 200f; // how far ahead forward is projected
+    [Header("UI (UI Toolkit, elements looked up by name in the HUD document)")]
+    [SerializeField] private UIDocument hud;                      // panel hosting the reticle elements
+    [SerializeField] private string aimReticleName = "Scope";     // desired direction, follows the cursor
+    [SerializeField] private string headingIndicatorName;         // real forward, driven by code; empty = unused
+    [SerializeField] private Camera viewCamera;                   // used to project forward onto screen
+    [SerializeField] private float indicatorDistance = 200f;      // how far ahead forward is projected
 
     [Header("Steering")]
     [SerializeField] private float deadZone = 0.08f;   // normalized square half-size, 0..1
@@ -38,8 +41,15 @@ public class DroneControl : MonoBehaviour
     private Rigidbody rb;
     private DroneShooting shooting;
 
+    private VisualElement aimReticle;
+    private VisualElement headingIndicator;
+    private bool hudResolved;
+
     private Vector2 aim;     // cursor offset from screen center, dead-zoned, -1..1 per axis
     private bool throttle;
+
+    private Vector3 lastPosition;
+    private float distanceTravelled;
 
     private void Awake()
     {
@@ -48,12 +58,15 @@ public class DroneControl : MonoBehaviour
         if (viewCamera == null)
             viewCamera = Camera.main;
 
+        lastPosition = rb.position;
+
         Cursor.lockState = CursorLockMode.Confined; // keep cursor in window but let it move freely
         Cursor.visible = false;                     // we draw our own reticle instead
     }
 
     private void Update()
     {
+        ResolveHud();
         ReadInput();
         UpdateReticle();
         UpdateHeadingIndicator();
@@ -66,6 +79,23 @@ public class DroneControl : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        TrackDistance();
+    }
+
+    // Telemetry read from the outside. Nothing here knows who is reading it.
+    public float GetSpeed() => rb.linearVelocity.magnitude;
+
+    public float GetAltitude() => rb.position.y; // world zero is the reference height
+
+    public float GetDistanceTravelled() => distanceTravelled;
+
+    // Sum of the per-step moves, so it measures the path actually flown rather
+    // than the straight line back to the start.
+    private void TrackDistance()
+    {
+        Vector3 position = rb.position;
+        distanceTravelled += Vector3.Distance(lastPosition, position);
+        lastPosition = position;
     }
 
     private void ReadInput()
@@ -86,11 +116,32 @@ public class DroneControl : MonoBehaviour
         if (Mathf.Abs(aim.y) < deadZone) aim.y = 0f;
     }
 
+    // The document builds its elements on its own OnEnable, which may land after ours,
+    // so grab them on the first Update that finds a live root.
+    private void ResolveHud()
+    {
+        if (hudResolved || hud == null)
+            return;
+
+        VisualElement root = hud.rootVisualElement;
+        if (root == null)
+            return;
+
+        aimReticle = FindElement(root, aimReticleName);
+        headingIndicator = FindElement(root, headingIndicatorName);
+        hudResolved = true;
+    }
+
+    private static VisualElement FindElement(VisualElement root, string name)
+    {
+        return string.IsNullOrEmpty(name) ? null : root.Q<VisualElement>(name);
+    }
+
     // Desired-direction reticle simply tracks the cursor.
     private void UpdateReticle()
     {
         if (aimReticle != null)
-            aimReticle.position = Input.mousePosition;
+            PlaceAtScreenPoint(aimReticle, Input.mousePosition);
     }
 
     // Physical-direction marker = drone forward projected onto the screen.
@@ -103,9 +154,25 @@ public class DroneControl : MonoBehaviour
         Vector3 screen = viewCamera.WorldToScreenPoint(world);
 
         bool inFront = screen.z > 0f;
-        headingIndicator.gameObject.SetActive(inFront);
+        headingIndicator.style.display = inFront ? DisplayStyle.Flex : DisplayStyle.None;
         if (inFront)
-            headingIndicator.position = screen;
+            PlaceAtScreenPoint(headingIndicator, screen);
+    }
+
+    // Screen space has Y running up from the bottom, the panel has it running down from
+    // the top, hence the flip. ScreenToPanel then undoes the panel's own scaling.
+    // The elements carry translate: -50% -50%, so left/top place their centre on the point.
+    private static void PlaceAtScreenPoint(VisualElement element, Vector2 screenPoint)
+    {
+        IPanel panel = element.panel;
+        if (panel == null)
+            return;
+
+        Vector2 local = RuntimePanelUtils.ScreenToPanel(
+            panel, new Vector2(screenPoint.x, Screen.height - screenPoint.y));
+
+        element.style.left = local.x;
+        element.style.top = local.y;
     }
 
     private void Steer()

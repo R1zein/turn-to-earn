@@ -1,0 +1,21 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Cyberpunk.uss?fileID=7433441132597879392&amp;guid=7f4a2e9b6c1d48a3b5e07f21c94d63ae&amp;type=3#Cyberpunk" />
+    <ui:VisualElement name="DroneStats" class="cyber-panel cyber-panel--anchor-bottom-left" picking-mode="Ignore">
+        <ui:VisualElement name="Header" class="cyber-panel__header" picking-mode="Ignore">
+            <ui:Label text="DRONE TELEMETRY" class="cyber-panel__title" picking-mode="Ignore" />
+            <ui:VisualElement name="StatusDot" class="cyber-panel__dot" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <ui:VisualElement name="SpeedRow" class="cyber-row" picking-mode="Ignore">
+            <ui:Label text="SPEED" class="cyber-row__caption" picking-mode="Ignore" />
+            <ui:Label name="SpeedValue" text="0.0 M/S" class="cyber-row__value" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <ui:VisualElement name="AltitudeRow" class="cyber-row" picking-mode="Ignore">
+            <ui:Label text="ALTITUDE" class="cyber-row__caption" picking-mode="Ignore" />
+            <ui:Label name="AltitudeValue" text="0.0 M" class="cyber-row__value" picking-mode="Ignore" />
+        </ui:VisualElement>
+        <ui:VisualElement name="DistanceRow" class="cyber-row cyber-row--last" picking-mode="Ignore">
+            <ui:Label text="DISTANCE" class="cyber-row__caption" picking-mode="Ignore" />
+            <ui:Label name="DistanceValue" text="0 M" class="cyber-row__value cyber-row__value--hot" picking-mode="Ignore" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
