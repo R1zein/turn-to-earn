@@ -1,121 +1,107 @@
 # Квесты и диалоги
 
-Квестовая логика собрана не в коде, а в графах **Unity Behavior**. C#-классы здесь
-— это кирпичи (условия и действия), из которых граф складывается в редакторе.
+> **Система не работает.** Квестовый граф Unity Behavior
+> (`Assets/Behaviour/Quest graph.asset`) и его blackboard (`GameVariables.asset`)
+> удалены 2026-07-02 коммитом `3c6c891` («perenos»). Вместе с графом умерла вся
+> квестовая система: квесты не выдаются, условия не проверяются, диалоги не
+> показываются. Код и ассеты вокруг графа остались — этот документ описывает,
+> что именно осталось и что из этого всё ещё исполняется.
 
-## Квест
+## Как это было устроено
 
-[`Quest`](../Assets/Scripts/Quest.cs) — абстрактный ScriptableObject:
+Логика жила в графе Unity Behavior, код давал ему кирпичи:
 
-```csharp
-public bool rewardGained;     // награда выдана
-public DialogData dialogData; // реплики
-public bool IsTaken;          // квест взят
-public int currentIndex;      // на какой реплике остановились
-public abstract bool IsQuestComplited();
-```
+- **квест** — ScriptableObject с условием выполнения (`IsQuestComplited`) и
+  ссылкой на реплики;
+- **узлы графа** — действия (показать реплику, выдать награду, создать бота) и
+  условия (квест взят, выполнен, награда выдана, реплики кончились);
+- **event-каналы** — ScriptableObject-сигналы из игры в граф («бот создан», «NPC
+  умер», «нажата кнопка диалога»);
+- **`DialogManager`** — показ реплик в uGUI-окне.
 
-Наследники (каждый — свой ассет через `CreateAssetMenu`):
+## Что осталось
 
-| Квест | Условие выполнения |
-|---|---|
-| [`FirstBotQuest`](../Assets/Scripts/Quests/FirstBotQuest.cs) | `onBotCreated.firstBotCrea6ted` |
-| [`FirstBuildQuest`](../Assets/Scripts/Quests/FirstBuildQuest.cs) | `GameManager.instance.firstBuildCreated` |
-| [`FirstKillQst`](../Assets/Scripts/Quests/FirstKillQst.cs) | `GameManager.instance.firstKillMaded` |
-| [`ResourcesQuest`](../Assets/Scripts/Quests/ResourcesQuest.cs) | набрано `stone`/`tree`/`iron` |
-
-[`KillingQuest.cs`](../Assets/Scripts/Quests/KillingQuest.cs) — пустой файл с одной
-закомментированной строкой, можно удалять.
-
-> **Главная проблема квестов:** `IsTaken`, `rewardGained` и `currentIndex` —
-> поля ScriptableObject, то есть **сохраняются в файл ассета**. Пройдя квест один
-> раз в редакторе, ты оставляешь его «взятым и завершённым» навсегда: при
-> следующем запуске он уже выполнен. Это надо чинить до того, как квестов станет
-> много — см. [Известные проблемы](known-issues.md#p1-3-состояние-игры-живёт-в-ассетах).
-
-## Диалоги
-
-[`DialogData`](../Assets/Scripts/UI/DialogData.cs) — ScriptableObject со списком
-[`CharacterSpeech`](../Assets/Scripts/UI/CharacterSpeech.cs):
-
-```csharp
-public string CharacterName;
-public Sprite CharacterSprite;
-[TextArea] public string Speech;
-```
-
-[`DialogManager`](../Assets/Scripts/UI/DialogManager.cs) показывает их по одной.
-`StartDialog(quest)` увеличивает `quest.currentIndex` и выводит соответствующую
-реплику; когда индекс перевалил за длину массива — панель закрывается.
-
-Перелистывание: [`PlayerControll`](../Assets/Scripts/Player/PlayerControll.cs)
-ловит клавишу `X` и шлёт событие `onDialogButtonPressed`, на которое реагирует
-граф.
-
-Диалоговое окно — на старом uGUI (TMP + `Image`), см. [Интерфейс](ui.md).
-
-## Event-каналы
-
-Мост между игровым кодом и графами Unity Behavior. Три канала, все —
-ScriptableObject-ассеты:
-
-| Канал | Кто шлёт | Что несёт |
+| Что | Где | Состояние |
 |---|---|---|
-| [`OnBotCreated`](../Assets/Scripts/Behaviour%20Tree/EventChannel/OnBotCreated.cs) | `ShopController` | + флаг `firstBotCrea6ted` |
-| [`OnNpcDeath`](../Assets/Scripts/Behaviour%20Tree/EventChannel/OnNpcDeath.cs) | `NPCFacade.Death` | + счётчик `countNPC` |
-| [`OnDialogButtonPressed`](../Assets/Scripts/Behaviour%20Tree/EventChannel/OnDialogButtonPressed.cs) | `PlayerControll` | — |
+| агент графа | `BehaviorGraphAgent` на [`Player.prefab`](../Assets/Prefabs/Player/Player.prefab) (сцена `Scene 5`) и на объекте в [`Tutorial`](../Assets/Scenes/Tutorial.unity) | оба ссылаются на удалённый граф — ничего не делают |
+| переменные blackboard | переопределения в `Tutorial.unity` (3 × `Quest`, 1 × `GameObject`) | висят на мёртвом агенте |
+| ассеты квестов | [`Data/Quests/`](../Assets/Data/Quests/): `FirstBotCreated.asset`, `ResourceQuest.asset` | на них никто не ссылается |
+| классы квестов | [`Quest.cs`](../Assets/Scripts/Quest.cs), [`Quests/`](../Assets/Scripts/Quests/) | условия никто не проверяет |
+| узлы графа | [`Behaviour Tree/Actions`](../Assets/Scripts/Behaviour%20Tree/Actions/) (3), [`Conditions`](../Assets/Scripts/Behaviour%20Tree/Conditions/) (5) | без графа не исполняются |
+| окно диалога | [`DialogManager`](../Assets/Scripts/UI/DialogManager.cs) на `Canvas.prefab` | вызывался только узлом `PlayQuestAction` |
+| реплики | [`DialogData`](../Assets/Scripts/UI/DialogData.cs), [`CharacterSpeech`](../Assets/Scripts/UI/CharacterSpeech.cs), ассет `Data/Dialogs/ResourceDialog.asset` | данные без потребителя |
+| event-каналы | три ассета в [`Behaviour Tree/`](../Assets/Scripts/Behaviour%20Tree/) | **исполняются**, см. ниже |
+| флаги прогресса | [`GameManager`](../Assets/Scripts/Player/GameManager.cs) (только в `Scene 5`) | читали только квесты |
+| учебные заготовки | [`Behaviour Tree/Tutorial/`](../Assets/Scripts/Behaviour%20Tree/Tutorial/) | к игре не относились и раньше |
 
-Каналы задуманы как сигналы, но в два из них **дописали состояние** — булев флаг
-и счётчик. Это то же самое сохраняемое-в-ассет состояние, что и у квестов:
-`countNPC` накапливается между сессиями.
+## Что всё ещё исполняется вхолостую
 
-## Узлы графа
+Часть кода по-прежнему срабатывает — но шлёт сигналы в пустоту: подписчиков на
+события каналов в коде нет ни одного (ни одного `.Event +=`).
 
-### Действия (`Action`)
+| Вызов | Кто и когда | Что происходит |
+|---|---|---|
+| `onNpcDeath.SendEventMessage()` | [`NPCFacade.Death`](../Assets/Scripts/AI/NPCFacade.cs) — смерть любого NPC | `countNPC++` в ассете, слушателей нет |
+| `onBotCreated.SendEventMessage()` + `firstBotCrea6ted = true` | [`ShopController.ByeBot`](../Assets/Scripts/UI/ShopController.cs) — покупка бота | слушателей нет, флаг читал только квест |
+| `onDialogButtonPressed.SendEventMessage()` | [`PlayerControll`](../Assets/Scripts/Player/PlayerControll.cs) — клавиша `X` | слушателей нет; больше этот скрипт ничего не делает |
+| `GameManager.instance.firstBuildCreated = true` | [`Inventory`](../Assets/Scripts/Player/Inventory.cs) — первая постройка | флаг читал только квест |
 
-| Узел | Что делает |
-|---|---|
-| [`PlayQuestAction`](../Assets/Scripts/Behaviour%20Tree/Actions/PlayQuestAction.cs) | помечает квест взятым, показывает реплику через `DialogManager` |
-| [`RewardGainedAction`](../Assets/Scripts/Behaviour%20Tree/Actions/RewardGainedAction.cs) | ставит `rewardGained = true` |
-| [`CreateBotAction`](../Assets/Scripts/Behaviour%20Tree/Actions/CreateBotAction.cs) | спавнит `BotDefender` у стола |
+Вреда это не приносит: каналы назначены на всех префабах, которые их вызывают
+(4 NPC, `Canvas`, `Player` — проверено), так что исключений не будет. Но это
+мёртвый код, который выглядит живым, и он держит в проекте пакет Unity Behavior.
 
-### Условия (`Condition`)
+> `GameManager` есть только в сцене `Scene 5`, а `Inventory` обращается к
+> `GameManager.instance` без проверки. Сейчас игрок с `Inventory` тоже есть только
+> в `Scene 5`, поэтому исключения нет. Но если перенести игрока в сцену без
+> `GameManager`, первая же постройка упадёт с `NullReferenceException`.
 
-| Узел | Проверяет |
-|---|---|
-| [`CheckQuestCompletionCondition`](../Assets/Scripts/Behaviour%20Tree/Conditions/CheckQuestCompletionCondition.cs) | `IsQuestComplited()` |
-| [`CheckQuestRewardCondition`](../Assets/Scripts/Behaviour%20Tree/Conditions/CheckQuestRewardCondition.cs) | `rewardGained` |
-| [`QuestTakenCondition`](../Assets/Scripts/Behaviour%20Tree/Conditions/QuestTakenCondition.cs) | `IsTaken` |
-| [`HasLastDialogCondition`](../Assets/Scripts/Behaviour%20Tree/Conditions/HasLastDialogCondition.cs) | дошли ли до конца реплик |
-| [`KeyPressedCondition`](../Assets/Scripts/Behaviour%20Tree/Conditions/KeyPressedCondition.cs) | **сломан** |
+## Как убрать останки
 
-> `KeyPressedCondition` всегда возвращает `true` независимо от клавиши — он лишь
-> пишет в консоль «pressed»/«not pressed». Это отладочная заготовка; если граф на
-> него опирается, ветка срабатывает всегда.
+Начинать с удаления пакета `com.unity.behavior` **нельзя**. Event-каналы
+наследуют `EventChannelBase` из Unity Behavior, и на их типы ссылаются игровые
+скрипты `NPCFacade`, `ShopController`, `PlayerControll`. Проект перестанет
+компилироваться, а агенты на префабе и в сцене превратятся в Missing Script.
 
-`PlayQuestAction` и `CreateBotAction` ищут `DialogManager` и `TableInterract`
-через `FindAnyObjectByType` при каждом запуске узла — дорого и ломается молча,
-если объекта нет на сцене.
+Правильный порядок. Слушателей у каналов нет, так что замена не нужна — вызовы
+просто удаляются:
+
+1. Убрать вызовы каналов и поля под них из `NPCFacade` и `ShopController`,
+   строку с флагом из `Inventory`.
+2. **Снять компоненты со сцен и префабов**, прежде чем удалять их скрипты, иначе
+   останется Missing Script:
+   - `BehaviorGraphAgent` — с `Player.prefab` и из `Tutorial` (переопределения
+     blackboard уйдут вместе с ним);
+   - `PlayerControll` — с `Player.prefab`;
+   - `DialogManager` — с `Canvas.prefab` (и его панель диалога);
+   - `GameManager` — из `Scene 5`.
+3. Удалить скрипты и ассеты: `Behaviour Tree/` целиком (узлы, каналы, их ассеты,
+   учебные заготовки), `Quest.cs`, `Quests/`, `Data/Quests/`, `PlayerControll`,
+   `DialogManager`, `GameManager`.
+4. Удалить пакет `com.unity.behavior` из `Packages/manifest.json`.
+5. **Проверка:** компиляция без ошибок, консоль чистая; в `Scene 5` — смерть NPC,
+   покупка бота, первая постройка; в `Tutorial` — сцена открывается без Missing
+   Script.
+
+`DialogData` и `CharacterSpeech` — удачный формат реплик (имя, портрет, текст). Их
+стоит оставить или удалить вместе с остальным — это решение для новой системы.
 
 ## Два источника правды о прогрессе
 
-Одинаковые по смыслу флаги хранятся в разных местах:
+Пока квесты работали, одинаковые по смыслу флаги хранились в разных местах:
 
 | Событие | Где флаг |
 |---|---|
-| Первая постройка | `GameManager.instance.firstBuildCreated` |
-| Первое убийство | `GameManager.instance.firstKillMaded` |
-| Первый бот | `OnBotCreated.firstBotCrea6ted` (ScriptableObject!) |
+| первая постройка | `GameManager.instance.firstBuildCreated` |
+| первое убийство | `GameManager.instance.firstKillMaded` (никто не выставляет) |
+| первый бот | `OnBotCreated.firstBotCrea6ted` — в ScriptableObject |
 
-При этом в `GameManager` есть и неиспользуемое поле `firstBotCreated` — то есть
-задумывалось единообразно, но бот поехал по другому пути.
+Сейчас их никто не читает. В новой системе прогресс собирается в одном месте —
+сервисе `GameProgress`, см. [Архитектуру](architecture.md#квесты).
 
-Чинить вместе с выносом состояния из ассетов, см.
-[Архитектурный план](architecture-plan.md#этап-3-состояние-из-ассетов-в-сервисы).
+## Новая система квестов
 
-## Учебные заготовки
-
-Папка [`Behaviour Tree/Tutorial/`](../Assets/Scripts/Behaviour%20Tree/Tutorial/) —
-упражнения по паттернам (`Node`, `Leaf`, `IStrategy`, `Animal`/`Cat`/`Dog`/`Mouse`,
-`BootStrap`). К игре отношения не имеют. Удалять можно целиком, когда перестанут
-быть нужны как справочник.
+Не спроектирована. Когда до неё дойдёт очередь, её делают по
+[правилам архитектуры](architecture.md#квесты): конфиг квеста — ScriptableObject
+только для чтения, состояние — в сервисе сцены, условия — обычные C#-классы,
+подписанные на события сервисов, окно диалога — контроллер на UI Toolkit. Каким
+будет сам механизм выдачи и связки квестов, план не предрешает.

@@ -13,7 +13,6 @@
   «тело» узла ресурса.
 - `AllResources` как единый тип валюты; его операторы — та самая «чистая
   математика», которой разрешена статика.
-- Unity Behavior снимает квестовую логику с кода.
 - HUD дрона уже на UI Toolkit, и в `Main.uxml` уже есть растянутый
   `<ui:Instance>` — слоистая схема из [архитектуры](architecture.md#слои) начата.
 
@@ -35,12 +34,11 @@
 | Сейчас | Станет | Роль | Этап |
 |---|---|---|---|
 | `StoredResources` (синглтон + TMP) | `ResourceWallet` + `ResourcesHudController` | сервис + UI | 2, 7 |
-| `GameManager` (синглтон) | `GameProgress` | сервис | 2 |
+| `GameManager` (синглтон, только в `Scene 5`) | удалить — флаги читали только квесты | — | 1 |
 | поиск по сцене в 8 файлах | `[Inject]` | — | 2 |
-| `Quest` с полями состояния | `Quest` (только конфиг) + `QuestProgress` | конфиг + сервис | 3 |
+| останки квестов: агенты графа, `Quest`, узлы, event-каналы, `DialogManager`, `PlayerControll` | удалить, затем пакет `com.unity.behavior` | — | 1 |
 | `TimePeriod` с полями состояния | `TimePeriod` (только конфиг) + `DayCycle` | конфиг + сервис | 3 |
 | `TimeManager` (`MonoBehaviour` + TMP) | `TimeManager : ITickable` + `TimeUIController` | сервис + UI | 3, 7 |
-| флаги в `OnBotCreated` / `OnNpcDeath` | `GameProgress` | сервис | 3 |
 | `Interract`, `ObjectPicker`, клавиши в скриптах | `InputService : ITickable` + `IInteractable` | сервис | 4 |
 | `Cursor.lockState` в трёх местах | режим курсора в `InputService` | сервис | 4 |
 | `ZombieSpawn` | `WaveService` + `EnemySpawner` | сервисы | 5 |
@@ -51,7 +49,6 @@
 | `BotNavigation` | удалить | — | 6 |
 | 4 скрипта урона | один `DamageDealer`, урон из `GameConfig` | тело + конфиг | 6 |
 | `CanvasController`, `PhpBarController` | `WorldMarkersController : ITickable` | UI | 7 |
-| `DialogManager` | `DialogPanelController` | UI | 7 |
 | `DroneStatsController` | `DroneTelemetryController : ITickable` | UI | 7 |
 | `Cyberpunk.uss` | `MainStyle.uss` с утилитарными классами | стиль | 7 |
 | `DroneControl`, `DroneCamera` | **без изменений** — тело дрона, ввод внутри | тело | только по просьбе |
@@ -68,12 +65,17 @@
    несколько строк: [`operator !=`](known-issues.md#p0-1-operator--в-allresources-даёт-неверный-результат),
    [повторная смерть](known-issues.md#p0-2-ondeath-срабатывает-многократно),
    [поиск по сцене у врагов](known-issues.md#p0-3-враги-каждый-кадр-обыскивают-всю-сцену).
-2. **Сборки.** `asmdef`: `Game.Domain` (без ссылок на Unity), `Game.Services`,
+2. **Снять останки квестовой системы.** Граф удалён ещё 2026-07-02, а вокруг
+   него остались агенты с висячей ссылкой, узлы, event-каналы без слушателей и
+   пакет Unity Behavior. Поведение игры от удаления не меняется, а этапам 2–3
+   становится нечего переводить. Порядок важен — пакет удаляется последним:
+   [пошагово](quests-and-dialogs.md#как-убрать-останки).
+3. **Сборки.** `asmdef`: `Game.Domain` (без ссылок на Unity), `Game.Services`,
    `Game.Gameplay`, `Game.UI`. Нарушение направления зависимостей становится
    ошибкой компиляции, а не вопросом дисциплины.
-3. **Тесты.** Test Framework уже в зависимостях; первые тесты — на
+4. **Тесты.** Test Framework уже в зависимостях; первые тесты — на
    `AllResources` (сравнения, сложение, вычитание): чистый C#, без сцены.
-4. **`.gitignore`** — дописать `UIElementsSchema/`.
+5. **`.gitignore`** — дописать `UIElementsSchema/`.
 
 ### Этап 2. Каркас Zenject
 
@@ -82,12 +84,12 @@
 1. **Установить Zenject.** Оригинальный репозиторий давно не обновляется — брать
    поддерживаемый форк (Extenject) и проверить на Unity 6000.3.
 2. `Resources/ProjectContext.prefab` + `ProjectInstaller` (пока почти пустой).
-3. `SceneContext` в `SampleScene` и `Tutorial`; базовый `GameplayInstaller` и
+3. `SceneContext` в `Scene 5` (основная карта) и `SampleScene` (дрон); базовый `GameplayInstaller` и
    наследники под сцены; комментарий о порядке в шапке каждого.
 4. `LevelAnchors` с точками, которые сейчас ищутся по тегу и по детям.
 5. `GameStarter` — последней строкой.
-6. Синглтоны → сервисы `AsSingle`: `StoredResources` → `ResourceWallet` (с
-   `TrySpend`), `GameManager` → `GameProgress`.
+6. Синглтон → сервис `AsSingle`: `StoredResources` → `ResourceWallet` (с
+   `TrySpend`). Второй синглтон, `GameManager`, к этому моменту удалён на этапе 1.
 7. Все `FindAnyObjectByType` / `GameObject.Find` / `instance` → `[Inject]`.
    Существующие `MonoBehaviour` сцены получают `[Inject]`-поля — `SceneContext`
    инжектит их при загрузке, переписывать их в сервисы на этом этапе не нужно.
@@ -96,8 +98,7 @@
 > места спавна этого префаба** должны в том же коммите перейти на
 > `DiContainer.InstantiatePrefab`, иначе поля останутся `null`. Это касается
 > узлов ресурсов (`ResourceSpawner`), врагов (`ZombieSpawn`), ботов
-> (`ShopController`, узел `CreateBotAction`) и построек (`Inventory`). Узел
-> Behavior получает спавнер через blackboard — см. [архитектуру](architecture.md#unity-behavior).
+> (`ShopController`) и построек (`Inventory`).
 
 **Проверка:** `grep` не находит `FindAnyObjectByType`, `GameObject.Find`,
 `.instance`; в сцене можно добыть ресурс, купить бота, поставить постройку.
@@ -107,25 +108,23 @@
 Чинит [P1-3](known-issues.md#p1-3-состояние-игры-живёт-в-ассетах).
 
 ScriptableObject остаётся **только конфигом**, состояние уезжает в сервисы
-сцены:
+сцены. После этапа 1 (квесты и event-каналы удалены) в ассетах с состоянием
+остаётся одно семейство — периоды суток:
 
 ```
-Quest (SO, только чтение)        QuestProgress (сервис сцены)
-├── dialogData                   └── по квесту: isTaken, rewardGained, currentIndex
-├── условие выполнения
-└── награда
+TimePeriod (SO, только чтение)   DayCycle (сервис сцены)
+├── границы периода              ├── dayNumber
+├── кривая освещённости          ├── прогресс текущего периода
+└── скайбокс, звук               └── события начала и конца периода
 ```
 
-- `TimePeriod` — только границы, кривая, скайбокс; `dayNumber` и прогресс — в
-  `DayCycle`. `TimeManager` становится `ITickable`.
-- Event-каналы Behavior — только сигналы; `countNPC` и `firstBotCrea6ted` — в
-  `GameProgress`.
-- Три флага первого действия (`firstBuildCreated`, `firstKillMaded`,
-  `firstBotCrea6ted`) сводятся в `GameProgress` — сейчас они живут в двух местах.
-- Узлы графа получают `QuestProgress` через blackboard.
+`TimeManager` становится `ITickable` и ведёт `DayCycle`; `ZombieSpawn` и прочие
+подписчики переходят с событий ассета на события сервиса. Новая система квестов,
+когда появится, сразу строится по этому же правилу.
 
-**Проверка:** пройти квест, перезапустить сцену — квест начинается заново;
-`git status` после выхода из play mode не показывает изменённых ассетов.
+**Проверка:** прожить несколько суток, перезапустить сцену — счёт дней и размер
+волн начинаются заново; `git status` после выхода из play mode не показывает
+изменённых ассетов.
 
 ### Этап 4. Ввод
 
@@ -138,7 +137,7 @@ Quest (SO, только чтение)        QuestProgress (сервис сце�
    панель поверх панели — закрытие верхней возвращает предыдущую).
 3. `Interactable` → интерфейс `IInteractable` (реализаций две: стол магазина и
    ворота); `Interract`, `ObjectPicker` и чтение клавиш в `Gate`, `Inventory`,
-   `ToolsSwap`, `ToolController`, `PlayerControll` уходят в события сервиса.
+   `ToolsSwap`, `ToolController` уходят в события сервиса.
 4. `EventSystem`: `StandaloneInputModule` заменить на `InputSystemUIInputModule`.
 5. **Дрон не трогаем**: его чтение мыши остаётся в `DroneControl`, пока не
    попросят перенести.
@@ -232,6 +231,9 @@ Quest (SO, только чтение)        QuestProgress (сервис сце�
 
 - **Сохранение/загрузка.** Этап 3 — предпосылка (состояние собирается в
   сервисах), но сам сейв — отдельная задача.
+- **Новая система квестов.** Старая умерла вместе с графами
+  ([что осталось](quests-and-dialogs.md)); новая проектируется отдельно по
+  [правилам архитектуры](architecture.md#квесты), когда до неё дойдёт очередь.
 - **Сетевая игра.** Нет такой цели — не закладываемся.
 - **Пулинг объектов.** Понадобится при больших волнах; у Zenject для этого есть
   `MemoryPool`, а спавнеры этапа 5 — естественное место его включить.

@@ -130,7 +130,7 @@ UI Builder по умолчанию пишет стили **инлайном в U
 | [`TimeManager`](../Assets/Scripts/TimeManager.cs) | TMP-поле с часами | `TimeUIController` |
 | [`CanvasController`](../Assets/Scripts/UI/CanvasController.cs) | мировые полоски HP (`Image.fillAmount`) | `WorldMarkersController` |
 | [`PhpBarController`](../Assets/Scripts/UI/PhpBarController.cs) | полоска HP через `Slider` | `WorldMarkersController` |
-| [`DialogManager`](../Assets/Scripts/UI/DialogManager.cs) | окно диалога | `DialogPanelController` |
+| [`DialogManager`](../Assets/Scripts/UI/DialogManager.cs) | окно диалога | удалить: вызывался только узлом удалённого графа ([квесты](quests-and-dialogs.md)) |
 | [`ShopController`](../Assets/Scripts/UI/ShopController.cs) | панели магазина | `ShopService` + `ShopPanelController` |
 | [`Inventory`](../Assets/Scripts/Player/Inventory.cs) | панель строительства | `BuildService` + `BuildPanelController` |
 | [`PriceTextBuilder`](../Assets/Scripts/Player/PriceTextBuilder.cs) | ценник постройки | рендерер варианта постройки из шаблона |
