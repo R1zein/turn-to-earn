@@ -27,7 +27,8 @@ protected void Update()
 ```
 
 Смерть: анимация `Death`, выключение коллайдера, заморозка физики, отключение
-агента, событие `onNpcDeath`, `Destroy(gameObject, 3)`.
+агента, событие `onNpcDeath` (слушателей у него нет — его слушал удалённый граф
+квестов), `Destroy(gameObject, 3)`.
 
 Поле `requiredResources` — цена этого NPC в магазине (см. [Ресурсы](resources.md#траты)).
 

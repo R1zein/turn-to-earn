@@ -47,7 +47,7 @@ public void TakeDamage(float damage)
 Флага «уже мёртв» нет. Каждый следующий удар по трупу (а он прилетит: турель и
 зоны урона продолжают бить, пока объект не уничтожен) снова поднимает `OnDeath`.
 Последствия: повторный `Destroy`, двойной спавн камеры смерти у игрока, двойной
-инкремент `countNPC`, повторные события в графы квестов.
+инкремент `countNPC`, повторное событие `onNpcDeath`.
 
 **Чинить:** флаг `isDead`, ранний выход в `TakeDamage`.
 
@@ -103,14 +103,15 @@ public void TakeDamage(float damage)
 
 | Где | Что хранится |
 |---|---|
-| [`Quest`](../Assets/Scripts/Quest.cs) | `IsTaken`, `rewardGained`, `currentIndex` |
+| [`Quest`](../Assets/Scripts/Quest.cs) | `IsTaken`, `rewardGained`, `currentIndex` — квесты мертвы |
 | [`OnBotCreated`](../Assets/Scripts/Behaviour%20Tree/EventChannel/OnBotCreated.cs) | `firstBotCrea6ted` |
 | [`OnNpcDeath`](../Assets/Scripts/Behaviour%20Tree/EventChannel/OnNpcDeath.cs) | `countNPC` |
 | [`TimePeriod`](../Assets/Scripts/TimePeriod.cs) | `dayNumber`, `currentProgress`, `wasInPeriod` |
 
-Проявление: прошёл квест в редакторе — он навсегда «взят и завершён», при
-следующем запуске диалог не начнётся. Счётчик убитых NPC растёт от сессии к
-сессии.
+Проявление: счётчик убитых NPC растёт от сессии к сессии; пока квесты работали,
+пройденный в редакторе квест оставался «взятым и завершённым» навсегда. Квесты и
+каналы удаляются на [этапе 1](architecture-plan.md#этап-1-страховка) как останки —
+после этого проблема остаётся только у `TimePeriod`.
 
 `TimePeriod` спасает только `InitSettings`, сбрасывающий поля в `Awake`.
 
@@ -221,11 +222,16 @@ Light directionlLight = GameObject.Find("Directional Light")...;    // испо�
 детей в `spawnPoints`, который уже мог быть заполнен в инспекторе. Плюс выбор
 точки случайный без повторной попытки: выпала занятая — тик спавна пропал зря.
 
-### P2-7. `KeyPressedCondition` всегда истинно
+### P2-7. Останки квестовой системы работают вхолостую
 
-[`KeyPressedCondition`](../Assets/Scripts/Behaviour%20Tree/Conditions/KeyPressedCondition.cs)
-возвращает `true` независимо от клавиши, только пишет в консоль. Если граф
-квестов на него опирается — ветка срабатывает всегда.
+Квестовый граф удалён 2026-07-02, но вокруг него остались два агента
+`BehaviorGraphAgent` с висячей ссылкой на граф (`Player.prefab` и `Tutorial`), три
+event-канала, которые игра продолжает вызывать без единого слушателя, и пакет
+Unity Behavior, который из-за этих каналов нельзя просто удалить. Исключений нет,
+но код выглядит живым и вводит в заблуждение.
+
+**Чинить:** снять останки в правильном порядке — пакет последним, см.
+[Квесты](quests-and-dialogs.md#как-убрать-останки).
 
 ### P2-8. Устаревший Input Manager
 
@@ -256,7 +262,8 @@ Unity сообщает об этом в консоли при каждом за�
 | [`DroneMain.cs`](../Assets/Scripts/Drone/DroneMain.cs) | пустой шаблон Unity |
 | [`KillingQuest.cs`](../Assets/Scripts/Quests/KillingQuest.cs) | одна закомментированная строка |
 | [`Behaviour Tree/Tutorial/`](../Assets/Scripts/Behaviour%20Tree/Tutorial/) | 9 учебных файлов, к игре не относятся |
-| [`PlayerControll.cs`](../Assets/Scripts/Player/PlayerControll.cs) | 1 полезная строка |
+| [`PlayerControll.cs`](../Assets/Scripts/Player/PlayerControll.cs) | шлёт event-канал, у которого нет слушателей |
+| квестовая система целиком | граф удалён; состав и порядок удаления — в [Квестах](quests-and-dialogs.md#что-осталось) |
 
 ### P3-2. Опечатки в именах
 
@@ -283,7 +290,8 @@ Unity сообщает об этом в консоли при каждом за�
 - `PriceTextBuilder` не показывает золото в ценнике.
 - `TimeManager` выводит время без ведущего нуля: `7:5` вместо `07:05`.
 - `GatlingGun.stats` публичное, но перезаписывается в `Awake`.
-- `GameManager.firstBotCreated` объявлено, но нигде не используется.
+- `GameManager` целиком: `firstBotCreated` не используется, `firstKillMaded` никто не
+  выставляет, `firstBuildCreated` никто не читает с тех пор, как умерли квесты.
 - `NPCNavigation.isDead` объявлено, но нигде не используется.
 - `ResourceSpawner.length` объявлено, но нигде не используется.
 - `BomberBug` взводит триггер `attack1` каждый кадр, пока цель в радиусе.

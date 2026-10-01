@@ -3,7 +3,7 @@
 Unity-проект: выживание от первого лица с добычей ресурсов, строительством базы,
 ботами-помощниками, волнами врагов по ночам и управляемым дроном.
 
-**Unity 6000.3.19f1 · URP · Input Manager (legacy) · Unity Behavior · UI Toolkit (переход с uGUI)**
+**Unity 6000.3.19f1 · URP · Input Manager (legacy) · UI Toolkit (переход с uGUI)**
 **Целевая архитектура: Zenject + UI Toolkit** — [Docs/architecture.md](Docs/architecture.md)
 
 ## Документация
@@ -24,7 +24,7 @@ Unity-проект: выживание от первого лица с добы�
 | [ИИ](Docs/ai.md) | навигация, выбор целей, боты и враги |
 | [Дрон](Docs/drone.md) | полёт, камера, стрельба, телеметрия |
 | [Время и волны](Docs/time-and-waves.md) | сутки, периоды, спавн зомби |
-| [Квесты и диалоги](Docs/quests-and-dialogs.md) | Behaviour Tree, event-каналы |
+| [Квесты и диалоги](Docs/quests-and-dialogs.md) | **не работает**: граф удалён, что осталось и как убрать |
 | [Интерфейс](Docs/ui.md) | UI Toolkit, киберпанк-стиль, остатки uGUI |
 | [Известные проблемы](Docs/known-issues.md) | найденные баги с приоритетами |
 | [Архитектурный план](Docs/architecture-plan.md) | целевая структура и этапы перехода |
