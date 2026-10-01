@@ -80,8 +80,8 @@ public void TakeDamage(float damage)
 То есть система приоритетов работает не так, как задумана: враг видит не «лучшую
 цель из всех», а «лучшую цель одного случайного типа».
 
-**Чинить:** таймер на тип цели либо один проход `OverlapSphere` с разбором всех
-нужных компонентов за раз (см. [план](architecture-plan.md#этап-5-ии-и-поиск-целей)).
+**Чинить:** быстро — таймер на каждый тип цели; по плану — один проход по реестру целей
+в `TargetingService`, все типы сразу (см. [план](architecture-plan.md#этап-6-бой-и-ии)).
 
 ### P1-2. Падение при дубликате цели
 
@@ -115,7 +115,7 @@ public void TakeDamage(float damage)
 `TimePeriod` спасает только `InitSettings`, сбрасывающий поля в `Awake`.
 
 **Чинить:** разделить «конфиг» (SO, только чтение) и «состояние» (обычные классы,
-живущие в рантайме). Это [этап 2](architecture-plan.md#этап-2-состояние-игры-из-ассетов-в-рантайм) плана.
+живущие в рантайме): сервисы сцены `AsSingle`. Это [этап 3](architecture-plan.md#этап-3-состояние-из-ассетов-в-сервисы) плана.
 
 ### P1-4. Три владельца курсора
 
@@ -128,7 +128,7 @@ public void TakeDamage(float damage)
 курсора зависит от того, кто отработал последним. Пересесть в дрон с открытой
 панелью — и курсор останется запертым.
 
-**Чинить:** один владелец режима ввода, [этап 3](architecture-plan.md#этап-3-ввод-и-режимы).
+**Чинить:** режимом курсора владеет только `InputService`, [этап 4](architecture-plan.md#этап-4-ввод).
 
 ### P1-5. Укрепление можно начать только одно
 
@@ -197,14 +197,23 @@ Light directionlLight = GameObject.Find("Directional Light")...;    // испо�
 
 **Чинить:** `protected virtual void Update()` + `override`.
 
-### P2-5. Нет защиты от пустых коллекций
+### P2-5. Обязательные данные не проверяются при старте
 
-| Где | Что упадёт |
+Пустой массив или отсутствующий компонент обнаруживается не при сборке сцены, а
+в случайный момент игры — непонятным `IndexOutOfRange` или `NullReference`
+посреди геймплея:
+
+| Где | Что упадёт и когда |
 |---|---|
-| [`ToolsSwap.cs:46`](../Assets/Scripts/Player/ToolsSwap.cs) | `tools[toolIndex]` при пустом массиве |
-| [`SoundController`](../Assets/Scripts/Player/SoundController.cs) | `miningSounds[random]` при пустом списке |
-| [`Building.TakeDamage`](../Assets/Scripts/Building.cs) | `audioClips[randomIndex]` при пустом массиве |
-| [`Selectable.Start`](../Assets/Scripts/Selectable.cs) | `outline.enabled` если нет `Outline` |
+| [`ToolsSwap.cs:46`](../Assets/Scripts/Player/ToolsSwap.cs) | `tools[toolIndex]` при пустом массиве — на старте |
+| [`SoundController`](../Assets/Scripts/Player/SoundController.cs) | `miningSounds[random]` при пустом списке — на первом ударе |
+| [`Building.TakeDamage`](../Assets/Scripts/Building.cs) | `audioClips[randomIndex]` при пустом массиве — при первом уроне |
+| [`Selectable.Start`](../Assets/Scripts/Selectable.cs) | `outline.enabled`, если нет `Outline` — на старте |
+
+**Чинить не тихой защитой** (`if (tools.Length == 0) return;` спрячет ошибку
+сборки сцены), а проверкой при инициализации, которая падает **сразу и с
+понятным сообщением** — по [правилу архитектуры](architecture.md#ловушки) про
+обязательные данные.
 
 ### P2-6. Точки спавна ресурсов дублируются
 

@@ -125,6 +125,12 @@ public float GetDistanceTravelled(); // сумма пошаговых перем
 русской локали не появились запятые вместо точек. Оформление — см.
 [Интерфейс](ui.md).
 
+**Цель** ([этап 7](architecture-plan.md#этап-7-интерфейс)): `DroneStatsController`
+из `MonoBehaviour` становится `DroneTelemetryController : ITickable` — обычным
+C#-классом в контейнере. Тик здесь оправдан: телеметрия меняется каждый кадр.
+Элементы ищутся в `Initialize` без null-проверок. Сам `DroneControl` при этом
+**не меняется**, кроме способа, которым контроллер его получает.
+
 ## HUD прицела
 
 В [`Main.uxml`](../Assets/UI%20Toolkit/Main.uxml) два элемента прицела:

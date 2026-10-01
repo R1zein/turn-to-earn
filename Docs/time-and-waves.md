@@ -82,13 +82,36 @@ for (int i = 0; i < spawnCount + timePeriod.dayNumber * 2; i++)
 
 ## Как связать новую механику со временем
 
-Правильный способ — подписаться на события периода, а не опрашивать часы:
+Подписываться на события, а не опрашивать часы. Отписываться **от того же
+события**, на которое подписался: перепутать `OnPeriodEnter` и `OnPeriodExit` —
+частая ошибка, которая молча оставляет висячую подписку.
+
+**Сейчас** события живут в ассете `TimePeriod`:
 
 ```csharp
 [SerializeField] private TimePeriod night;
 
 private void OnEnable()  => night.OnPeriodEnter += StartNightBehaviour;
-private void OnDisable() => night.OnPeriodExit  -= StartNightBehaviour; // не забыть!
+private void OnDisable() => night.OnPeriodEnter -= StartNightBehaviour; // то же событие!
 ```
 
 Отписка обязательна: события в SO переживают сцену.
+
+**Цель** ([этап 3](architecture-plan.md#этап-3-состояние-из-ассетов-в-сервисы)):
+состояние суток держит сервис сцены `DayCycle`, `TimePeriod` остаётся только
+конфигом, а подписчик — обычный класс в контейнере:
+
+```csharp
+public class NightLights : IInitializable, IDisposable
+{
+    [Inject] private DayCycle _day;
+
+    public void Initialize() => _day.OnNightStarted += TurnOn;
+    public void Dispose()    => _day.OnNightStarted -= TurnOn;
+
+    private void TurnOn() { /* ... */ }
+}
+```
+
+Сервис живёт ровно столько, сколько сцена, поэтому подписка не переживёт её
+выгрузку, даже если `Dispose` забыли.
