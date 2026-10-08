@@ -1,40 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class ToolsSwap : MonoBehaviour
 {
     public GameObject[] tools;
     private int toolIndex;
 
-    // Start is called before the first frame update
+    [Inject] private InputService input;
+
     void Start()
     {
         Swap();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) 
-        {
-            toolIndex++;
-            if(toolIndex >= tools.Length)
-            {
-                toolIndex = 0;
-            }
-            Swap();
-        }
+        input.OnToolNext += Next;
+        input.OnToolPrevious += Previous;
+    }
 
-        if (Input.GetKeyDown(KeyCode.E))
+    private void OnDisable()
+    {
+        input.OnToolNext -= Next;
+        input.OnToolPrevious -= Previous;
+    }
+
+    private void Next()
+    {
+        toolIndex++;
+        if (toolIndex >= tools.Length)
         {
-            toolIndex--;
-            if (toolIndex < 0)
-            {
-                toolIndex = tools.Length - 1;
-            }
-            Swap();
+            toolIndex = 0;
         }
+        Swap();
+    }
+
+    private void Previous()
+    {
+        toolIndex--;
+        if (toolIndex < 0)
+        {
+            toolIndex = tools.Length - 1;
+        }
+        Swap();
     }
 
     private void Swap()

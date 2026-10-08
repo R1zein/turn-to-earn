@@ -17,3 +17,5 @@ MonoBehaviour:
   dayPeriods:
   - {fileID: 11400000, guid: 9b353dbbbe553ef4db0c1e6520b053a7, type: 2}
   - {fileID: 11400000, guid: cac9b0701612a1c46b9f30ef30cebcec, type: 2}
+  lookScale: 0.05
+  scrollScale: 1

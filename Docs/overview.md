@@ -16,7 +16,7 @@
 |---|---|
 | Unity | 6000.3.19f1 |
 | Рендер | URP 17.3.0 |
-| Ввод | **Input Manager (legacy)** — Unity помечает как устаревший |
+| Ввод | **Input System** 1.20 — `Assets/Input/Controls.inputactions`, читает только `InputService`; Active Input Handling — Both (старый `Input` нужен демо-скриптам сторонних ассетов) |
 | ИИ | NavMesh (`com.unity.ai.navigation`) + свой код в `AI/` |
 | Unity Behavior | 1.0.16 — пакет установлен, **графов нет**; держится только на останках квестов |
 | Интерфейс | UI Toolkit (новый HUD) + uGUI/TextMeshPro (старое, мигрирует) |

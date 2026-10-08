@@ -1,7 +1,10 @@
 using UnityEngine;
+using Zenject;
 
 public class DroneShooting : MonoBehaviour
 {
+    [Inject] private InputService input;
+
     public Transform spr;
     public Transform spl;
     [Tooltip("Seconds between damage ticks while firing")]
@@ -19,7 +22,7 @@ public class DroneShooting : MonoBehaviour
     // Call this from DroneControl.Update() so all drone control stays centralized there.
     public void Shoot()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (input.FireStarted)
         {
             firing = true;
             damageTimer = interval; // deal the first tick immediately
@@ -27,7 +30,7 @@ public class DroneShooting : MonoBehaviour
             laserRight.EnablePrepare();
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (input.FireEnded)
         {
             firing = false;
             laserLeft.DisablePrepare();

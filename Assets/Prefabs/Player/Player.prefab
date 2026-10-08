@@ -307,7 +307,6 @@ GameObject:
   - component: {fileID: 8912272366931860640}
   - component: {fileID: 1377205707136890058}
   - component: {fileID: 3578222175118149973}
-  - component: {fileID: 6824312419588854341}
   - component: {fileID: 6308215294208978598}
   - component: {fileID: 8700556510767634270}
   - component: {fileID: 6417070452111593005}
@@ -435,19 +434,6 @@ MonoBehaviour:
   headToLower: {fileID: 3994029231150870922}
   crouchYHeadPosition: 0.5
   colliderToLower: {fileID: 200023681812810464}
---- !u!114 &6824312419588854341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3316862578556177911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc17cfb9c7bcb344bbe5259bda2b8e57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interractButton: 102
 --- !u!114 &6308215294208978598
 MonoBehaviour:
   m_ObjectHideFlags: 0

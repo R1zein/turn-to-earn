@@ -3,7 +3,7 @@
 Unity-проект: выживание от первого лица с добычей ресурсов, строительством базы,
 ботами-помощниками, волнами врагов по ночам и управляемым дроном.
 
-**Unity 6000.3.19f1 · URP · Input Manager (legacy) · UI Toolkit (переход с uGUI)**
+**Unity 6000.3.19f1 · URP · Input System (через `InputService`) · UI Toolkit (переход с uGUI)**
 **Целевая архитектура: Zenject + UI Toolkit** — [Docs/architecture.md](Docs/architecture.md)
 
 ## Документация

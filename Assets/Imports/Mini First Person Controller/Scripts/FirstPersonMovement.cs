@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class FirstPersonMovement : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class FirstPersonMovement : MonoBehaviour
     public bool canRun = true;
     public bool IsRunning { get; private set; }
     public float runSpeed = 9;
-    public KeyCode runningKey = KeyCode.LeftShift;
+
+    [Inject] private InputService input;
 
     private Rigidbody _rigidbody;
     public List<System.Func<float>> speedOverrides = new List<System.Func<float>>();
@@ -23,7 +25,7 @@ public class FirstPersonMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        IsRunning = canRun && Input.GetKey(runningKey);
+        IsRunning = canRun && input.IsRunHeld;
 
         float targetMovingSpeed = IsRunning ? runSpeed : speed;
         if (speedOverrides.Count > 0)
@@ -31,7 +33,7 @@ public class FirstPersonMovement : MonoBehaviour
             targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
         }
 
-        Vector2 targetVelocity =new Vector2( Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
+        Vector2 targetVelocity =new Vector2( input.Move.x * targetMovingSpeed, input.Move.y * targetMovingSpeed);
         //Vector3 moveDirection = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
         //Vector3 targetVelocity = moveDirection.normalized * targetMovingSpeed;
         _rigidbody.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, _rigidbody.linearVelocity.y, targetVelocity.y);

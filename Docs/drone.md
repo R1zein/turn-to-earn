@@ -18,6 +18,21 @@
 Если просят доработать управление — меняй **по одному месту** внутри
 существующей схемы и проговаривай, что именно трогаешь, **до** правки.
 
+### Откуда берётся ввод
+
+С 2026-10-08 дрон читает ввод через `InputService` (карта `Drone` в
+`Controls.inputactions`), а не через старый `Input`. Перенос был механическим —
+те же значения, та же схема:
+
+| Было | Стало |
+|---|---|
+| `Input.mousePosition` | `input.DroneAim` (`<Mouse>/position`, те же экранные пиксели) |
+| `Input.GetKey(LeftShift)` | `input.IsThrottleHeld` |
+| `GetMouseButtonDown/Up(0)` в `DroneShooting` | `input.FireStarted` / `input.FireEnded` |
+| `Cursor.lockState = Confined`, `visible = false` в `Awake` | базовый режим сцены `InputMode.Drone` |
+
+Клавиши меняются в `Assets/Input/Controls.inputactions`, а не в коде.
+
 ## Модель управления
 
 [`DroneControl`](../Assets/Scripts/Drone/DroneControl.cs), метод `Steer()`.

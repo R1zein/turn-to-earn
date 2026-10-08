@@ -129,6 +129,8 @@ public void TakeDamage(float damage)
 
 ### P1-4. Три владельца курсора
 
+> **Исправлено** 2026-10-08: курсором владеет только `InputService` (стек режимов).
+
 `Cursor.lockState` переключают независимо
 [`ShopController`](../Assets/Scripts/UI/ShopController.cs),
 [`Inventory`](../Assets/Scripts/Player/Inventory.cs) и
@@ -245,6 +247,10 @@ Unity Behavior, который из-за этих каналов нельзя п
 [Квесты](quests-and-dialogs.md#как-убрать-останки).
 
 ### P2-8. Устаревший Input Manager
+
+> **Исправлено** 2026-10-08: свой код читает ввод через Input System
+> (`Controls` → `InputService`). Active Input Handling — Both из-за демо-скриптов
+> сторонних ассетов.
 
 Unity сообщает об этом в консоли при каждом запуске:
 

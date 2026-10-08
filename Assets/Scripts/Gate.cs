@@ -1,10 +1,22 @@
 using UnityEngine;
+using Zenject;
 
 public class Gate : MonoBehaviour
 {
     private bool withInZone;
     private bool isGateOpen = false;
     public Animation animation;
+
+    [Inject] private InputService input;
+
+    private void OnEnable()
+    {
+        input.OnInteract += Toggle;
+    }
+    private void OnDisable()
+    {
+        input.OnInteract -= Toggle;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -20,23 +32,21 @@ public class Gate : MonoBehaviour
             withInZone = false;
         }
     }
-    private void Update()
+
+    private void Toggle()
     {
-        if (withInZone)
+        if (!withInZone || animation.isPlaying)
+            return;
+
+        if (isGateOpen == false)
         {
-            if (Input.GetKeyDown(KeyCode.F) && animation.isPlaying == false)
-            {
-                if (isGateOpen == false)
-                {
-                    animation.Play("GateOpen");
-                    isGateOpen = true;
-                }
-                else
-                {
-                    animation.Play("GateClose");
-                    isGateOpen = false;
-                }
-            }
+            animation.Play("GateOpen");
+            isGateOpen = true;
+        }
+        else
+        {
+            animation.Play("GateClose");
+            isGateOpen = false;
         }
     }
 }

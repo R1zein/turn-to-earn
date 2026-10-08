@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 
 
@@ -10,18 +11,28 @@ public class ToolController : MonoBehaviour
     private SoundController soundController;
     [SerializeField] private List<MineableResourses> mineableResourses = new List<MineableResourses>();
 
-    private void Start()
+    [Inject] private InputService input;
+
+    private void Awake()
     {
         animator = GetComponent<Animator>();
         soundController = GetComponent<SoundController>();
     }
 
-    private void Update()
+    // Only the tool in hand is active, so only it swings.
+    private void OnEnable()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            animator.SetTrigger("Hit");
-        }
+        input.OnAttack += Swing;
+    }
+
+    private void OnDisable()
+    {
+        input.OnAttack -= Swing;
+    }
+
+    private void Swing()
+    {
+        animator.SetTrigger("Hit");
     }
 
     public void Hit()

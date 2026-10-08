@@ -1,42 +1,50 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 public class ShopController : MonoBehaviour
 {
     [Inject] private ResourceWallet wallet;
+    [Inject] private InputService input;
 
     public event Action<bool> OnPanelStateChange;
     public GameObject purchasePanel;
     public GameObject upgradePanel;
-    
+
     private Vector3 botSpawnPosition;
-    private void Start()
+
+    private bool IsOpen => purchasePanel.activeSelf || upgradePanel.activeSelf;
+
+    private void OnEnable()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        input.OnUiClose += CloseShop;
     }
+
+    private void OnDisable()
+    {
+        input.OnUiClose -= CloseShop;
+    }
+
     public void TryToSetActive(Vector3 spawnPosition)
     {
         botSpawnPosition = spawnPosition;
-        if (!purchasePanel.activeSelf & !upgradePanel.activeSelf)
+        if (!IsOpen)
         {
             purchasePanel.SetActive(true);
             OnPanelStateChange?.Invoke(false);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            input.PushMode(InputMode.Ui);
         }
     }
 
     public void CloseShop()
     {
+        if (!IsOpen)
+            return;
+
         purchasePanel.SetActive(false);
         upgradePanel.SetActive(false);
         OnPanelStateChange?.Invoke(true);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        input.PopMode();
     }
 
     public void ByeBot(NPCFacade bot)
@@ -47,4 +55,3 @@ public class ShopController : MonoBehaviour
         }
     }
 }
-

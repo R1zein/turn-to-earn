@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using Cursor = UnityEngine.Cursor; // UI Toolkit ships its own Cursor type
+using Zenject;
 
 // War Thunder / WoT style "point-to-fly" drone control.
 //
@@ -38,6 +38,10 @@ public class DroneControl : MonoBehaviour
     [SerializeField] private float deceleration = 0.5f;
     [SerializeField] private float moveThreshold = 0.5f; // min speed (m/s) required to steer
 
+    // Throttle and the cursor position. The cursor itself (confined, hidden - we draw
+    // our own reticle) is the scene's base InputMode.Drone.
+    [Inject] private InputService input;
+
     private Rigidbody rb;
     private DroneShooting shooting;
 
@@ -59,9 +63,6 @@ public class DroneControl : MonoBehaviour
             viewCamera = Camera.main;
 
         lastPosition = rb.position;
-
-        Cursor.lockState = CursorLockMode.Confined; // keep cursor in window but let it move freely
-        Cursor.visible = false;                     // we draw our own reticle instead
     }
 
     private void Update()
@@ -100,9 +101,9 @@ public class DroneControl : MonoBehaviour
 
     private void ReadInput()
     {
-        throttle = Input.GetKey(KeyCode.LeftShift);
+        throttle = input.IsThrottleHeld;
 
-        Vector2 mouse = Input.mousePosition;
+        Vector2 mouse = input.DroneAim;
         Vector2 half = new Vector2(Screen.width, Screen.height) * 0.5f;
 
         // normalized offset from screen center, -1..1 per axis
@@ -141,7 +142,7 @@ public class DroneControl : MonoBehaviour
     private void UpdateReticle()
     {
         if (aimReticle != null)
-            PlaceAtScreenPoint(aimReticle, Input.mousePosition);
+            PlaceAtScreenPoint(aimReticle, input.DroneAim);
     }
 
     // Physical-direction marker = drone forward projected onto the screen.

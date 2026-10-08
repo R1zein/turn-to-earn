@@ -1,8 +1,9 @@
 using UnityEngine;
+using Zenject;
 
 public class Crouch : MonoBehaviour
 {
-    public KeyCode key = KeyCode.LeftControl;
+    [Inject] private InputService input;
 
     [Header("Slow Movement")]
     [Tooltip("Movement to slow down when crouched.")]
@@ -36,7 +37,7 @@ public class Crouch : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Input.GetKey(key))
+        if (input.IsCrouchHeld)
         {
             // Enforce a low head.
             if (headToLower)
