@@ -10,7 +10,6 @@ public class ShopController : MonoBehaviour
     public GameObject upgradePanel;
     
     private Vector3 botSpawnPosition;
-    public OnBotCreated onBotCreated;
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -42,12 +41,7 @@ public class ShopController : MonoBehaviour
         if(StoredResources.instance.CurrentResources >= bot.requiredResources)
         {
             StoredResources.instance.DecreaseResources(bot.requiredResources);
-            for (int i = 0; i < 1; i++)
-            {
-                Instantiate(bot, botSpawnPosition, Quaternion.identity);
-                onBotCreated.SendEventMessage();
-                onBotCreated.firstBotCrea6ted = true;
-            }
+            Instantiate(bot, botSpawnPosition, Quaternion.identity);
         }
     }
 }

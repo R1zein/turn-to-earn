@@ -11,7 +11,6 @@ public abstract class NPCFacade : MonoBehaviour
     protected NPCNavigation navigation;
     protected StatsHandler statsHandler;
     public AllResources requiredResources;
-    public OnNpcDeath onNpcDeath;
 
     private void Awake()
     {
@@ -45,7 +44,6 @@ public abstract class NPCFacade : MonoBehaviour
         {
             navigation.enabled = false;
         }
-        onNpcDeath.SendEventMessage();
         Destroy(gameObject, 3);
     }
     protected abstract void Navigation();
