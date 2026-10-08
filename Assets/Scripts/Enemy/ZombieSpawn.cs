@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Unity.AI.Navigation;
-using System.Threading.Tasks;
+using Zenject;
 
 public class ZombieSpawn : MonoBehaviour
 {
@@ -13,24 +10,31 @@ public class ZombieSpawn : MonoBehaviour
     [SerializeField] private TimePeriod timePeriod;
     [SerializeField] private GameObject portalEffect;
 
+    [Inject] private DayCycle dayCycle;
+
     private void OnEnable()
     {
-        timePeriod.OnPeriodEnter += OpenPortal;
+        dayCycle.OnPeriodEnter += OnPeriodEnter;
     }
     private void OnDisable()
     {
-        timePeriod.OnPeriodEnter -= OpenPortal;
+        dayCycle.OnPeriodEnter -= OnPeriodEnter;
     }
+
+    private void OnPeriodEnter(TimePeriod period)
+    {
+        if (period == timePeriod)
+            OpenPortal();
+    }
+
     public async void OpenPortal()
     {
         portalEffect.SetActive(true);
-        for (int i = 0; i < spawnCount + timePeriod.dayNumber*2; i++)
+        for (int i = 0; i < spawnCount + dayCycle.EnterCount(timePeriod) * 2; i++)
         {
             Instantiate(zombie, spawnPos.position, Quaternion.identity);
-            await Awaitable.WaitForSecondsAsync(spawnTime);  
+            await Awaitable.WaitForSecondsAsync(spawnTime);
         }
         portalEffect.SetActive(false);
     }
-
-
 }

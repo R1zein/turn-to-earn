@@ -74,3 +74,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc6bbe8078afc34fbc70b048183df8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectInstaller
+  gameConfig: {fileID: 11400000, guid: e0c6cca33a74e8f46afbfd9693479a21, type: 2}

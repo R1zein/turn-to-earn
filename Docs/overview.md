@@ -59,7 +59,7 @@ Assets/
 | Магазин ботов | [`ShopController.cs`](../Assets/Scripts/UI/ShopController.cs) |
 | ИИ | [`NPCFacade.cs`](../Assets/Scripts/AI/NPCFacade.cs) + [`NPCNavigation.cs`](../Assets/Scripts/AI/NPCNavigation.cs) |
 | Здоровье/урон | [`StatsHandler.cs`](../Assets/Scripts/UI/StatsHandler.cs) |
-| Время и волны | [`TimeManager.cs`](../Assets/Scripts/TimeManager.cs) + [`TimePeriod.cs`](../Assets/Scripts/TimePeriod.cs) |
+| Время и волны | [`TimeManager.cs`](../Assets/Scripts/Services/TimeManager.cs) + [`DayCycle.cs`](../Assets/Scripts/Services/DayCycle.cs) + [`TimePeriod.cs`](../Assets/Scripts/TimePeriod.cs) |
 | Дрон | [`DroneControl.cs`](../Assets/Scripts/Drone/DroneControl.cs) |
 
 ## Как подсистемы связаны

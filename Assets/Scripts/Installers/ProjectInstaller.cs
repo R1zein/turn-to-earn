@@ -1,10 +1,13 @@
+using UnityEngine;
 using Zenject;
 
 // Bindings that outlive a scene: configs, Input System controls, settings, audio.
-// Empty until the first of them appears (GameConfig, Controls).
 public class ProjectInstaller : MonoInstaller
 {
+    [SerializeField] private GameConfig gameConfig;
+
     public override void InstallBindings()
     {
+        Container.Bind<GameConfig>().FromInstance(gameConfig).AsSingle();
     }
 }
