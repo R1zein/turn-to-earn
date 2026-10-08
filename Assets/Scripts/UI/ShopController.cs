@@ -4,7 +4,7 @@ using Zenject;
 
 public class ShopController : MonoBehaviour
 {
-    [Inject] private ResourceWallet wallet;
+    [Inject] private ShopService shop;
     [Inject] private InputService input;
 
     public event Action<bool> OnPanelStateChange;
@@ -49,9 +49,6 @@ public class ShopController : MonoBehaviour
 
     public void ByeBot(NPCFacade bot)
     {
-        if (wallet.TrySpend(bot.requiredResources))
-        {
-            Instantiate(bot, botSpawnPosition, Quaternion.identity);
-        }
+        shop.TryBuyBot(bot, botSpawnPosition);
     }
 }

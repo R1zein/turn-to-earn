@@ -66,10 +66,10 @@ Assets/
 
 Связи собирает контейнер Zenject ([Архитектура](architecture.md)):
 
-1. **`[Inject]`** — `Resources/ProjectContext.prefab` (`ProjectInstaller`, пока
-   пустой) и `SceneContext` в `Scene 5` и `SampleScene` с инсталлерами из
+1. **`[Inject]`** — `Resources/ProjectContext.prefab` (`ProjectInstaller`:
+   `GameConfig`, `Controls`) и `SceneContext` в `Scene 5` и `SampleScene` с инсталлерами из
    [`Scripts/Installers`](../Assets/Scripts/Installers/). Префабы с `[Inject]`
-   рождаются через `DiContainer.InstantiatePrefab` (`ResourceSpawner`, `Inventory`).
+   рождаются только спавнерами из [`Services/Spawning`](../Assets/Scripts/Services/Spawning/) через `DiContainer.InstantiatePrefab`.
 2. **События** — `StatsHandler.OnDeath`/`OnDamage`, `ResourceWallet.OnChanged`.
 3. **Остаток старого:** `NPCNavigation` ищет цели `FindObjectsByType` (уйдёт в
    `TargetRegistry` на этапах 5–6), `Camera.main` в нескольких скриптах.

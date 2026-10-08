@@ -306,7 +306,8 @@ ScriptableObject-ассеты, поданные в инсталлер и заб�
 | объект рождается из префаба | только `DiContainer.InstantiatePrefab…` внутри спавнера; спавнер же ставит его на учёт в реестре | `EnemySpawner`, `BotSpawner`, `ResourceNodeSpawner`, `BuildingPlacer` |
 
 `LevelAnchors` заменяет `GameObject.FindGameObjectWithTag("BuildingPoint")`,
-дочерние точки `ResourceSpawner` и поле `spawnPos` у `ZombieSpawn`.
+дочерние точки `ResourceSpawner` и поле `spawnPos` у `ZombieSpawn` (сделано: в карте лежат
+области ресурсов `ResourceArea` и порталы `Portal`).
 
 ```csharp
 // Рождение через контейнер (иначе [Inject] на компонентах не отработает)

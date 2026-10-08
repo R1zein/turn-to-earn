@@ -12,24 +12,29 @@
 
 ### Поток
 
-1. `Tab` — открывается панель строительства (`buildPanel`), курсор
-   разблокируется.
+[`Inventory`](../Assets/Scripts/Player/Inventory.cs) на игроке — тело: панель,
+призрак, клавиши через `InputService`. Правила — в
+[`BuildService`](../Assets/Scripts/Services/BuildService.cs), рождение — в
+[`BuildingPlacer`](../Assets/Scripts/Services/Spawning/BuildingPlacer.cs).
+
+1. `Tab` — открывается панель строительства (`buildPanel`), режим ввода `Ui`:
+   курсор свободен, игровые клавиши выключены. `Esc` или `Tab` закрывают панель.
 2. Кнопка панели вызывает `Build(ghostObject)`:
    - если призрак уже держим — ничего;
-   - если ресурсов хватает (`CurrentResources >= requiredResources`) — цена
-     списывается **сразу**, создаётся призрак;
-   - панель закрывается, курсор снова блокируется.
+   - `BuildService.StartPlacing`: если ресурсов **хватает** — создаётся призрак
+     (цена пока не списывается);
+   - панель закрывается.
 3. Пока призрак в руках, каждый кадр:
    - луч из центра экрана на `buildDistance` ставит призрак в точку попадания;
    - колесо мыши вращает его вокруг Y со скоростью `scrollSpeed`.
-4. `F` — на месте призрака инстанцируется настоящий `prefab`, призрак
-   уничтожается, поднимается флаг `GameManager.instance.firstBuildCreated`.
+4. `F` — `BuildService.TryPlace`: цена списывается, на месте призрака
+   рождается настоящий `prefab` (через контейнер), призрак уничтожается. Не
+   хватает ресурсов — ничего не происходит, призрак остаётся.
 
 ### Что важно знать
 
-- **Ресурсы списываются при взятии призрака, а не при установке.** Отменить
-  постройку нельзя — способа выбросить призрак в коде нет, ресурсы просто
-  пропадут, если выйти из режима.
+- **Цена списывается при установке.** Отменить призрак нечем, но и платить за
+  него не придётся, пока не поставишь.
 - Если луч никуда не попал, призрак **остаётся на прежнем месте** — висит в
   воздухе, пока не наведёшься на поверхность.
 - Проверок места нет: поставить можно внутрь другого объекта, в склон, в воду.
@@ -71,43 +76,29 @@
 
 Открывается не клавишей, а через взаимодействие со столом:
 [`TableInterract`](../Assets/Scripts/UI/TableInterract.cs) наследует
-`Interactable`, и [`Interract`](../Assets/Scripts/Interract.cs) вызывает его, когда
-игрок нажимает клавишу взаимодействия, глядя на стол с расстояния до 1.5 м.
+`Interactable`, и [`PlayerInteraction`](../Assets/Scripts/Services/PlayerInteraction.cs)
+вызывает его, когда игрок нажимает F, глядя на стол с расстояния до 1.5 м.
 
 ```
-Interract (луч 1.5 м) → TableInterract.Interract() → ShopController.TryToSetActive(точка спавна)
+InputService.OnInteract → PlayerInteraction (луч 1.5 м) → TableInterract.Interract()
+  → ShopController.TryToSetActive(точка спавна)
 ```
 
 `TryToSetActive` открывает панель покупки, только если обе панели (покупки и
-апгрейда) закрыты, и шлёт событие `OnPanelStateChange(false)` — по нему
-[`Player`](../Assets/Scripts/Player/Player.cs) отключает обзор и движение, чтобы
-игрок не вертелся, пока тыкает в меню.
+апгрейда) закрыты, включает режим ввода `Ui` и шлёт событие
+`OnPanelStateChange(false)` — по нему [`Player`](../Assets/Scripts/Player/Player.cs)
+отключает обзор и движение. Закрывают магазин кнопки `CloseShop`, `Esc` и `Tab`.
 
-`ByeBot(bot)` (читать «BuyBot»): если хватает `bot.requiredResources` — списать,
-заспавнить NPC в точке стола, поднять событие `onBotCreated`.
-
-Особенности:
-
-- `for (int i = 0; i < 1; i++)` вокруг спавна — цикл на одну итерацию, остаток
-  от эксперимента с покупкой нескольких ботов.
-- Флаг `onBotCreated.firstBotCrea6ted` (опечатка в имени поля) хранится **в
-  ScriptableObject**, то есть переживает выход из игры — см.
-  [Известные проблемы](known-issues.md#p1-3-состояние-игры-живёт-в-ассетах).
+`ByeBot(bot)` (читать «BuyBot») только пересылает выбор в
+[`ShopService.TryBuyBot`](../Assets/Scripts/Services/ShopService.cs): хватает
+`bot.requiredResources` — списать и заспавнить NPC в точке стола через
+[`BotSpawner`](../Assets/Scripts/Services/Spawning/BotSpawner.cs).
 
 ## Курсор и блокировка ввода
 
-Три скрипта независимо управляют `Cursor.lockState`:
-
-| Скрипт | Когда |
-|---|---|
-| [`ShopController`](../Assets/Scripts/UI/ShopController.cs) | старт, открытие/закрытие магазина |
-| [`Inventory`](../Assets/Scripts/Player/Inventory.cs) | открытие/закрытие панели строительства |
-| [`DroneControl`](../Assets/Scripts/Drone/DroneControl.cs) | `Awake` — запирает курсор |
-
-Общего владельца нет. Если открыть магазин, а потом панель строительства, порядок
-блокировок зависит от того, кто отработал последним, и курсор может залипнуть в
-неверном состоянии. Решение — режимом курсора владеет только `InputService`, см.
-[Архитектурный план](architecture-plan.md#этап-4-ввод).
+Курсором владеет только [`InputService`](../Assets/Scripts/Services/InputService.cs):
+панели просят `PushMode(InputMode.Ui)` при открытии и `PopMode()` при закрытии.
+Режимы лежат стеком, поэтому порядок открытия и закрытия панелей не важен.
 
 ## Ворота
 

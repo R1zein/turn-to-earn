@@ -17,5 +17,9 @@ MonoBehaviour:
   dayPeriods:
   - {fileID: 11400000, guid: 9b353dbbbe553ef4db0c1e6520b053a7, type: 2}
   - {fileID: 11400000, guid: cac9b0701612a1c46b9f30ef30cebcec, type: 2}
+  wavePeriod: {fileID: 11400000, guid: cac9b0701612a1c46b9f30ef30cebcec, type: 2}
+  waveEnemy: {fileID: 1284650868752199256, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
+  waveBaseCount: 5
+  waveSpawnInterval: 1
   lookScale: 0.05
   scrollScale: 1

@@ -7,7 +7,7 @@ GameConfig (SO, ProjectContext)   длина часа, час старта, сп
 TimeManager : ITickable           часы; стоят, пока GameStarter не вызовет Begin()
 └── DayCycle                      какие периоды активны, сколько раз начинались, события
     ├── DayLighting               скайбокс и интенсивность света
-    ├── ZombieSpawn               волна на входе в свой период
+    ├── WaveService               волна на каждом портале в начале ночи
     └── ClockView                 TMP-часы на Canvas (временно, до этапа 7)
 ```
 
@@ -63,35 +63,35 @@ TimeManager : ITickable           часы; стоят, пока GameStarter н�
 
 ## Волны врагов
 
-[`ZombieSpawn`](../Assets/Scripts/Enemy/ZombieSpawn.cs) стоит на пяти порталах
-`Scene 5`; каждый подписан на `DayCycle.OnPeriodEnter` и реагирует на свой
-`TimePeriod` — ночь.
+[`WaveService`](../Assets/Scripts/Services/WaveService.cs) подписан на
+`DayCycle.OnPeriodEnter`. Когда начинается `GameConfig.WavePeriod` (ночь), на
+каждом из пяти порталов (`LevelAnchors.Portals`) запускается волна:
 
 ```csharp
-for (int i = 0; i < spawnCount + dayCycle.EnterCount(timePeriod) * 2; i++)
+int count = config.WaveBaseCount + dayCycle.EnterCount(period) * 2;
+// на каждом портале:
+for (int i = 0; i < count; i++)
 {
-    Instantiate(zombie, spawnPos.position, Quaternion.identity);
-    await Awaitable.WaitForSecondsAsync(spawnTime);
+    spawner.Spawn(config.WaveEnemy, portal.SpawnPosition);
+    await Awaitable.WaitForSecondsAsync(config.WaveSpawnInterval, lifetime.Token);
 }
 ```
 
 Формула сложности: **базовое число + 2 за каждую наступившую ночь**. Ночь N даёт
-`spawnCount + 2N` врагов на портал. Рост линейный и ничем не ограничен сверху.
+`5 + 2N` врагов (`Zombie1`) на портал с интервалом 1 с. Рост линейный и ничем не
+ограничен сверху.
 
-На время спавна включается `portalEffect`, после — выключается.
+- [`Portal`](../Assets/Scripts/Level/Portal.cs) — тело: точка появления и эффект,
+  который `WaveService` включает на время волны.
+- Враги рождаются через [`EnemySpawner`](../Assets/Scripts/Services/Spawning/EnemySpawner.cs)
+  (контейнер).
+- Выгрузка сцены отменяет недоигранные волны (`Dispose` → токен).
+- Портал, ещё выпускающий прошлую волну, вторую поверх не начинает.
 
 ### Проблемы
 
-Чинятся на [этапе 5](architecture-plan.md#этап-5-спавн-и-реестры), где
-`ZombieSpawn` становится `WaveService` + `EnemySpawner`:
-
-- `OpenPortal` объявлен `async void` без токена отмены. Если объект уничтожат или
-  выгрузят сцену в процессе спавна, цикл продолжит работать и упадёт на обращении
-  к уничтоженному `portalEffect`.
-- Спавн всегда в одной точке `spawnPos`, пачкой — враги выходят стопкой друг в
+- Спавн всегда в одной точке портала, пачкой — враги выходят стопкой друг в
   друге, пока NavMesh их не растолкает.
-- Если период наступит повторно до окончания прошлого спавна, запустится второй
-  параллельный цикл: счётчик не защищён.
 
 ## Как связать новую механику со временем
 

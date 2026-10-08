@@ -152,6 +152,9 @@ public void TakeDamage(float damage)
 
 ### P1-6. Ресурсы списываются за призрак, а не за постройку
 
+> **Исправлено** 2026-10-08: `BuildService` списывает цену при установке.
+> Отменить призрак по-прежнему нечем, но теперь он ничего не стоит.
+
 [`Inventory.Build`](../Assets/Scripts/Player/Inventory.cs)
 
 Цена снимается в момент создания призрака. Отменить режим постройки нельзя —
@@ -177,9 +180,12 @@ Light directionlLight = GameObject.Find("Directional Light")...;    // испо�
 
 ### P2-1. Асинхронные методы без отмены
 
+> **Частично исправлено** 2026-10-08: волны теперь в `WaveService` с отменой в
+> `Dispose`. `ResourceController.DeathEffect` остался как есть.
+
 | Где | Что |
 |---|---|
-| [`ZombieSpawn.OpenPortal`](../Assets/Scripts/Enemy/ZombieSpawn.cs) | `async void`, цикл спавна |
+| ~~`ZombieSpawn.OpenPortal`~~ | `async void` — заменён `WaveService` с отменой |
 | [`ResourceController.DeathEffect`](../Assets/Scripts/ResourceController.cs) | `async Awaitable`, вызван без `await` |
 
 Ни один не принимает токен отмены. Уничтожение объекта или выгрузка сцены в
@@ -231,7 +237,12 @@ Light directionlLight = GameObject.Find("Directional Light")...;    // испо�
 
 ### P2-6. Точки спавна ресурсов дублируются
 
-[`ResourceSpawner.Awake`](../Assets/Scripts/ResourceSpawner.cs) добавляет всех
+> **Исправлено** 2026-10-08: точки — дети `ResourceArea`, `ResourceNodeSpawner`
+> выбирает только из свободных. Заодно найдено и исправлено: в сцене три спавнера,
+> а каждый узел через `FindAnyObjectByType` сообщал о своей смерти одному
+> произвольному из них — точки остальных областей не освобождались.
+
+`ResourceSpawner.Awake` (до этапа 5) добавлял всех
 детей в `spawnPoints`, который уже мог быть заполнен в инспекторе. Плюс выбор
 точки случайный без повторной попытки: выпала занятая — тик спавна пропал зря.
 
@@ -310,5 +321,5 @@ Unity сообщает об этом в консоли при каждом за�
 - `GameManager` целиком: `firstBotCreated` не используется, `firstKillMaded` никто не
   выставляет, `firstBuildCreated` никто не читает с тех пор, как умерли квесты.
 - `NPCNavigation.isDead` объявлено, но нигде не используется.
-- `ResourceSpawner.length` объявлено, но нигде не используется.
+- ~~`ResourceSpawner.length`~~ — класс стал `ResourceArea`, поле удалено.
 - `BomberBug` взводит триггер `attack1` каждый кадр, пока цель в радиусе.

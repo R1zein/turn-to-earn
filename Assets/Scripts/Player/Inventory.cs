@@ -3,11 +3,8 @@ using Zenject;
 
 public class Inventory : MonoBehaviour
 {
-    [Inject] private ResourceWallet wallet;
+    [Inject] private BuildService buildService;
     [Inject] private InputService input;
-    // Buildings and their ghosts inject services (the shop table needs ShopController,
-    // and the table ghost nests a Table), so both are born through the container.
-    [Inject] private DiContainer container;
 
     public GameObject towerPrefab;
     public Transform buildingPlant;
@@ -54,8 +51,8 @@ public class Inventory : MonoBehaviour
         if (ghost == null)
             return;
 
-        container.InstantiatePrefab(ghost.prefab, ghost.transform.position, ghost.transform.rotation, null);
-        Destroy(ghost.gameObject);
+        if (buildService.TryPlace(ghost))
+            Destroy(ghost.gameObject);
     }
 
     private void OpenMenu()
@@ -85,10 +82,7 @@ public class Inventory : MonoBehaviour
 
         if (ghost == null)
         {
-            if (wallet.TrySpend(ghostObject.requiredResources))
-            {
-                ghost = container.InstantiatePrefabForComponent<Ghost>(ghostObject);
-            }
+            ghost = buildService.StartPlacing(ghostObject);
         }
 
         CloseMenu();

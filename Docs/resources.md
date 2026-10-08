@@ -93,13 +93,12 @@ if (wallet.TrySpend(price)) { /* купили */ }
 | `resourceStore` | сколько всего осталось в узле |
 | `oneHitResource` | сколько даёт один удар |
 | `resourse` | тип (`MineableResourses`) — с ним сверяется инструмент |
-| `positionID` | индекс точки спавна, чтобы освободить её после смерти |
 
 Цикл `TakeHit()`: списать `oneHitResource` из запаса → начислить игроку → если
 запас кончился, `Death()`.
 
 `Death()` → `DeathEffect()`: выключает коллайдер и меш, спавнит эффект, ждёт 2
-секунды, сообщает спавнеру об освобождении точки, уничтожает объект. Флаг
+секунды, освобождает свою точку у `ResourceNodeSpawner`, уничтожает объект. Флаг
 `isDying` защищает от повторного запуска.
 
 > `DeathEffect()` — `async Awaitable`, вызываемый без `await` и без токена отмены.
@@ -119,29 +118,38 @@ Blender в том же стиле и лежат в `Assets/Meshes/Ores/`. У в�
 
 ## Респавн
 
-[`ResourceSpawner`](../Assets/Scripts/ResourceSpawner.cs) — один объект, дети
-которого служат точками спавна.
+На карте три области узлов — объекты `gsp`, `msp`, `bsp` с компонентом
+[`ResourceArea`](../Assets/Scripts/Level/ResourceArea.cs): дети объекта — точки,
+список `stonePrefabs` — что здесь растёт, `timer` — секунды между попытками
+(сейчас 0, то есть каждый кадр). Области перечислены в `LevelAnchors`.
 
-- В `Awake` собирает точки из `GetComponentsInChildren<Transform>()`.
-- Каждые `timer` секунд выбирает **случайную** точку; если она свободна
-  (`positions[point] == 0`), ставит случайный префаб из `stonePrefabs` и помечает
-  занятой.
-- `FindDestroyed(positionID)` освобождает точку, когда узел умирает.
+| Область | Точек | Префабы |
+|---|---|---|
+| `gsp` | 70 | `OreStone1-2`, `Oak_Tree`, `Poplar_Tree` |
+| `msp` | 15 | `Fir_Tree`, `IronOre1-3`, `OreStone1-2` |
+| `bsp` | 20 | `Palm_Tree`, `GoldOre1-3` |
 
-Два следствия, важных для баланса:
+[`ResourceNodeSpawner`](../Assets/Scripts/Services/Spawning/ResourceNodeSpawner.cs)
+— один сервис на все области:
 
-1. Выбор точки случайный **без повторной попытки** — если выпала занятая,
-   этот тик пропадает впустую. Чем плотнее заселена карта, тем реже спавн.
-2. `spawnPoints` заполняется и из инспектора, и из `GetComponentsInChildren` —
-   заданные вручную точки **продублируются**.
+- держит для каждой области список **свободных** точек и раз в `timer` ставит
+  случайный префаб области в случайную свободную точку (через контейнер — у узла
+  `[Inject]`-поля);
+- узел, выработанный до конца, через 2 секунды зовёт `Release(this)` — точка
+  возвращается в список свободных своей области.
+
+На старте все 105 точек заполняются за первые кадры.
 
 ## Траты
 
 | Что покупаем | Где | Цена |
 |---|---|---|
-| Постройка | [`Inventory.Build`](../Assets/Scripts/Player/Inventory.cs) | `Ghost.requiredResources` |
-| Бот | [`ShopController.ByeBot`](../Assets/Scripts/UI/ShopController.cs) | `NPCFacade.requiredResources` |
+| Постройка | [`BuildService`](../Assets/Scripts/Services/BuildService.cs) | `Ghost.requiredResources` |
+| Бот | [`ShopService`](../Assets/Scripts/Services/ShopService.cs) | `NPCFacade.requiredResources` |
 
-Обе проверки одинаковы: `CurrentResources >= цена`, затем `DecreaseResources`.
+Обе списывают через `ResourceWallet.TrySpend`. Постройка: при выборе призрака
+цена только **проверяется**, списывается — при установке (F); не хватает —
+призрак остаётся. Цены сейчас: стена и стол — 0, турель — 80 железа, 10 дерева,
+20 камня; оба бота — 0.
 Цену показывает [`PriceTextBuilder`](../Assets/Scripts/Player/PriceTextBuilder.cs)
 — он выводит только дерево, железо и камень, **золото в ценнике не отображается**.

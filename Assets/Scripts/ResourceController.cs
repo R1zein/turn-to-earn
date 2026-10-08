@@ -8,11 +8,10 @@ public abstract class ResourceController : MonoBehaviour
     [SerializeField] private ParticleSystem destroyEffect;
 
     [Inject] protected ResourceWallet wallet;
-    [Inject] private ResourceSpawner spawner;
+    [Inject] private ResourceNodeSpawner spawner;
 
     private MeshCollider meshColliderStone;
     private MeshRenderer meshRendererStone;
-    [HideInInspector] public int positionID;
     public MineableResourses resourse;
     private bool isDying = false;
     [SerializeField] protected int resourceStore;
@@ -30,7 +29,7 @@ public abstract class ResourceController : MonoBehaviour
         meshRendererStone.enabled = false;
         Instantiate(destroyEffect, transform.position, Quaternion.identity);
         await Awaitable.WaitForSecondsAsync(2f);
-        spawner.FindDestroyed(positionID);
+        spawner.Release(this);
         Destroy(gameObject);
     }
     protected void Death()
