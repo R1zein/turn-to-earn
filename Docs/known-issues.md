@@ -15,6 +15,8 @@
 
 ### P0-1. `operator !=` в `AllResources` даёт неверный результат
 
+> **Исправлено** 2026-10-08.
+
 [`AllResources.cs:58`](../Assets/Scripts/AllResources.cs)
 
 ```csharp
@@ -32,6 +34,8 @@ if (left.iron != right.iron | left.tree != right.tree | left.ore != right.ore & 
 `NullReferenceException` при сравнении с `null`.
 
 ### P0-2. `OnDeath` срабатывает многократно
+
+> **Исправлено** 2026-10-08.
 
 [`StatsHandler.cs:14`](../Assets/Scripts/UI/StatsHandler.cs)
 
@@ -52,6 +56,8 @@ public void TakeDamage(float damage)
 **Чинить:** флаг `isDead`, ранний выход в `TakeDamage`.
 
 ### P0-3. Враги каждый кадр обыскивают всю сцену
+
+> **Исправлено** 2026-10-08.
 
 [`Enemy.cs:19`](../Assets/Scripts/AI/Enemy.cs)
 
