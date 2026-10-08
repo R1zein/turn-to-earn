@@ -106,6 +106,18 @@ bool canAfford = StoredResources.instance.CurrentResources >= price;
 > `DeathEffect()` — `async Awaitable`, вызываемый без `await` и без токена отмены.
 > См. [Известные проблемы](known-issues.md#p2-1-асинхронные-методы-без-отмены).
 
+### Префабы залежей
+
+`Assets/Prefabs/Ores/`: `IronOre1-3`, `GoldOre1-3`, `CopperOre1-3` — у каждого
+свой меш. Железо — меши пака `Low_Poly_ResourceRocks` (октаэдры и кубы);
+золото (жилы + самородки) и медь (друзы шестигранных кристаллов) сделаны в
+Blender в том же стиле и лежат в `Assets/Meshes/Ores/`. У всех мешей два
+сабмеша: `[0]` камень (`Stone.mat`), `[1]` руда.
+
+> **Медь пока только визуальная.** На `CopperOre1-3` нет `ResourceController`:
+> ресурса «медь» нет ни в `AllResources`, ни в `MineableResourses`. В спавнеры
+> их не добавлять, пока ресурс не заведён.
+
 ## Респавн
 
 [`ResourceSpawner`](../Assets/Scripts/ResourceSpawner.cs) — один объект, дети
