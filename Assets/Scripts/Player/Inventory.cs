@@ -1,7 +1,13 @@
 using UnityEngine;
+using Zenject;
 
 public class Inventory : MonoBehaviour
 {
+    [Inject] private ResourceWallet wallet;
+    // Buildings and their ghosts inject services (the shop table needs ShopController,
+    // and the table ghost nests a Table), so both are born through the container.
+    [Inject] private DiContainer container;
+
     public GameObject towerPrefab;
     public Transform buildingPlant;
 
@@ -19,7 +25,7 @@ public class Inventory : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.F))
             {
-                Instantiate(ghost.prefab, ghost.transform.position, ghost.transform.rotation);
+                container.InstantiatePrefab(ghost.prefab, ghost.transform.position, ghost.transform.rotation, null);
                 Destroy(ghost.gameObject);
             }
             RaycastHit hit;
@@ -46,11 +52,10 @@ public class Inventory : MonoBehaviour
 
         if (ghost == null)
         {
-            if (StoredResources.instance.CurrentResources >= ghostObject.requiredResources)
+            if (wallet.TrySpend(ghostObject.requiredResources))
             {
-                StoredResources.instance.DecreaseResources(ghostObject.requiredResources);
-                ghost = Instantiate(ghostObject);
-            }               
+                ghost = container.InstantiatePrefabForComponent<Ghost>(ghostObject);
+            }
         }
 
         Cursor.lockState = CursorLockMode.Locked;

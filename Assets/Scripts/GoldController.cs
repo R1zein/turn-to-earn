@@ -14,7 +14,7 @@ public class GoldController : ResourceController
         else
         {
             resourceStore -= oneHitResource;
-            StoredResources.instance.AddResources(new AllResources(0, 0, 0, oneHitResource));
+            wallet.Add(new AllResources(0, 0, 0, oneHitResource));
             if (resourceStore <= 0)
             {
                 Death();

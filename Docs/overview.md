@@ -54,27 +54,28 @@ Assets/
 |---|---|
 | Игрок | [`Player.cs`](../Assets/Scripts/Player/Player.cs) + `FirstPersonMovement` (сторонний) |
 | Добыча | [`ToolController.cs`](../Assets/Scripts/Player/ToolController.cs) → [`ResourceController`](../Assets/Scripts/ResourceController.cs) |
-| Ресурсы | [`StoredResources.cs`](../Assets/Scripts/Player/StoredResources.cs) (синглтон) |
+| Ресурсы | [`ResourceWallet.cs`](../Assets/Scripts/Services/ResourceWallet.cs) (сервис) + [`ResourcesView.cs`](../Assets/Scripts/UI/ResourcesView.cs) |
 | Строительство | [`Inventory.cs`](../Assets/Scripts/Player/Inventory.cs) |
 | Магазин ботов | [`ShopController.cs`](../Assets/Scripts/UI/ShopController.cs) |
 | ИИ | [`NPCFacade.cs`](../Assets/Scripts/AI/NPCFacade.cs) + [`NPCNavigation.cs`](../Assets/Scripts/AI/NPCNavigation.cs) |
 | Здоровье/урон | [`StatsHandler.cs`](../Assets/Scripts/UI/StatsHandler.cs) |
 | Время и волны | [`TimeManager.cs`](../Assets/Scripts/TimeManager.cs) + [`TimePeriod.cs`](../Assets/Scripts/TimePeriod.cs) |
 | Дрон | [`DroneControl.cs`](../Assets/Scripts/Drone/DroneControl.cs) |
-| Глобальные флаги | [`GameManager.cs`](../Assets/Scripts/Player/GameManager.cs) (синглтон) |
 
 ## Как подсистемы связаны
 
-Явной композиции нет — связи собираются тремя способами:
+Связи собирает контейнер Zenject ([Архитектура](architecture.md)):
 
-1. **Синглтоны** — `StoredResources.instance`, `GameManager.instance`
-2. **Поиск по сцене** — `FindAnyObjectByType` / `GameObject.Find` в 8 файлах
-3. **События** — `StatsHandler.OnDeath`/`OnDamage`; ещё event-каналы Unity
-   Behavior (ScriptableObject), но у них не осталось ни одного слушателя
+1. **`[Inject]`** — `Resources/ProjectContext.prefab` (`ProjectInstaller`, пока
+   пустой) и `SceneContext` в `Scene 5` и `SampleScene` с инсталлерами из
+   [`Scripts/Installers`](../Assets/Scripts/Installers/). Префабы с `[Inject]`
+   рождаются через `DiContainer.InstantiatePrefab` (`ResourceSpawner`, `Inventory`).
+2. **События** — `StatsHandler.OnDeath`/`OnDamage`, `ResourceWallet.OnChanged`.
+3. **Остаток старого:** `NPCNavigation` ищет цели `FindObjectsByType` (уйдёт в
+   `TargetRegistry` на этапах 5–6), `Camera.main` в нескольких скриптах.
 
-Это главный архитектурный долг: зависимости не видны по типам и ломаются молча.
-Цель — один граф объектов на сцену, который собирает контейнер Zenject
-([Архитектура](architecture.md)); как к ней прийти — [Архитектурный план](architecture-plan.md).
+Синглтонов и `FindAnyObjectByType` / `GameObject.Find` в своём коде больше нет.
+Что ещё переводится — [Архитектурный план](architecture-plan.md).
 
 ## Текущая стадия
 

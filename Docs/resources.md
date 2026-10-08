@@ -24,31 +24,30 @@
 одновременно (`&`). То есть `a >= b` означает «хватает каждого из четырёх
 ресурсов» — именно это и нужно для проверки цены.
 
-> `operator !=` **сломан**: в нём перепутаны `|` и `&`, из-за приоритета операций
-> выражение считается как `a | b | (c & d)`. Он не является отрицанием `==`.
+> `operator !=` был сломан (перепутаны `|` и `&`) — исправлено 2026-10-08,
+> теперь это отрицание `==`; равенство сравнивает значения и безопасно к `null`.
 > См. [Известные проблемы](known-issues.md#p0-1-operator--в-allresources-даёт-неверный-результат).
 
 ## Хранилище игрока
 
-[`StoredResources`](../Assets/Scripts/Player/StoredResources.cs) — синглтон
-(`StoredResources.instance`), висит на сцене. Держит текущие запасы и обновляет
-четыре текстовых поля TextMeshPro.
+[`ResourceWallet`](../Assets/Scripts/Services/ResourceWallet.cs) — сервис сцены
+(`AsSingle` в `GameplayInstaller`). Держит текущие запасы и сообщает об изменении
+событием `OnChanged`. Получают его через `[Inject]`.
 
 ```csharp
-StoredResources.instance.AddResources(new AllResources(0, oneHitResource, 0, 0));
-StoredResources.instance.DecreaseResources(price);
-bool canAfford = StoredResources.instance.CurrentResources >= price;
+[Inject] private ResourceWallet wallet;
+
+wallet.Add(new AllResources(0, oneHitResource, 0, 0));
+if (wallet.TrySpend(price)) { /* купили */ }
 ```
 
-Особенности, о которых надо знать:
-
-- Текст обновляется **только** внутри `AddResources`/`DecreaseResources` — при
-  старте игры поля показывают то, что осталось в сцене с дизайна.
-- `DecreaseResources` **не проверяет** достаточность: уйти в минус можно, проверка
-  цены — ответственность вызывающего.
-- Это единственное место в проекте, завязанное на TMP-тексты старого uGUI;
-  при переходе HUD на UI Toolkit его надо разделить на модель и отображение
-  (см. [Интерфейс](ui.md)).
+- `TrySpend` проверяет и списывает одним вызовом — уйти в минус нельзя.
+- Состояние живёт в контейнере сцены: перезагрузка сцены начинает с пустого
+  кошелька.
+- Отображение — временный uGUI-компонент
+  [`ResourcesView`](../Assets/Scripts/UI/ResourcesView.cs) на `Canvas`
+  (четыре TMP-поля, подписан на `OnChanged`). На этапе 7 его заменит
+  `ResourcesHudController` на UI Toolkit (см. [Интерфейс](ui.md)).
 
 ## Добыча
 
@@ -73,7 +72,7 @@ bool canAfford = StoredResources.instance.CurrentResources >= price;
 [`BotMiner`](../Assets/Scripts/AI/BotMiner.cs) ищет ближайший `ResourceController`
 через систему навигации, подходит на `mineDistance` и бьёт с периодом `cooldown`.
 Добытое ботом уходит **в тот же общий склад игрока** — `ResourceController` сам
-начисляет в `StoredResources.instance`.
+начисляет в `ResourceWallet`.
 
 > В проекте есть второй, несвязанный добытчик —
 > [`BotNavigation`](../Assets/Scripts/AI/BotNavigation.cs), дублирующий ту же

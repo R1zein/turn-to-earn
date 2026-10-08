@@ -140,11 +140,6 @@ public class GatlingGun : MonoBehaviour
     }
 
 
-    public void BuildTower()
-    {
-        GameObject buildPoint = GameObject.FindGameObjectWithTag("BuildingPoint");
-        Instantiate(gameObject,buildPoint.transform.position,Quaternion.identity);
-    }
     private void Death()
     {
         Destroy(gameObject);

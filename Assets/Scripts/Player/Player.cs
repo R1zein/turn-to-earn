@@ -1,16 +1,17 @@
 using UnityEngine;
+using Zenject;
 
 public class Player : MonoBehaviour
 {
+    [Inject] private ShopController shopController;
+
     private StatsHandler statsHandler;
     public Camera deathCamera;
-    private ShopController shopController;
     private FirstPersonLook firstPersonLook;
     private FirstPersonMovement firstPersonMovement;
 
     void Awake()
     {
-        shopController = FindAnyObjectByType<ShopController>();
         firstPersonLook = GetComponentInChildren<FirstPersonLook>();
         firstPersonMovement = GetComponent<FirstPersonMovement>();
         statsHandler = GetComponent<StatsHandler>();

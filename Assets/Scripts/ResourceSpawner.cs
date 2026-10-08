@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using Zenject;
 
 public class ResourceSpawner : MonoBehaviour
 {
+    // Resource nodes inject the wallet and this spawner, so they must be born through the container.
+    [Inject] private DiContainer container;
+
     [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     [SerializeField] private List<GameObject> stonePrefabs = new List<GameObject>();
     [SerializeField] private int length;
@@ -36,7 +40,7 @@ public class ResourceSpawner : MonoBehaviour
             positions.TryGetValue(point, out value);
             if (value == 0)
             {
-                var stone = Instantiate(stonePrefabs[Random.Range(0, stonePrefabs.Count)], spawnPoints[point].position, Quaternion.identity, transform);
+                var stone = container.InstantiatePrefab(stonePrefabs[Random.Range(0, stonePrefabs.Count)], spawnPoints[point].position, Quaternion.identity, transform);
                 positions[point] = 1;
                 stone.GetComponent<ResourceController>().positionID = point;
             }

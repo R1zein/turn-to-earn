@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public abstract class ResourceController : MonoBehaviour
 {
     [SerializeField] private ParticleSystem destroyEffect;
 
+    [Inject] protected ResourceWallet wallet;
+    [Inject] private ResourceSpawner spawner;
+
     private MeshCollider meshColliderStone;
     private MeshRenderer meshRendererStone;
-    private ResourceSpawner spawner;
     [HideInInspector] public int positionID;
     public MineableResourses resourse;
     private bool isDying = false;
@@ -19,8 +22,7 @@ public abstract class ResourceController : MonoBehaviour
     {
         meshColliderStone = GetComponent<MeshCollider>();
         meshRendererStone = GetComponent<MeshRenderer>();
-        spawner = FindAnyObjectByType<ResourceSpawner>();
-    }                                
+    }
 
     private async Awaitable DeathEffect()
     {

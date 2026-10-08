@@ -19,11 +19,10 @@ public class TimeManager : MonoBehaviour
     private void Awake()
     {
         timer = 7 * secondsPerHour;
-        Light directionlLight = GameObject.Find("Directional Light").GetComponent<Light>();
         AudioSource audio = GetComponent<AudioSource>();
         foreach (TimePeriod timePeriod in timePeriods)
         {
-            timePeriod.InitSettings(secondsPerHour, audio, directionlLight, reflectionProbe);
+            timePeriod.InitSettings(secondsPerHour, audio, directionLight, reflectionProbe);
         }
     }
 

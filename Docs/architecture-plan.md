@@ -83,18 +83,29 @@
 
 Ставим контейнер и переводим **связи**, не трогая поведение.
 
-1. **Установить Zenject.** Оригинальный репозиторий давно не обновляется — брать
-   поддерживаемый форк (Extenject) и проверить на Unity 6000.3.
-2. `Resources/ProjectContext.prefab` + `ProjectInstaller` (пока почти пустой).
-3. `SceneContext` в `Scene 5` (основная карта) и `SampleScene` (дрон); базовый `GameplayInstaller` и
-   наследники под сцены; комментарий о порядке в шапке каждого.
-4. `LevelAnchors` с точками, которые сейчас ищутся по тегу и по детям.
-5. `GameStarter` — последней строкой.
+> **Этап выполнен 2026-10-08.** Отступления от списка — в пунктах 4 и 5.
+
+1. **Установить Zenject.** Extenject 9.2.0, на Unity 6000.3 работает. *Сделано.*
+2. `Resources/ProjectContext.prefab` + `ProjectInstaller` (пока пустой). *Сделано.*
+3. `SceneContext` в `Scene 5` (основная карта) и `SampleScene` (дрон); абстрактный
+   `GameplayInstaller` и наследники `Scene5Installer`, `SampleSceneInstaller`;
+   комментарий о порядке в шапке каждого. *Сделано.*
+4. ~~`LevelAnchors`~~ — **перенесён на этап 5.** Единственный поиск по тегу
+   (`GatlingGun.BuildTower`) оказался мёртвым кодом и удалён, `GameObject.Find`
+   в `TimeManager` дублировал уже назначенное поле `directionLight`. Остались
+   только дочерние точки `ResourceSpawner` — они переезжают вместе с
+   `ResourceNodeSpawner`.
+5. ~~`GameStarter`~~ — **появится, когда будет что запускать** (этап 3:
+   `DayCycle.Begin`). Пустой класс «на будущее» не заводим.
 6. Синглтон → сервис `AsSingle`: `StoredResources` → `ResourceWallet` (с
-   `TrySpend`). Второй синглтон, `GameManager`, к этому моменту удалён на этапе 1.
+   `TrySpend`); TMP-отображение осталось временным компонентом `ResourcesView`
+   до этапа 7. *Сделано.*
 7. Все `FindAnyObjectByType` / `GameObject.Find` / `instance` → `[Inject]`.
    Существующие `MonoBehaviour` сцены получают `[Inject]`-поля — `SceneContext`
    инжектит их при загрузке, переписывать их в сервисы на этом этапе не нужно.
+   *Сделано;* через контейнер рождаются узлы ресурсов (`ResourceSpawner`),
+   постройки и их призраки (`Inventory`). Боты и зомби пока без `[Inject]` и
+   спавнятся обычным `Instantiate` — их спавнеры переводит этап 5.
 
 > **Ловушка этапа.** Как только компонент префаба получил `[Inject]`-поле, **все
 > места спавна этого префаба** должны в том же коммите перейти на

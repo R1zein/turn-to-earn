@@ -14,7 +14,7 @@ public  class StoneController : ResourceController
         else
         {
             resourceStore -= oneHitResource;
-            StoredResources.instance.AddResources(new AllResources(0, 0, oneHitResource, 0));
+            wallet.Add(new AllResources(0, 0, oneHitResource, 0));
             if (resourceStore <= 0)
             {
                 Death();

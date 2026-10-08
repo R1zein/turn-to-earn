@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class ShopController : MonoBehaviour
 {
+    [Inject] private ResourceWallet wallet;
+
     public event Action<bool> OnPanelStateChange;
     public GameObject purchasePanel;
     public GameObject upgradePanel;
@@ -38,9 +41,8 @@ public class ShopController : MonoBehaviour
 
     public void ByeBot(NPCFacade bot)
     {
-        if(StoredResources.instance.CurrentResources >= bot.requiredResources)
+        if (wallet.TrySpend(bot.requiredResources))
         {
-            StoredResources.instance.DecreaseResources(bot.requiredResources);
             Instantiate(bot, botSpawnPosition, Quaternion.identity);
         }
     }

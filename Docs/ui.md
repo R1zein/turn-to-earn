@@ -126,7 +126,7 @@ UI Builder по умолчанию пишет стили **инлайном в U
 
 | Скрипт | Что показывает | Станет |
 |---|---|---|
-| [`StoredResources`](../Assets/Scripts/Player/StoredResources.cs) | четыре TMP-поля с запасами | `ResourcesHudController` |
+| [`ResourcesView`](../Assets/Scripts/UI/ResourcesView.cs) | четыре TMP-поля с запасами из `ResourceWallet` | `ResourcesHudController` |
 | [`TimeManager`](../Assets/Scripts/TimeManager.cs) | TMP-поле с часами | `TimeUIController` |
 | [`CanvasController`](../Assets/Scripts/UI/CanvasController.cs) | мировые полоски HP (`Image.fillAmount`) | `WorldMarkersController` |
 | [`PhpBarController`](../Assets/Scripts/UI/PhpBarController.cs) | полоска HP через `Slider` | `WorldMarkersController` |

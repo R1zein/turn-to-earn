@@ -14,7 +14,7 @@ public class TreeController : ResourceController
         else
         {
             resourceStore -= oneHitResource;
-            StoredResources.instance.AddResources(new AllResources(0, oneHitResource, 0, 0));
+            wallet.Add(new AllResources(0, oneHitResource, 0, 0));
             if (resourceStore <= 0)
             {
                 Death();
