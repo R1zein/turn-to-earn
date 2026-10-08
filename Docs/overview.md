@@ -71,8 +71,8 @@ Assets/
    [`Scripts/Installers`](../Assets/Scripts/Installers/). Префабы с `[Inject]`
    рождаются только спавнерами из [`Services/Spawning`](../Assets/Scripts/Services/Spawning/) через `DiContainer.InstantiatePrefab`.
 2. **События** — `StatsHandler.OnDeath`/`OnDamage`, `ResourceWallet.OnChanged`.
-3. **Остаток старого:** `NPCNavigation` ищет цели `FindObjectsByType` (уйдёт в
-   `TargetRegistry` на этапах 5–6), `Camera.main` в нескольких скриптах.
+3. **Реестр целей** — тела сами встают в `TargetRegistry`, цели выбирает
+   `TargetingService` ([ИИ](ai.md)). Остаток старого — `Camera.main` в нескольких скриптах.
 
 Синглтонов и `FindAnyObjectByType` / `GameObject.Find` в своём коде больше нет.
 Что ещё переводится — [Архитектурный план](architecture-plan.md).

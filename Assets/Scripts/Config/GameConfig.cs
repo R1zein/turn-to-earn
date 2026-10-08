@@ -18,6 +18,12 @@ public class GameConfig : ScriptableObject
     [SerializeField] private int waveBaseCount = 5;
     [SerializeField] private float waveSpawnInterval = 1;
 
+    [Header("Targeting (score = weight / distance)")]
+    [SerializeField] private TargetWeight[] enemyTargets;
+    [SerializeField] private TargetWeight[] bomberTargets;
+    [SerializeField] private TargetWeight[] minerTargets;
+    [SerializeField] private TargetWeight[] defenderTargets;
+
     [Header("Input")]
     // Measured 2026-10-08 on Windows with both input backends active: old
     // GetAxisRaw("Mouse X/Y") was exactly 0.05 of the Input System delta, every frame.
@@ -35,6 +41,11 @@ public class GameConfig : ScriptableObject
     public Enemy WaveEnemy => waveEnemy;
     public int WaveBaseCount => waveBaseCount;
     public float WaveSpawnInterval => waveSpawnInterval;
+
+    public IReadOnlyList<TargetWeight> EnemyTargets => enemyTargets;
+    public IReadOnlyList<TargetWeight> BomberTargets => bomberTargets;
+    public IReadOnlyList<TargetWeight> MinerTargets => minerTargets;
+    public IReadOnlyList<TargetWeight> DefenderTargets => defenderTargets;
 
     public float LookScale => lookScale;
     public float ScrollScale => scrollScale;

@@ -73,6 +73,8 @@ public void TakeDamage(float damage)
 
 ### P1-1. Общий таймер ломает выбор целей
 
+> **Исправлено** 2026-10-08 на этапе 6 (`TargetingService` + `TargetRegistry`, `DamageDealer`, `BotNavigation` удалён).
+
 [`NPCNavigation.cs:54`](../Assets/Scripts/AI/NPCNavigation.cs)
 
 `ChaseTarget` ограничивает сканирование одним разом в секунду через поле `timer`.
@@ -90,6 +92,8 @@ public void TakeDamage(float damage)
 в `TargetingService`, все типы сразу (см. [план](architecture-plan.md#этап-6-бой-и-ии)).
 
 ### P1-2. Падение при дубликате цели
+
+> **Исправлено** 2026-10-08 на этапе 6 (`TargetingService` + `TargetRegistry`, `DamageDealer`, `BotNavigation` удалён).
 
 [`NPCNavigation.cs:46,77`](../Assets/Scripts/AI/NPCNavigation.cs)
 
@@ -196,11 +200,15 @@ Light directionlLight = GameObject.Find("Directional Light")...;    // испо�
 
 ### P2-2. Четыре разных способа нанести урон
 
+> **Исправлено** 2026-10-08 на этапе 6 (`TargetingService` + `TargetRegistry`, `DamageDealer`, `BotNavigation` удалён).
+
 `DamagePlayer`, `DamageBot`, `DamageEnemy`, `DamageZombie` — почти одинаковые
 скрипты, но два выбирают цель по фракции, а два по наличию компонента `Enemy`.
 Урон у половины зашит в код (10 и 5). Подробности — в [Бою](combat.md#нанесение-урона--четыре-разных-способа).
 
 ### P2-3. Дублирующая логика добычи
+
+> **Исправлено** 2026-10-08 на этапе 6 (`TargetingService` + `TargetRegistry`, `DamageDealer`, `BotNavigation` удалён).
 
 [`BotNavigation`](../Assets/Scripts/AI/BotNavigation.cs) и
 [`BotMiner`](../Assets/Scripts/AI/BotMiner.cs) решают одну задачу двумя способами.

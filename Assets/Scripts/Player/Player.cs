@@ -4,6 +4,7 @@ using Zenject;
 public class Player : MonoBehaviour
 {
     [Inject] private ShopController shopController;
+    [Inject] private TargetRegistry registry;
 
     private StatsHandler statsHandler;
     public Camera deathCamera;
@@ -35,10 +36,12 @@ public class Player : MonoBehaviour
     {
         statsHandler.OnDeath += Death;
         shopController.OnPanelStateChange += SetPlayerActive;
+        registry.Add(TargetKind.Player, this);
     }
 
     private void OnDisable()
     {
+        registry.Remove(TargetKind.Player, this);
         statsHandler.OnDeath -= Death;
         shopController.OnPanelStateChange -= SetPlayerActive;
     }

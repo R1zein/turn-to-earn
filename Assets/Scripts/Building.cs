@@ -1,7 +1,10 @@
 using UnityEngine;
+using Zenject;
 
 public class Building : MonoBehaviour
 {
+    [Inject] private TargetRegistry registry;
+
     private StatsHandler statsHandler;
     public AudioClip[] audioClips;
     private AudioSource audioSource;
@@ -14,6 +17,7 @@ public class Building : MonoBehaviour
     {
         statsHandler.OnDeath += Death;
         statsHandler.OnDamage += TakeDamage;
+        registry.Add(TargetKind.Building, this);
     }
 
     private void Death()
@@ -22,6 +26,7 @@ public class Building : MonoBehaviour
     }
     private void OnDisable()
     {
+        registry.Remove(TargetKind.Building, this);
         statsHandler.OnDeath -= Death;
         statsHandler.OnDamage -= TakeDamage;
     }

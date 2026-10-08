@@ -1,17 +1,13 @@
-using UnityEngine;
-
 public class BotDefender : NPCFacade
 {
+    protected override TargetKind? Kind => TargetKind.BotDefender;
+
     private void Start()
     {
-        navigation.FirstLook<Enemy>(10);
-        navigation.SetAndRefresh();
-
+        navigation.LookEverywhere(config.DefenderTargets);
     }
     protected override void Navigation()
     {
-        navigation.ChaseTarget<Enemy>(50);
-        navigation.SetAndRefresh();
-
+        navigation.Rescan(config.DefenderTargets);
     }
 }

@@ -4,22 +4,17 @@ public class BomberBug :NPCFacade
 {
 
 
+    // Was never found by defenders or turrets (they looked for Enemy), kept that way.
+    protected override TargetKind? Kind => null;
+
     void Start()
     {
-        navigation.FirstLook<BotMiner>(10);
-        navigation.FirstLook<BotDefender>(50);
-        navigation.FirstLook<Player>(75);
-        navigation.FirstLook<GatlingGun>(25);
-        navigation.SetAndRefresh();
+        navigation.LookEverywhere(config.BomberTargets);
     }
 
     protected override void Navigation()
     {
-        navigation.ChaseTarget<BotMiner>(10);
-        navigation.ChaseTarget<BotDefender>(50);
-        navigation.ChaseTarget<Player>(75);
-        navigation.ChaseTarget<GatlingGun>(25);
-        navigation.SetAndRefresh();
+        navigation.Rescan(config.BomberTargets);
     }
 
     protected override void NPCAnimationControl()

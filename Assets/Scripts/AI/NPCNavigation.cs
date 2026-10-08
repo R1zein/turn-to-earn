@@ -1,21 +1,24 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 
+// Body side of choosing a target: holds the current target and walks the agent
+// to it. Which target is best is TargetingService's decision.
 public class NPCNavigation : MonoBehaviour
 {
-    private Dictionary<Transform, float> priorityTargets = new ();
+    private const float RescanInterval = 1f;
+
+    [Inject] private TargetingService targeting;
+
     public float sightDistance;
     public float attackDistance;
     private NavMeshAgent agent;
     [HideInInspector]public Transform target;
-    private Animator animator;
     private float timer;
     public bool isDead;
     private void Awake()
     {
-        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
     }
     private void Update()
@@ -25,79 +28,26 @@ public class NPCNavigation : MonoBehaviour
             agent.SetDestination(target.position);
         }
     }
-    public void FirstLook<T>(int priority) where T: MonoBehaviour
+
+    // Whole map, once when the NPC appears: find somewhere to go at all.
+    public void LookEverywhere(IReadOnlyList<TargetWeight> weights)
     {
-        T[] ObjectsT = FindObjectsByType<T>(FindObjectsSortMode.None);
-        Transform newTarget = null;
-        float score = 0;
-        foreach (T objectT in ObjectsT)
-        {
-            float currentDistance = Vector3.Distance(transform.position, objectT.transform.position);
-            float currScore = priority / currentDistance;
-            if (currScore > score)
-            {
-                newTarget = objectT.transform;
-                score = currScore;
-            }
-
-        }
-        if (newTarget != null)
-        {
-            priorityTargets.Add(newTarget, score);
-        }
-
-
-
+        Transform best = targeting.FindBest(transform.position, weights);
+        if (best != null)
+            target = best;
     }
-    public void ChaseTarget<T>(int priority) where T : MonoBehaviour
+
+    // Within sight, at most once per second, all kinds at once. Nothing in sight
+    // keeps the current target.
+    public void Rescan(IReadOnlyList<TargetWeight> weights)
     {
         timer += Time.deltaTime;
-        if (timer > 1f)
-        {
-            timer = 0f;
-            Collider[] colliders = Physics.OverlapSphere(transform.position, sightDistance);
-            Transform newTarget = null;
-            float score = 0;
-            foreach (Collider collider in colliders)
-            {
-                if (collider.TryGetComponent<T>(out var bot))
-                {
-                    float distance = Vector3.Distance(transform.position, bot.transform.position);
-                    float currentScore = priority / distance;
-                    if (currentScore > score)
-                    {
-                        score = currentScore;
-                        newTarget = bot.transform;
-                    }
-                }
-            }
-
-            if (newTarget != null)
-            {
-                priorityTargets.Add(newTarget, score);
-            }
-        }
-    }
-
-
-    public void SetAndRefresh()
-    {
-        float currentScore = 0;
-        if (priorityTargets.Count == 0)
-        {
+        if (timer < RescanInterval)
             return;
-        }
-        foreach (var target in priorityTargets)
-        {
-            if (target.Value > currentScore)
-            {
-                currentScore = target.Value;
-            }
-        }
-        var newTarget = priorityTargets.FirstOrDefault(x => x.Value.Equals(currentScore)).Key;
-        target = newTarget;
-        priorityTargets.Clear();
+        timer = 0f;
+
+        Transform best = targeting.FindBest(transform.position, weights, sightDistance);
+        if (best != null)
+            target = best;
     }
-
-
 }

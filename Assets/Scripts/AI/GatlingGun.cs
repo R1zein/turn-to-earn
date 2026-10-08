@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using Zenject;
 
 public class GatlingGun : MonoBehaviour
 {
+    [Inject] private TargetRegistry registry;
+    [Inject] private TargetingService targeting;
+
     private Enemy target;
 
     public Transform go_baseRotation;
@@ -37,10 +40,12 @@ public class GatlingGun : MonoBehaviour
     private void OnEnable()
     {
         stats.OnDeath += Death;
+        registry.Add(TargetKind.Turret, this);
     }
 
     private void OnDisable()
     {
+        registry.Remove(TargetKind.Turret, this);
         stats.OnDeath -= Death;
     }
 
@@ -107,21 +112,7 @@ public class GatlingGun : MonoBehaviour
     }
     private void ScanForTarget()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, firingRange);
-        float shortestDistance = Mathf.Infinity;
-        Enemy currentTarget = null;
-        foreach (Collider collider in colliders)
-        {
-            if (collider.TryGetComponent<Enemy>(out var enemy))
-            {
-                float distance = Vector3.Distance(transform.position, enemy.transform.position);
-                if (distance < shortestDistance)
-                {
-                    shortestDistance = distance;
-                    currentTarget = enemy;
-                }
-            }
-        }
+        Enemy currentTarget = targeting.FindNearest<Enemy>(TargetKind.Enemy, transform.position, firingRange);
         if (currentTarget != null && currentTarget != target)
         {
             currentTarget.GetComponent<StatsHandler>().OnDeath += CheckTarget;

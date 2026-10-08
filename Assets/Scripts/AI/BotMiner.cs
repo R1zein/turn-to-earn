@@ -12,10 +12,11 @@ public class BotMiner : NPCFacade
     private float targetDistance;
     public float cooldown;
 
+    protected override TargetKind? Kind => TargetKind.BotMiner;
+
     private void Start()
     {
-        navigation.FirstLook<ResourceController>(10);
-        navigation.SetAndRefresh();
+        navigation.LookEverywhere(config.MinerTargets);
     }
 
     protected void Update()
@@ -52,8 +53,7 @@ public class BotMiner : NPCFacade
 
     protected override void Navigation()
     {
-        navigation.ChaseTarget<ResourceController>(10);
-        navigation.SetAndRefresh();
+        navigation.Rescan(config.MinerTargets);
 
     }
 }

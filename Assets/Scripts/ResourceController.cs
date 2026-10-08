@@ -9,6 +9,7 @@ public abstract class ResourceController : MonoBehaviour
 
     [Inject] protected ResourceWallet wallet;
     [Inject] private ResourceNodeSpawner spawner;
+    [Inject] private TargetRegistry registry;
 
     private MeshCollider meshColliderStone;
     private MeshRenderer meshRendererStone;
@@ -23,8 +24,20 @@ public abstract class ResourceController : MonoBehaviour
         meshRendererStone = GetComponent<MeshRenderer>();
     }
 
+    private void OnEnable()
+    {
+        registry.Add(TargetKind.ResourceNode, this);
+    }
+
+    private void OnDisable()
+    {
+        registry.Remove(TargetKind.ResourceNode, this);
+    }
+
     private async Awaitable DeathEffect()
     {
+        // Mined out: bots stop walking to it while the effect plays.
+        registry.Remove(TargetKind.ResourceNode, this);
         meshColliderStone.enabled = false;
         meshRendererStone.enabled = false;
         Instantiate(destroyEffect, transform.position, Quaternion.identity);

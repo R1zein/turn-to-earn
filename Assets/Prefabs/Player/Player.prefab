@@ -401,7 +401,6 @@ MonoBehaviour:
   speed: 5
   canRun: 1
   runSpeed: 9
-  runningKey: 304
 --- !u!114 &1377205707136890058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,7 +427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27b67ddb3d23b8340b125aede56d7e8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: 306
   movement: {fileID: 8912272366931860640}
   movementSpeed: 2
   headToLower: {fileID: 3994029231150870922}
@@ -1563,7 +1561,7 @@ PrefabInstance:
       addedObject: {fileID: 2423951715956042325}
     - targetCorrespondingSourceObject: {fileID: 1777591198242490, guid: 3329101817c67e24fb70ba97b6168054, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6605166017217529856}
+      addedObject: {fileID: 2715428038965899432}
   m_SourcePrefab: {fileID: 100100000, guid: 3329101817c67e24fb70ba97b6168054, type: 3}
 --- !u!4 &3248593603289719517 stripped
 Transform:
@@ -1633,7 +1631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mineableResourses: 
---- !u!114 &6605166017217529856
+--- !u!114 &2715428038965899432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1642,9 +1640,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3250670559410734295}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0e5341ec107b2e4ea03b191756d050b, type: 3}
+  m_Script: {fileID: 11500000, guid: 005924966f8c314429a692b082b193da, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  targetFraction: 2
   damage: 50
 --- !u!1001 &8935051664390127710
 PrefabInstance:

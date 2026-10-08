@@ -18,6 +18,10 @@ public abstract class GameplayInstaller : MonoInstaller
 
         Container.Bind<ResourceWallet>().AsSingle();
 
+        // Bodies add themselves to the registry in OnEnable, before any Initialize.
+        Container.Bind<TargetRegistry>().AsSingle();
+        Container.Bind<TargetingService>().AsSingle();
+
         InstallSceneBindings();
     }
 

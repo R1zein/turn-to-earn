@@ -136,8 +136,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2798330508885574164}
   - component: {fileID: 750909974593296514}
-  - component: {fileID: 257501685561515582}
   - component: {fileID: 2596525782116991687}
+  - component: {fileID: 7132919944321614372}
   m_Layer: 0
   m_Name: R_first_3
   m_TagString: Untagged
@@ -184,18 +184,6 @@ CapsuleCollider:
   m_Height: 2.27
   m_Direction: 0
   m_Center: {x: -0, y: -0.06, z: 0.01}
---- !u!114 &257501685561515582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 717488417909730373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3edb26fa6741ba04aacdcd72c8a2216a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2596525782116991687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +196,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 005924966f8c314429a692b082b193da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetFraction: 0
+  damage: 10
+--- !u!114 &7132919944321614372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 717488417909730373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 005924966f8c314429a692b082b193da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  targetFraction: 1
+  damage: 5
 --- !u!1 &1243363348532005787
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,7 +891,7 @@ GameObject:
   - component: {fileID: 8594079112098188243}
   - component: {fileID: 6179534686595344757}
   - component: {fileID: 1358964315589887611}
-  - component: {fileID: 3386861787242256953}
+  - component: {fileID: 54764051129899901}
   m_Layer: 0
   m_Name: L_first_3
   m_TagString: Untagged
@@ -946,7 +950,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 005924966f8c314429a692b082b193da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3386861787242256953
+  targetFraction: 0
+  damage: 10
+--- !u!114 &54764051129899901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -955,9 +961,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4648613957934184732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3edb26fa6741ba04aacdcd72c8a2216a, type: 3}
+  m_Script: {fileID: 11500000, guid: 005924966f8c314429a692b082b193da, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageDealer
+  targetFraction: 1
+  damage: 5
 --- !u!1 &4727946557185218254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,6 +1400,8 @@ SkinnedMeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1413,9 +1423,11 @@ SkinnedMeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
@@ -1680,10 +1692,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7237286591617226822}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 70
-  m_Drag: 0
-  m_AngularDrag: 5
+  m_LinearDamping: 0
+  m_AngularDamping: 5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1736,6 +1748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 250
   currHP: 0
+  fraction: 2
 --- !u!114 &54674587218716006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1752,7 +1765,7 @@ MonoBehaviour:
     iron: 0
     tree: 0
     ore: 0
-  onNpcDeath: {fileID: 11400000, guid: 9a452fe9626bee34eb899aa8869030cd, type: 2}
+    gold: 0
 --- !u!114 &6226021542839624954
 MonoBehaviour:
   m_ObjectHideFlags: 0

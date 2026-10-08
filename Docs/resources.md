@@ -69,15 +69,10 @@ if (wallet.TrySpend(price)) { /* купили */ }
 
 ### Ботами
 
-[`BotMiner`](../Assets/Scripts/AI/BotMiner.cs) ищет ближайший `ResourceController`
-через систему навигации, подходит на `mineDistance` и бьёт с периодом `cooldown`.
+[`BotMiner`](../Assets/Scripts/AI/BotMiner.cs) выбирает узел ресурса
+через `TargetingService` ([ИИ](ai.md)), подходит на `mineDistance` и бьёт с периодом `cooldown`.
 Добытое ботом уходит **в тот же общий склад игрока** — `ResourceController` сам
 начисляет в `ResourceWallet`.
-
-> В проекте есть второй, несвязанный добытчик —
-> [`BotNavigation`](../Assets/Scripts/AI/BotNavigation.cs), дублирующий ту же
-> механику другим способом. Какой из них реально используется — зависит от
-> префаба. См. [ИИ](ai.md#дубль-логики-добычи).
 
 ## Узлы ресурсов
 

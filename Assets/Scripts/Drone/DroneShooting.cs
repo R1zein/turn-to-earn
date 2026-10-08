@@ -68,13 +68,11 @@ public class DroneShooting : MonoBehaviour
         if (debug)
             Debug.Log($"Laser hit: {hit.collider.name}", hit.collider);
 
-        // Enemy/StatsHandler may live on a parent of the collider the ray actually hit,
+        // StatsHandler may live on a parent of the collider the ray actually hit,
         // so search up the hierarchy instead of only the hit collider itself.
-        if (hit.collider.GetComponentInParent<Enemy>() == null)
-            return;
-
+        // Friend or foe is decided by fraction, as for every other weapon.
         var stats = hit.collider.GetComponentInParent<StatsHandler>();
-        if (stats != null)
+        if (stats != null && stats.fraction == Fraction.Enemy)
             stats.TakeDamage(damage);
     }
 }
