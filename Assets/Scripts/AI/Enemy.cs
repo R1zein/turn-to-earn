@@ -16,7 +16,7 @@ public class Enemy : NPCFacade
         navigation.ChaseTarget<BotDefender>(70);
         navigation.ChaseTarget<Player>(75);
         navigation.ChaseTarget<GatlingGun>(60);
-        navigation.FirstLook<Building>(30);
+        navigation.ChaseTarget<Building>(30);
         navigation.SetAndRefresh();
 
     }
