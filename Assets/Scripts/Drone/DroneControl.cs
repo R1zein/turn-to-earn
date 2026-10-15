@@ -20,7 +20,7 @@ using Zenject;
 public class DroneControl : MonoBehaviour
 {
     [Header("Steering")]
-    [SerializeField] private float deadZone = 0.08f;   // normalized square half-size, 0..1
+    [SerializeField] private float deadZone = 0.08f;   // normalized radius of the round dead zone, 0..1
     [SerializeField] private float rollSpeed = 180f;   // how fast we bank toward target (deg/s)
     [SerializeField] private float pitchRate = 90f;    // nose rotation speed at full deflection (deg/s)
 
@@ -93,10 +93,10 @@ public class DroneControl : MonoBehaviour
         raw.x = Mathf.Clamp(raw.x, -1f, 1f);
         raw.y = Mathf.Clamp(raw.y, -1f, 1f);
 
-        // square dead-zone in the center: inside it we hold course
-        aim = raw;
-        if (Mathf.Abs(aim.x) < deadZone) aim.x = 0f;
-        if (Mathf.Abs(aim.y) < deadZone) aim.y = 0f;
+        // round dead-zone in the center: inside it we hold course. Round, not per-axis:
+        // zeroing each axis on its own snapped the direction onto an axis near it
+        // (a cursor slightly right of straight up read as exactly up).
+        aim = raw.magnitude < deadZone ? Vector2.zero : raw;
     }
 
     private void Steer()
