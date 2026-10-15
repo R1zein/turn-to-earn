@@ -141,12 +141,17 @@ public class DroneControl : MonoBehaviour
         float targetZ = push ? pushZ : pullZ;
         float pitchSign = push ? -1f : 1f;  // push => nose down, pull => nose up
 
-        // PITCH continuously rotates forward => the actual turn. Strength = distance.
-        transform.Rotate(-pitchSign * d * pitchRate * Time.deltaTime, 0f, 0f, Space.Self); // <- flip sign if pitch is inverted
-
         // ROLL banks toward the chosen target by the shortest path. Using the wrapped
         // delta lets a barrel roll flow smoothly through +/-180 without snapping.
         float rollDelta = Mathf.DeltaAngle(currentRoll, targetZ);            // <- negate for inverted bank
+
+        // PITCH continuously rotates forward => the actual turn. Strength = distance,
+        // scaled by how far the bank has got: pitching while still rolling turns the
+        // nose in the old plane (a hard right swing became a 33 deg climb). cos of the
+        // remaining bank error is the share of the pitch that goes the wanted way.
+        float alignment = Mathf.Max(0f, Mathf.Cos(rollDelta * Mathf.Deg2Rad));
+        transform.Rotate(-pitchSign * d * alignment * pitchRate * Time.deltaTime, 0f, 0f, Space.Self); // <- flip sign if pitch is inverted
+
         rollDelta = Mathf.Clamp(rollDelta, -rollSpeed * Time.deltaTime, rollSpeed * Time.deltaTime);
         transform.Rotate(0f, 0f, rollDelta, Space.Self);
     }
