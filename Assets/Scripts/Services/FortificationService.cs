@@ -25,5 +25,8 @@ public class FortificationService
         return false;
     }
 
-    public void BuildPart(string partName) => Current.BuildParts(partName);
+    // Each part is built once; repeated requests do nothing.
+    public bool TryBuildPart(string partName) => Current != null && Current.TryBuildPart(partName);
+
+    public bool IsPartBuilt(string partName) => Current != null && Current.IsPartBuilt(partName);
 }

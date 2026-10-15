@@ -18,6 +18,7 @@ public class ShopPanelController : IInitializable, IDisposable
 
     private readonly List<Action> unsubscribe = new List<Action>();
     private readonly List<(Button card, NPCFacade bot)> botCards = new List<(Button, NPCFacade)>();
+    private readonly List<(Button card, string partName)> partCards = new List<(Button, string)>();
     private VisualElement panel, botsPage, basePage, fortificationList, partList;
     private Label baseHint;
     private Button botsTab, baseTab;
@@ -52,8 +53,9 @@ public class ShopPanelController : IInitializable, IDisposable
         foreach (FortificationPartOption option in config.FortificationParts)
         {
             string partName = option.PartName;
-            cards.Add(partList, option.Title, option.Icon, new AllResources(),
-                () => fortifications.BuildPart(partName), unsubscribe);
+            Button card = cards.Add(partList, option.Title, option.Icon, new AllResources(),
+                () => BuildPart(partName), unsubscribe);
+            partCards.Add((card, partName));
         }
 
         Subscribe(botsTab, ShowBots);
@@ -104,6 +106,7 @@ public class ShopPanelController : IInitializable, IDisposable
         fortificationList.EnableInClassList("hidden", isChosen);
         partList.EnableInClassList("hidden", !isChosen);
         baseHint.text = isChosen ? "BUILD PARTS OF THE BASE" : "CHOOSE WHERE TO BUILD THE BASE";
+        RefreshParts();
     }
 
     private void SetPage(bool isBots)
@@ -124,6 +127,24 @@ public class ShopPanelController : IInitializable, IDisposable
     {
         fortifications.TryBuild(id);
         ShowBase();
+    }
+
+    private void BuildPart(string partName)
+    {
+        fortifications.TryBuildPart(partName);
+        RefreshParts();
+    }
+
+    // A built part's card goes dark and says so: each part is built once.
+    private void RefreshParts()
+    {
+        foreach (var (card, partName) in partCards)
+        {
+            bool isBuilt = fortifications.IsPartBuilt(partName);
+            card.SetEnabled(!isBuilt);
+            if (isBuilt)
+                card.Q<Label>("Price").text = "BUILT";
+        }
     }
 
     private void RefreshBotPrices()
