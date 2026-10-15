@@ -28,6 +28,8 @@ public class DroneControl : MonoBehaviour
     [SerializeField] private float thrust = 20f;
     [SerializeField] private float deceleration = 0.5f;
     [SerializeField] private float moveThreshold = 0.5f; // min speed (m/s) required to steer
+    [Tooltip("How fast the velocity turns toward the nose, deg/s. 0 = free drift: the drone slides on the old heading after a turn")]
+    [SerializeField] private float velocityFollow = 180f;
 
     // Throttle and the cursor position. The cursor itself (confined, hidden - we draw
     // our own reticle) is the scene's base InputMode.Drone.
@@ -174,6 +176,16 @@ public class DroneControl : MonoBehaviour
 
     private void Move()
     {
+        // The velocity swings toward the nose, keeping its length: in a turn the drone
+        // flies where it points instead of skidding outward (11.8 deg average slip in a
+        // full-deflection turn with throttle before this).
+        Vector3 velocity = rb.linearVelocity;
+        if (velocity.sqrMagnitude > 1e-4f)
+        {
+            float maxTurn = velocityFollow * Mathf.Deg2Rad * Time.fixedDeltaTime;
+            rb.linearVelocity = Vector3.RotateTowards(velocity, transform.forward * velocity.magnitude, maxTurn, 0f);
+        }
+
         if (throttle)
         {
             // move strictly along the nose (no roll-based drift)
