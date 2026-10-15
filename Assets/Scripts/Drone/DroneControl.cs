@@ -88,10 +88,12 @@ public class DroneControl : MonoBehaviour
         Vector2 mouse = input.DroneAim;
         Vector2 half = new Vector2(Screen.width, Screen.height) * 0.5f;
 
-        // normalized offset from screen center, -1..1 per axis
-        Vector2 raw = new Vector2((mouse.x - half.x) / half.x, (mouse.y - half.y) / half.y);
-        raw.x = Mathf.Clamp(raw.x, -1f, 1f);
-        raw.y = Mathf.Clamp(raw.y, -1f, 1f);
+        // offset from screen center in units of half the screen HEIGHT on both axes, so
+        // the same mouse travel gives the same deflection in every direction (dividing x
+        // by half the width made sideways turns need twice the travel on a wide screen).
+        // Full deflection is a circle of radius half-height; clamping the length keeps
+        // the direction intact.
+        Vector2 raw = Vector2.ClampMagnitude((mouse - half) / half.y, 1f);
 
         // round dead-zone in the center: inside it we hold course. Round, not per-axis:
         // zeroing each axis on its own snapped the direction onto an axis near it
