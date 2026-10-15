@@ -35,6 +35,12 @@ public class GameConfig : ScriptableObject
     [Tooltip("Enemies per portal on the first wave; each wave adds 2 per wave number")]
     [SerializeField] private int waveBaseCount = 5;
     [SerializeField] private float waveSpawnInterval = 1;
+    [Tooltip("Heavy enemy that joins the waves from wave Spider First Wave on")]
+    [SerializeField] private Enemy spiderEnemy;
+    [Tooltip("Number of the first wave (1-based) with spiders")]
+    [SerializeField] private int spiderFirstWave = 3;
+    [Tooltip("Spiders per wave, across all portals, added for every wave from the first spider wave on")]
+    [SerializeField] private int spidersPerWave = 1;
 
     [Header("Targeting (score = weight / distance)")]
     [SerializeField] private TargetWeight[] enemyTargets;
@@ -82,6 +88,9 @@ public class GameConfig : ScriptableObject
     public Enemy WaveEnemy => waveEnemy;
     public int WaveBaseCount => waveBaseCount;
     public float WaveSpawnInterval => waveSpawnInterval;
+    public Enemy SpiderEnemy => spiderEnemy;
+    public int SpiderFirstWave => spiderFirstWave;
+    public int SpidersPerWave => spidersPerWave;
 
     public IReadOnlyList<TargetWeight> EnemyTargets => enemyTargets;
     public IReadOnlyList<TargetWeight> BomberTargets => bomberTargets;

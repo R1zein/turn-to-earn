@@ -315,6 +315,9 @@ MonoBehaviour:
   waveEnemy: {fileID: 1284650868752199256, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
   waveBaseCount: 5
   waveSpawnInterval: 1
+  spiderEnemy: {fileID: 54674587218716006, guid: 703eb41ae91721c45b46e3464dba8ad8, type: 3}
+  spiderFirstWave: 3
+  spidersPerWave: 1
   enemyTargets:
   - Kind: 1
     Weight: 50

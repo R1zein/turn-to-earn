@@ -4,8 +4,10 @@ using UnityEngine;
 using Zenject;
 
 // Each time the wave period begins, every portal opens and releases enemies one
-// by one: base count + 2 per wave so far. Waves still running when the scene
-// unloads stop at their next step.
+// by one: base count + 2 per wave so far. From wave SpiderFirstWave on, spiders
+// follow the zombies - SpidersPerWave more each wave, dealt out one per portal
+// starting from a different portal every wave. Waves still running when the
+// scene unloads stop at their next step.
 public class WaveService : IInitializable, IDisposable
 {
     [Inject] private DayCycle dayCycle;
@@ -33,20 +35,41 @@ public class WaveService : IInitializable, IDisposable
         if (period != config.WavePeriod)
             return;
 
-        int count = config.WaveBaseCount + dayCycle.EnterCount(period) * 2;
-        foreach (Portal portal in anchors.Portals)
-            _ = RunWave(portal, count);
+        int wave = dayCycle.EnterCount(period);
+        int zombies = config.WaveBaseCount + wave * 2;
+        IReadOnlyList<Portal> portals = anchors.Portals;
+        int[] spiders = DealSpiders(wave, portals.Count);
+        for (int i = 0; i < portals.Count; i++)
+            _ = RunWave(portals[i], zombies, spiders[i]);
     }
 
-    private async Awaitable RunWave(Portal portal, int count)
+    // Spiders per portal for this wave.
+    private int[] DealSpiders(int wave, int portalCount)
+    {
+        var perPortal = new int[portalCount];
+        int total = SpiderCount(wave);
+        for (int k = 0; k < total; k++)
+            perPortal[(wave + k) % portalCount]++;
+        return perPortal;
+    }
+
+    private int SpiderCount(int wave)
+    {
+        if (config.SpiderEnemy == null || wave < config.SpiderFirstWave)
+            return 0;
+        return (wave - config.SpiderFirstWave + 1) * config.SpidersPerWave;
+    }
+
+    private async Awaitable RunWave(Portal portal, int zombies, int spiders)
     {
         if (!busyPortals.Add(portal))
             return;
 
         portal.SetOpen(true);
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < zombies + spiders; i++)
         {
-            spawner.Spawn(config.WaveEnemy, portal.SpawnPosition);
+            Enemy prefab = i < zombies ? config.WaveEnemy : config.SpiderEnemy;
+            spawner.Spawn(prefab, portal.SpawnPosition);
             await Awaitable.WaitForSecondsAsync(config.WaveSpawnInterval);
             // The scene unloaded while we waited: the portal is gone with it.
             if (isDisposed)
