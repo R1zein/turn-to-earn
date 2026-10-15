@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Dialog", menuName = "Dialogs/Create New Dialog")]

@@ -290,44 +290,50 @@ Unity сообщает об этом в консоли при каждом за�
 
 ## P3 — мусор и косметика
 
+> **Разобрано на этапе 8 (2026-10-15).** Ниже — что осталось и что найдено заново.
+
 ### P3-1. Мёртвые файлы
 
-| Файл | Что в нём |
-|---|---|
-| [`TimeSystem.cs`](../Assets/Scripts/TimeSystem.cs) | пустой шаблон Unity |
-| [`DroneMain.cs`](../Assets/Scripts/Drone/DroneMain.cs) | пустой шаблон Unity |
-| [`KillingQuest.cs`](../Assets/Scripts/Quests/KillingQuest.cs) | одна закомментированная строка |
-| [`Behaviour Tree/Tutorial/`](../Assets/Scripts/Behaviour%20Tree/Tutorial/) | 9 учебных файлов, к игре не относятся |
-| [`PlayerControll.cs`](../Assets/Scripts/Player/PlayerControll.cs) | шлёт event-канал, у которого нет слушателей |
-| квестовая система целиком | граф удалён; состав и порядок удаления — в [Квестах](quests-and-dialogs.md#что-осталось) |
+Удалены: `TimeSystem.cs`, `DroneMain.cs` (пустые шаблоны), квестовая система
+целиком (этап 1), `BotNavigation` (этап 6), uGUI-скрипты и `Canvas.prefab` (этап 7).
+
+Остались сознательно:
+
+- [`BomberBug`](../Assets/Scripts/Enemy/BomberBug.cs) — ни на одном префабе, но
+  похож на заготовку врага с готовыми ассетами; переведён на новый API.
+- `DialogData`, `CharacterSpeech`, `Data/Dialogs/ResourceDialog.asset` — формат
+  реплик для будущих квестов.
+- `Assets/Free Island Collection/Scenes/Scene 5.unity` — копия основной сцены
+  внутри стороннего пакета: без `SceneContext`, со ссылкой на удалённый
+  `Canvas.prefab`. Не работает; лежит в чужой папке, поэтому не тронута —
+  удалить, если не нужна.
 
 ### P3-2. Опечатки в именах
 
-`Interract`, `PlayerControll`, `BsseManager` (Base), `PhpBarController` (HP),
-`MineableResourses`, `firstBotCrea6ted`, `firstKillMaded`, `ByeBot` (Buy),
-`FirstKillQst`, `GatelingGun_Yellow_L3` (префаб).
+Исправлены: `Interract` → `Interact` (метод), `TableInterract` → `ShopTable`
+(класс, `.meta` сохранена), `MineableResourses` → `MineableResource`, поля
+`resourse` → `resource` и `mineableResourses` → `mineableResources`
+(`[FormerlySerializedAs]`, значения в префабах сверены — совпадают),
+`GatelingGun_Yellow_L3` → `GatlingGun_Yellow_L3` (префаб и призрак, guid тот же).
+Вместе с удалёнными классами ушли `PlayerControll`, `BsseManager`,
+`PhpBarController`, `ByeBot`, `firstBotCrea6ted`, `firstKillMaded`, `FirstKillQst`.
 
-Переименование типов рвёт связи в сценах и префабах — делать отдельной задачей,
-по одному, с проверкой в редакторе.
+Остались: `muzzelFlash`, `go_baseRotation`/`go_GunBody`/`go_barrel` в `GatlingGun`,
+`StolPrizrak` (призрак стола, транслит) — поля с данными в префабах, переименовывать
+только с `[FormerlySerializedAs]` и сверкой.
 
 ### P3-3. Мусорные `using`
 
-`using static UnityEngine.GraphicsBuffer;` в
-[`NPCFacade`](../Assets/Scripts/AI/NPCFacade.cs) и
-[`GatlingGun`](../Assets/Scripts/AI/GatlingGun.cs) — автодобавление IDE. Тянет в
-область видимости тип `Target`, что может запутать при чтении.
-
-Плюс `using System.Collections/Generic` в десятках файлов, которые их не
-используют (наследие шаблона Unity).
+Убраны во всех своих скриптах (`System.Collections*`, `UnityEngine.UI`,
+`Unity.VisualScripting`, `using static GraphicsBuffer`, лишний `System`).
+Сторонний `Mini First Person Controller` не трогали.
 
 ### P3-4. Прочее
 
-- ~~`ShopController.ByeBot` — цикл на одну итерацию~~ — класс удалён на этапе 7.
-- ~~`PriceTextBuilder` не показывает золото~~ — карточки `ItemCards` показывают все ресурсы.
-- `TimeManager` выводит время без ведущего нуля: `7:5` вместо `07:05`.
-- `GatlingGun.stats` публичное, но перезаписывается в `Awake`.
-- `GameManager` целиком: `firstBotCreated` не используется, `firstKillMaded` никто не
-  выставляет, `firstBuildCreated` никто не читает с тех пор, как умерли квесты.
-- `NPCNavigation.isDead` объявлено, но нигде не используется.
-- ~~`ResourceSpawner.length`~~ — класс стал `ResourceArea`, поле удалено.
+- ~~`TimeManager` выводит время без ведущего нуля~~ — часы показывают `7:05`.
+- ~~`GatlingGun.stats` публичное~~ — приватное.
+- ~~`NPCNavigation.isDead` не используется~~ — удалено.
 - `BomberBug` взводит триггер `attack1` каждый кадр, пока цель в радиусе.
+- **Золото игрок добыть не может:** в кирке `Stones` и `Iron`, в топоре `Wood`,
+  инструмента с `Gold` нет — золото добывают только боты. Это данные префабов
+  `Player`/`axe`, а не код.

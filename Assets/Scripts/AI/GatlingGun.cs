@@ -1,5 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -20,7 +18,7 @@ public class GatlingGun : MonoBehaviour
     public float firingRange;
     public ParticleSystem muzzelFlash;
 
-    public StatsHandler stats;
+    private StatsHandler stats;
 
     bool canFire = false;
     private float timer;

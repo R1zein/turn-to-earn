@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public abstract class ResourceController : MonoBehaviour
@@ -13,7 +12,7 @@ public abstract class ResourceController : MonoBehaviour
 
     private MeshCollider meshColliderStone;
     private MeshRenderer meshRendererStone;
-    public MineableResourses resourse;
+    [FormerlySerializedAs("resourse")] public MineableResource resource;
     private bool isDying = false;
     [SerializeField] protected int resourceStore;
     [SerializeField] protected int oneHitResource;

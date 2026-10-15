@@ -71,12 +71,12 @@
 (вкладки BOTS и BASE, см. [Интерфейс](ui.md)).
 
 Открывается не клавишей, а через взаимодействие со столом:
-[`TableInterract`](../Assets/Scripts/UI/TableInterract.cs) наследует
+[`ShopTable`](../Assets/Scripts/UI/ShopTable.cs) наследует
 `Interactable`, и [`PlayerInteraction`](../Assets/Scripts/Services/PlayerInteraction.cs)
 вызывает его, когда игрок нажимает F, глядя на стол с расстояния до 1.5 м.
 
 ```
-InputService.OnInteract → PlayerInteraction (луч 1.5 м) → TableInterract.Interract()
+InputService.OnInteract → PlayerInteraction (луч 1.5 м) → ShopTable.Interact()
   → ShopPanelController.Show(точка спавна)
 ```
 

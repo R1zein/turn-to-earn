@@ -17,6 +17,6 @@ public class ClockHudController : IInitializable, IDisposable
 
     public void Dispose() => timeManager.OnClockChanged -= Redraw;
 
-    // Minutes are not zero-padded, as before: 7:05 reads "7:5".
-    private void Redraw() => clock.text = $"{timeManager.Hours}:{timeManager.Minutes}";
+    // Minutes are zero-padded: 7:05, not 7:5.
+    private void Redraw() => clock.text = $"{timeManager.Hours}:{timeManager.Minutes:00}";
 }

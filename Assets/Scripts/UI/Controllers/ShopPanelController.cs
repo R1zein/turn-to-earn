@@ -6,7 +6,7 @@ using Zenject;
 
 // Shop at the table: a Bots page (buy helper bots) and a Base page (pick a base
 // site, then build its parts). Only forwards choices to ShopService and
-// FortificationService; opened by TableInterract, closed by its button or Esc/Tab.
+// FortificationService; opened by ShopTable, closed by its button or Esc/Tab.
 public class ShopPanelController : IInitializable, IDisposable
 {
     [Inject] private UIDocument document;

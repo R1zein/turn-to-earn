@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 
@@ -9,7 +9,8 @@ public class ToolController : MonoBehaviour
 {
     private Animator animator;
     private SoundController soundController;
-    [SerializeField] private List<MineableResourses> mineableResourses = new List<MineableResourses>();
+    [SerializeField, FormerlySerializedAs("mineableResourses")]
+    private List<MineableResource> mineableResources = new List<MineableResource>();
 
     [Inject] private InputService input;
 
@@ -47,9 +48,9 @@ public class ToolController : MonoBehaviour
             ResourceController resourceController = hit.collider.gameObject.GetComponentInParent<ResourceController>();
             if (resourceController != null )
             {
-                foreach (var resource in mineableResourses)
+                foreach (var resource in mineableResources)
                 {
-                    if (resource == resourceController.resourse)
+                    if (resource == resourceController.resource)
                     {
                         resourceController.TakeHit();
                         soundController.PlayMiningSound();

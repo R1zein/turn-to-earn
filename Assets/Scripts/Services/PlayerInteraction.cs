@@ -25,7 +25,7 @@ public class PlayerInteraction : IInitializable, IDisposable
         if (Physics.Raycast(ray, out RaycastHit hit, Reach)
             && hit.collider.gameObject.TryGetComponent<Interactable>(out var item))
         {
-            item.Interract();
+            item.Interact();
         }
     }
 }

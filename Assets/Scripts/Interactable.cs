@@ -2,5 +2,5 @@
 
 public abstract class Interactable: MonoBehaviour
 {
-    public abstract void Interract();
+    public abstract void Interact();
 }

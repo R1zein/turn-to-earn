@@ -16,7 +16,6 @@ public class NPCNavigation : MonoBehaviour
     private NavMeshAgent agent;
     [HideInInspector]public Transform target;
     private float timer;
-    public bool isDead;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();

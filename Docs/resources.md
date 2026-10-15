@@ -14,7 +14,7 @@
 `AllResources` — обычный `[Serializable]` класс (не SO, не struct), с
 перегруженными операторами `+ - > < >= <= == !=`.
 
-> **Ловушка именования.** Enum [`MineableResourses`](../Assets/Scripts/Player/MineableResourses.cs)
+> **Ловушка именования.** Enum [`MineableResource`](../Assets/Scripts/Player/MineableResource.cs)
 > называет те же сущности иначе: `Stones`, `Wood`, `Gold`, `Iron`. То есть
 > `Stones` ↔ `ore`, `Wood` ↔ `tree`. Не перепутай при маппинге.
 
@@ -85,7 +85,7 @@ if (wallet.TrySpend(price)) { /* купили */ }
 |---|---|
 | `resourceStore` | сколько всего осталось в узле |
 | `oneHitResource` | сколько даёт один удар |
-| `resourse` | тип (`MineableResourses`) — с ним сверяется инструмент |
+| `resource` | тип (`MineableResource`) — с ним сверяется инструмент |
 
 Цикл `TakeHit()`: списать `oneHitResource` из запаса → начислить игроку → если
 запас кончился, `Death()`.
@@ -106,7 +106,7 @@ Blender в том же стиле и лежат в `Assets/Meshes/Ores/`. У в�
 сабмеша: `[0]` камень (`Stone.mat`), `[1]` руда.
 
 > **Медь пока только визуальная.** На `CopperOre1-3` нет `ResourceController`:
-> ресурса «медь» нет ни в `AllResources`, ни в `MineableResourses`. В спавнеры
+> ресурса «медь» нет ни в `AllResources`, ни в `MineableResource`. В спавнеры
 > их не добавлять, пока ресурс не заведён.
 
 ## Респавн

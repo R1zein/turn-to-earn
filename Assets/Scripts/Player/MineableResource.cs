@@ -1,4 +1,4 @@
-﻿public enum MineableResourses
+﻿public enum MineableResource
 {
     Stones, Wood, Gold, Iron
 }

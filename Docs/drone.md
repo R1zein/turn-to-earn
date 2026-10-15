@@ -148,7 +148,3 @@ public float GetDistanceTravelled(); // сумма пошаговых перем
 > убран. Если понадобится, его место — в `DroneHudController`: проекция
 > `transform.forward` дрона на экран.
 
-## Пустые файлы
-
-[`DroneMain.cs`](../Assets/Scripts/Drone/DroneMain.cs) — пустая болванка из
-шаблона Unity, ничего не делает. Можно удалять.
