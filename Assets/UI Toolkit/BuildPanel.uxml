@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="MainStyle.uss" />
+    <ui:VisualElement name="BuildPanel" class="fill center hidden" picking-mode="Ignore">
+        <ui:VisualElement class="bg-surface frame frame-lit-left" style="padding: 18px 22px 22px 22px;">
+            <ui:VisualElement class="row divider-bottom" style="align-items: center; margin-bottom: 12px; padding-bottom: 8px;">
+                <ui:Label text="BUILD" class="text-accent text-lg bold tracking-wide" />
+                <ui:Label text="TAB / ESC - CLOSE" class="text-muted text-sm tracking heavy" style="margin-left: 40px;" />
+            </ui:VisualElement>
+            <!-- Filled from the ItemCard template, one card per GameConfig build option. -->
+            <ui:VisualElement name="BuildOptions" class="row" style="justify-content: center;" />
+            <ui:Label text="PRICE IS TAKEN WHEN THE BUILDING IS PLACED (F)" class="text-muted text-sm tracking heavy" style="margin-top: 8px; -unity-text-align: middle-center;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

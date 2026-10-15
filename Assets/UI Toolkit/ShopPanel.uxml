@@ -1,0 +1,23 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="MainStyle.uss" />
+    <ui:VisualElement name="ShopPanel" class="fill center hidden" picking-mode="Ignore">
+        <ui:VisualElement class="bg-surface frame frame-lit-left" style="padding: 18px 22px 22px 22px; min-width: 760px;">
+            <ui:VisualElement class="row divider-bottom" style="align-items: center; margin-bottom: 12px; padding-bottom: 8px;">
+                <ui:VisualElement class="row">
+                    <ui:Button name="BotsTab" text="BOTS" class="btn" style="margin-right: 8px;" />
+                    <ui:Button name="BaseTab" text="BASE" class="btn" />
+                </ui:VisualElement>
+                <ui:Button name="CloseButton" text="CLOSE" class="btn" />
+            </ui:VisualElement>
+            <!-- Each list is filled from the ItemCard template. -->
+            <ui:VisualElement name="BotsPage">
+                <ui:VisualElement name="BotOptions" class="row" style="justify-content: center;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BasePage" class="hidden">
+                <ui:Label name="BaseHint" text="CHOOSE WHERE TO BUILD THE BASE" class="text-muted text-sm tracking heavy" style="-unity-text-align: middle-center; margin-bottom: 6px;" />
+                <ui:VisualElement name="FortificationOptions" class="row" style="justify-content: center;" />
+                <ui:VisualElement name="PartOptions" class="row hidden" style="justify-content: center;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

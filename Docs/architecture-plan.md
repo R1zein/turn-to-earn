@@ -308,6 +308,29 @@ TimePeriod (SO, только чтение)   DayCycle (сервис сцены)
 **Проверка:** в сцене нет ни одного uGUI-`Canvas`; опечатка в имени элемента
 валит `Initialize` с понятной ошибкой.
 
+> **Этап выполнен 2026-10-15.** Как получилось (подробно — [Интерфейс](ui.md)):
+>
+> - `Cyberpunk.uss` удалён, `MainStyle.uss` — палитра в `:root` и утилитарные
+>   классы; всё про конкретный элемент — inline в UXML.
+> - Два корня: `GameMain.uxml` (`Scene 5`) и `DroneMain.uxml` (`SampleScene`,
+>   бывший `Main.uxml`, guid сохранён); у обоих свой `<Style>`.
+> - `UITemplate` (`ItemCard`, `HealthMarker`) в `ProjectContext`; что предлагают
+>   панели — в `GameConfig`.
+> - Контроллеры: `ResourcesHudController`, `ClockHudController`,
+>   `PlayerHealthHudController`, `BuildPanelController`, `ShopPanelController`,
+>   `WorldMarkersController`, `DroneHudController` (вместо `DroneStatsController`).
+>   `DroneControl` больше не трогает интерфейс — прицел ставит `DroneHudController`;
+>   неиспользуемый маркер направления носа убран.
+> - Удалены `ShopController`, `BsseManager` (→ `FortificationService`),
+>   `ResourcesView`, `ClockView`, `CanvasController`, `PhpBarController`,
+>   `PriceTextBuilder`, `Canvas.prefab`; канвасов нет ни в сценах, ни в префабах.
+>   `Player` больше не выключает обзор и ходьбу сам — это делает режим `Ui`.
+> - Диалогов в игре нет (квесты удалены на этапе 1) — пункт пропущен.
+> - `PanelSettings` — ScaleWithScreenSize 1920×1080 (в ассете стояло
+>   ConstantPhysicalSize, хотя документ утверждал обратное).
+> - По просьбе владельца: крупный шрифт `LiberationSans SDF` с тёмной обводкой
+>   каждой буквы, подписи утолщены (`.heavy`).
+
 ### Этап 8. Уборка
 
 - Мёртвые файлы ([P3-1](known-issues.md#p3-1-мёртвые-файлы)), мусорные `using`.

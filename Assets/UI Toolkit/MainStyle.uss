@@ -1,0 +1,179 @@
+/* Shared utility classes: dark translucent surfaces, neon cyan edges, magenta
+   accents. Anything that belongs to one particular element (size, position,
+   padding) is written inline in its UXML, not here. */
+
+:root {
+    --accent: rgb(0, 255, 213);
+    --accent-dim: rgba(0, 255, 213, 0.3);
+    --accent-line: rgba(0, 255, 213, 0.25);
+    --hot: rgb(255, 46, 136);
+    --muted: rgb(170, 225, 240);
+    --surface: rgba(4, 10, 16, 0.82);
+    --surface-solid: rgb(4, 10, 16);
+
+    /* An SDF font with a dark outline round every letter and a soft
+       shadow, so text reads over bright sky and sand. Outline and shadow need an
+       SDF font asset - the theme's default font silently ignores them. Text
+       properties inherit, so this covers all UI. */
+    -unity-font-definition: url("Fonts/LiberationSans SDF.asset");
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgba(0, 0, 0, 0.95);
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.8);
+    -unity-font-style: bold;
+}
+
+/* ---- layout ----------------------------------------------------------- */
+
+.fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.row {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.center {
+    align-items: center;
+    justify-content: center;
+}
+
+.hidden {
+    display: none;
+}
+
+/* ---- fills and frames ------------------------------------------------- */
+
+.bg-surface {
+    background-color: var(--surface);
+}
+
+.bg-accent {
+    background-color: var(--accent);
+}
+
+.bg-accent-dim {
+    background-color: var(--accent-dim);
+}
+
+.bg-hot {
+    background-color: var(--hot);
+}
+
+.frame {
+    border-width: 1px;
+    border-color: var(--accent-dim);
+    border-radius: 20px;
+}
+
+/* thick lit edge on the left, hairline glow around the rest */
+.frame-lit-left {
+    border-left-width: 3px;
+    border-left-color: var(--accent);
+}
+
+.divider-bottom {
+    border-bottom-width: 1px;
+    border-bottom-color: var(--accent-line);
+}
+
+.outline-accent {
+    border-color: var(--accent);
+}
+
+.outline-hot {
+    border-color: var(--hot);
+}
+
+.round {
+    border-radius: 100%;
+}
+
+/* ---- text ------------------------------------------------------------- */
+
+.text-accent {
+    color: var(--accent);
+}
+
+.text-hot {
+    color: var(--hot);
+}
+
+.text-muted {
+    color: var(--muted);
+}
+
+.text-sm {
+    font-size: 24px;
+}
+
+.text-md {
+    font-size: 30px;
+}
+
+.text-lg {
+    font-size: 38px;
+}
+
+.text-xl {
+    font-size: 56px;
+}
+
+.bold {
+    -unity-font-style: bold;
+}
+
+.tracking {
+    letter-spacing: 1px;
+}
+
+.tracking-wide {
+    letter-spacing: 2px;
+}
+
+/* ---- buttons ---------------------------------------------------------- */
+
+.btn {
+    margin: 0;
+    padding: 8px 16px;
+    background-color: var(--surface);
+    border-width: 1px;
+    border-color: var(--accent-dim);
+    border-radius: 10px;
+    color: var(--accent);
+    font-size: 30px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+}
+
+.btn:hover {
+    border-color: var(--accent);
+}
+
+.btn:active {
+    background-color: var(--accent-dim);
+}
+
+.btn:disabled {
+    opacity: 0.35;
+}
+
+/* a selected tab or option: filled, dark text */
+.btn-on {
+    border-color: var(--accent);
+    background-color: var(--accent);
+    color: var(--surface-solid);
+}
+
+/* Captions (STONE, SPEED, ...): an outline in the caption's own colour thickens
+   every stroke, and a hard dark shadow keeps the letters apart from bright
+   backgrounds. Values (numbers) keep the regular look. Only on .text-muted labels. */
+.heavy {
+    -unity-text-outline-width: 1.2px;
+    -unity-text-outline-color: var(--muted);
+    text-shadow: 2px 2px 1px rgb(0, 0, 0);
+}

@@ -24,6 +24,16 @@ public class GameConfig : ScriptableObject
     [SerializeField] private TargetWeight[] minerTargets;
     [SerializeField] private TargetWeight[] defenderTargets;
 
+    [Header("Shop and building")]
+    [SerializeField] private BotOffer[] botOffers;
+    [SerializeField] private BuildOption[] buildOptions;
+    [SerializeField] private FortificationOption[] fortificationOptions;
+    [SerializeField] private FortificationPartOption[] fortificationParts;
+
+    [Header("World markers")]
+    [Tooltip("Health bars further than this from the camera are hidden")]
+    [SerializeField] private float healthBarDistance = 30;
+
     [Header("Input")]
     // Measured 2026-10-08 on Windows with both input backends active: old
     // GetAxisRaw("Mouse X/Y") was exactly 0.05 of the Input System delta, every frame.
@@ -46,6 +56,13 @@ public class GameConfig : ScriptableObject
     public IReadOnlyList<TargetWeight> BomberTargets => bomberTargets;
     public IReadOnlyList<TargetWeight> MinerTargets => minerTargets;
     public IReadOnlyList<TargetWeight> DefenderTargets => defenderTargets;
+
+    public IReadOnlyList<BotOffer> BotOffers => botOffers;
+    public IReadOnlyList<BuildOption> BuildOptions => buildOptions;
+    public IReadOnlyList<FortificationOption> FortificationOptions => fortificationOptions;
+    public IReadOnlyList<FortificationPartOption> FortificationParts => fortificationParts;
+
+    public float HealthBarDistance => healthBarDistance;
 
     public float LookScale => lookScale;
     public float ScrollScale => scrollScale;

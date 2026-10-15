@@ -117,14 +117,13 @@ camera.transform.LookAt(transform.position, Vector3.up);
 ищет компоненты в родителях и не бьёт сквозь произвольные цели. При объединении
 боевой системы (см. [Бой](combat.md)) брать за образец её.
 
-## Телеметрия
+## Телеметрия и прицел
 
-[`DroneStatsController`](../Assets/Scripts/Drone/DroneStatsController.cs) —
-верхний скрипт в иерархии зависимостей: **он знает про дрон, про него не знает
-никто**.
+[`DroneHudController`](../Assets/Scripts/UI/Controllers/DroneHudController.cs) —
+обычный C#-класс в контейнере `SampleScene` (`ITickable`). **Он знает про дрон,
+про него не знает никто**: `DroneControl` больше не трогает интерфейс.
 
-Данные не собирает сам, а запрашивает у владельца через геттеры
-`DroneControl`:
+Данные он не собирает сам, а запрашивает у владельца через геттеры `DroneControl`:
 
 ```csharp
 public float GetSpeed();             // модуль linearVelocity
@@ -135,27 +134,19 @@ public float GetDistanceTravelled(); // сумма пошаговых перем
 Пройденный путь копится **суммой шагов за FixedUpdate**, а не расстоянием до
 точки старта — иначе на обратном пути счётчик полз бы назад.
 
-Выводит в панель HUD (`SPEED` / `ALTITUDE` / `DISTANCE`), находя элементы по имени
-в `UIDocument`. Числа форматируются через `CultureInfo.InvariantCulture`, чтобы на
-русской локали не появились запятые вместо точек. Оформление — см.
-[Интерфейс](ui.md).
+Каждый кадр контроллер пишет `SPEED` / `ALTITUDE` / `DISTANCE` (через
+`CultureInfo.InvariantCulture`, чтобы на русской локали не появились запятые) и
+ставит прицел `Scope` в точку курсора `input.DroneAim`, пересчитывая экранные
+координаты в координаты панели (`RuntimePanelUtils.ScreenToPanel`, с переворотом
+оси Y).
 
-**Цель** ([этап 7](architecture-plan.md#этап-7-интерфейс)): `DroneStatsController`
-из `MonoBehaviour` становится `DroneTelemetryController : ITickable` — обычным
-C#-классом в контейнере. Тик здесь оправдан: телеметрия меняется каждый кадр.
-Элементы ищутся в `Initialize` без null-проверок. Сам `DroneControl` при этом
-**не меняется**, кроме способа, которым контроллер его получает.
+В [`DroneMain.uxml`](../Assets/UI%20Toolkit/DroneMain.uxml) два знака: `Scope` —
+бирюзовое кольцо за курсором, `Boresight` — розовый ромб в центре экрана.
 
-## HUD прицела
-
-В [`Main.uxml`](../Assets/UI%20Toolkit/Main.uxml) два элемента прицела:
-`Scope` (100×100, белый) и `ScopeOverlay` (150×150, чёрный). `DroneControl`
-двигает `Scope` за курсором, пересчитывая экранные координаты в координаты панели
-через `RuntimePanelUtils.ScreenToPanel` (с переворотом оси Y).
-
-Поле `headingIndicatorName` пустое — маркер реального направления носа **не
-назначен**, поэтому второй прицел просто висит в центре. Чтобы включить его,
-впиши `ScopeOverlay` в это поле в инспекторе.
+> Маркер реального направления носа (`headingIndicatorName` у старого
+> `DroneControl`) так и не был включён — поле было пустым — и при переносе HUD
+> убран. Если понадобится, его место — в `DroneHudController`: проекция
+> `transform.forward` дрона на экран.
 
 ## Пустые файлы
 

@@ -1,3 +1,5 @@
+using Zenject;
+
 // The drone scene.
 public class SampleSceneInstaller : GameplayInstaller
 {
@@ -5,5 +7,7 @@ public class SampleSceneInstaller : GameplayInstaller
 
     protected override void InstallSceneBindings()
     {
+        Container.Bind<DroneControl>().FromComponentInHierarchy().AsSingle();
+        Container.BindInterfacesTo<DroneHudController>().AsSingle();
     }
 }

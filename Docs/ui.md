@@ -1,161 +1,137 @@
 # Интерфейс
 
-Проект **в середине перехода** с uGUI на UI Toolkit. Новый HUD дрона уже на UI
-Toolkit, остальной интерфейс — старый uGUI + TextMeshPro.
+Весь интерфейс — на **UI Toolkit**; uGUI-канвасов в сценах и префабах нет
+(переход закончен на [этапе 7](architecture-plan.md#этап-7-интерфейс)). Правила
+слоёв, контроллеров и стилей — в [архитектуре](architecture.md#ui-toolkit); здесь —
+как это устроено в проекте.
 
-Целевые правила (слои, контроллеры, стили) — в разделе
-[UI Toolkit архитектуры](architecture.md#ui-toolkit). Этот документ описывает,
-**что есть сейчас** и как оно ложится на цель.
+## Файлы
 
-## UI Toolkit (новое)
+`Assets/UI Toolkit/`:
 
-### Файлы
-
-| Файл | Назначение |
+| Файл | Что это |
 |---|---|
-| [`Main.uxml`](../Assets/UI%20Toolkit/Main.uxml) | корневой документ HUD |
-| [`DroneStats.uxml`](../Assets/UI%20Toolkit/DroneStats.uxml) | панель телеметрии (шаблон) |
-| [`Cyberpunk.uss`](../Assets/UI%20Toolkit/Cyberpunk.uss) | стиль панелей |
-| `PanelSettings.asset` | настройки панели |
+| `MainStyle.uss` | палитра в `:root` и утилитарные классы — единственная таблица стилей |
+| `GameMain.uxml` | корень `Scene 5`: слои `WorldMarkers`, `Hud`, `BuildPanel`, `ShopPanel` |
+| `DroneMain.uxml` | корень `SampleScene`: слои `WorldMarkers`, `DroneStats`, ромб центра, прицел `Scope` |
+| `Hud.uxml` | прицел, ресурсы, часы, здоровье игрока |
+| `BuildPanel.uxml` | меню строительства |
+| `ShopPanel.uxml` | магазин: вкладки BOTS и BASE |
+| `DroneStats.uxml` | телеметрия дрона |
+| `WorldMarkers.uxml` | пустой слой для полосок здоровья над объектами |
+| `Templates/ItemCard.uxml` | карточка выбора: иконка, название, цена (бот, постройка, база, часть базы) |
+| `Templates/HealthMarker.uxml` | полоска здоровья над объектом |
+| `PanelSettings.asset` | масштаб **ScaleWithScreenSize 1920×1080**, по ширине — как был `CanvasScaler` |
 
-`PanelSettings` настроен на эталонное разрешение **1920×1080** со
-`ScreenMatchMode` по ширине — это повторяет старый `CanvasScaler`, чтобы элементы
-не поменяли размер при переносе.
+Шаблоны динамических элементов собраны в ассете
+[`Data/UITemplate.asset`](../Assets/Scripts/Config/UITemplate.cs), он в
+`ProjectContext`. Что предлагают панели (боты, постройки, места под базу, части
+базы — с иконками и названиями) — в `GameConfig`, секция Shop and building.
 
-### Структура Main.uxml
+## Слои
 
-```
-Main.uxml
-├── <Template DroneStats>        подключённый шаблон
-├── DroneStatsPanel (Instance)   растянут на весь экран, picking-mode Ignore
-├── Scope          (100×100)     прицел, едет за курсором
-└── ScopeOverlay   (150×150)     второй прицел, статичный
-```
+На сцену — один `UIDocument` с корневым UXML. Каждый слой — `<ui:Instance>` с
+классом `.fill` и `picking-mode="Ignore"`; порядок в файле — порядок отрисовки.
+Панели (`BuildPanel`, `ShopPanel`) скрыты классом `.hidden`; открытая панель
+снимает его и просит у `InputService` режим `Ui` — курсор свободен, игровые
+клавиши выключены. Закрываются панели своей кнопкой, `Esc` или `Tab`.
 
-Это уже начало [слоистой схемы](architecture.md#слои): панель подключена как
-`<ui:Instance>`, растянута и прозрачна для мыши. Чего не хватает до цели:
+Стиль подключён и в корневом UXML, и в каждом слое: таблица слоя нужна UI
+Builder для предпросмотра, а корневая — элементам, созданным из шаблонов в
+рантайме (карточку кладут в панель без обёртки шаблона).
 
-- у самого `Main.uxml` **нет своего `<Style>`** — стили из шаблона не доходят до
-  прямых детей корня (сейчас это прицелы; они стилизованы inline, поэтому пока не
-  ломается);
-- прицелы лежат прямо в корне, а не в своём слое `Hud`.
+## Контроллеры
 
-> Обёртка шаблона (`TemplateContainer`) **обязана быть растянута** на весь экран
-> (`position: absolute` + нули по краям). По умолчанию она схлопывается в нулевой
-> размер, и панель внутри позиционируется относительно точки, а не экрана.
+Обычные C#-классы в контейнере; элементы ищут в `Initialize` по `name`, без
+null-проверок.
 
-### Киберпанк-стиль
+| Контроллер | Сцена | Что делает |
+|---|---|---|
+| `ResourcesHudController` | Scene 5 | запасы из `ResourceWallet.OnChanged` |
+| `ClockHudController` | Scene 5 | часы из `TimeManager.OnClockChanged` (минуты без нуля: `7:5`) |
+| `PlayerHealthHudController` | Scene 5 | здоровье игрока по `OnDamage` |
+| `BuildPanelController` | Scene 5 | `Tab` → меню; карточка → `BuildService.Pick`; недоступные по цене приглушены |
+| `ShopPanelController` | Scene 5 | открывает стол магазина; боты → `ShopService`, база → `FortificationService` |
+| `WorldMarkersController` (`ILateTickable`) | обе | полоска над каждым `HealthBarAnchor`, см. ниже |
+| `DroneHudController` (`ITickable`) | SampleScene | прицел за курсором, телеметрия дрона |
 
-Палитра, которая остаётся при любом переходе:
+`ItemCards` — общий помощник панелей: делает карточку из шаблона, заполняет
+иконку, название и цену (`WOOD 10  STONE 20  IRON 80` или `FREE`).
+
+## Метки над объектами
+
+Полоска здоровья — экранный элемент, а не world-space канвас: каждый кадр
+`WorldMarkersController` проецирует точку `HealthBarAnchor` через
+`RuntimePanelUtils.CameraTransformWorldToPanel`, прячет полоску за спиной камеры и
+дальше `GameConfig.HealthBarDistance` (30 м) и выставляет ширину заливки по
+`currHP / maxHP`.
+
+`HealthBarAnchor` стоит на префабе `HPbar/Centre`, вложенном в зомби, паука, обоих
+ботов и турель; сам добавляется в сервис `HealthBars` в `OnEnable`.
+
+## Стиль
+
+Палитра (`:root` в `MainStyle.uss`):
 
 ```css
---cyber-accent:      rgb(0, 255, 213);        /* неоновая бирюза */
---cyber-accent-dim:  rgba(0, 255, 213, 0.3);  /* тонкая рамка */
---cyber-accent-line: rgba(0, 255, 213, 0.25); /* разделители */
---cyber-hot:         rgb(255, 46, 136);       /* розовый акцент */
---cyber-caption:     rgba(126, 196, 214, 0.75);
---cyber-surface:     rgba(4, 10, 16, 0.82);   /* тёмная подложка */
+--accent:      rgb(0, 255, 213);        /* неоновая бирюза */
+--accent-dim:  rgba(0, 255, 213, 0.3);  /* тонкая рамка */
+--accent-line: rgba(0, 255, 213, 0.25); /* разделители */
+--hot:         rgb(255, 46, 136);       /* розовый акцент */
+--muted:       rgb(170, 225, 240);      /* подписи */
+--surface:     rgba(4, 10, 16, 0.82);   /* тёмная подложка */
 ```
 
-**Сейчас** [`Cyberpunk.uss`](../Assets/UI%20Toolkit/Cyberpunk.uss) построен на
-BEM-классах — `.cyber-panel`, `.cyber-panel__header`, `.cyber-row__value--hot` и
-т.д. Это **расходится с правилом** «утилитарные классы + inline, классов под
-конкретную панель нет» ([стили](architecture.md#стили-и-шаблоны)).
+Классы — только утилитарные: `.fill .row .center .hidden`, `.bg-surface .bg-accent
+.bg-hot`, `.frame .frame-lit-left .divider-bottom .outline-accent .outline-hot
+.round`, `.text-accent .text-hot .text-muted`, `.text-sm/md/lg/xl .bold .heavy .tracking
+.tracking-wide`, `.btn` (с `:hover :active :disabled`) и `.btn-on` — выбранная
+вкладка. Размеры, позиции и отступы конкретного элемента — inline в UXML.
+Классов под одну панель (`.shop-panel__title`) не заводим.
 
-**Цель** (этап 7 плана): палитра переезжает в `:root` общего `MainStyle.uss`,
-BEM-классы раскладываются на утилитарные, а всё, что принадлежит конкретному
-элементу, уходит inline в UXML:
+> В inline-стилях UXML не пишем `var(...)` — цвета берутся классами.
 
-| Сейчас (BEM) | Станет утилитами | Уходит inline в UXML |
-|---|---|---|
-| `.cyber-panel` | `.bg-surface .frame .frame-lit-left` | `width: 300px`, `padding` |
-| `.cyber-panel--anchor-bottom-left` | — | `position: absolute; left: 40px; bottom: 40px` |
-| `.cyber-panel__header` | `.row .divider-bottom` | `margin-bottom`, `padding-bottom` |
-| `.cyber-panel__title` | `.text-accent .text-md .bold .tracking-wide` | — |
-| `.cyber-panel__dot` | `.bg-hot` | `width: 8px; height: 8px` |
-| `.cyber-row` | `.row` | `align-items: flex-end; margin-bottom` |
-| `.cyber-row__caption` | `.text-muted .text-sm .tracking` | — |
-| `.cyber-row__value` | `.text-accent .text-lg .bold` | — |
-| `.cyber-row__value--hot` | `.text-hot .text-lg .bold` | — |
+### Шрифт и читаемость
 
-**До этапа 7** в новых панелях не заводим новых BEM-классов: переиспользуем
-существующие или пишем inline. Тогда перевод останется механическим.
+Шрифт — `Fonts/LiberationSans SDF.asset` (SDF-ассет TextCore из
+`LiberationSans.ttf`, лицензия OFL рядом), задан в `:root`. Там же для **всего**
+текста: жирное начертание, тёмная обводка каждой буквы
+(`-unity-text-outline-width: 2px`) и мягкая тень — текст читается на ярком небе
+и песке.
 
-### Работа из кода
+- Обводку и тень UI Toolkit рисует **только у SDF-шрифта**. Шрифт темы по
+  умолчанию их молча игнорирует — поэтому свой ассет обязателен.
+- Подписи (`STONE`, `SPEED`, `HEALTH`...) — класс `.heavy`: обводка в цвет самих
+  букв утолщает штрих, жёсткая тень отделяет от фона. Цифры его не получают.
+  Синтетический жирный (`m_BoldStyleWeight` ассета) почти не утолщает буквы —
+  проверено, не помогает.
+- Узкие (condensed) шрифты вроде BebasNeue не берём — их трудно читать.
+- Размеры: `.text-sm` 24, `.text-md` 30, `.text-lg` 38, `.text-xl` 56, `.btn` 30 —
+  под масштаб панели 1920×1080.
 
-Элементы ищутся **по имени** через `rootVisualElement.Q<T>("Имя")`. Имена
-задаются в UXML атрибутом `name`.
-
-> В UI Builder имена показываются с решёткой (`#SpeedValue`) — это нотация
-> ID-селектора, **частью имени решётка не является**. В UXML и в коде пишется
-> просто `SpeedValue`.
-
-**Цель:** контроллер — обычный C#-класс, элементы ищутся в `Initialize`, **без
-null-проверок** — опечатка в имени должна упасть сразу ([почему](architecture.md#ловушки)).
-Zenject вызывает `Initialize` после того, как `UIDocument` построил дерево.
-
-**Сейчас** `DroneControl` и `DroneStatsController` — `MonoBehaviour`, которые
-ищут элементы лениво в первом `Update` и проверяют их на `null`. Это обходной путь
-доконтейнерной эпохи: `UIDocument` строит дерево в своём `OnEnable`, который мог
-отработать позже `OnEnable` скрипта. С переходом на Zenject оба приёма убираются.
-
-Правила, которые остаются в силе при любой архитектуре:
+## Работа из кода
 
 1. **Экранные координаты ≠ координаты панели.** У экрана Y растёт снизу, у панели
-   — сверху, плюс панель имеет своё масштабирование:
+   — сверху, плюс панель масштабируется:
    ```csharp
    RuntimePanelUtils.ScreenToPanel(panel, new Vector2(p.x, Screen.height - p.y));
    ```
    Для точки мира — `RuntimePanelUtils.CameraTransformWorldToPanel`.
-2. **`using UnityEngine.UIElements` конфликтует с `Cursor`.** В UI Toolkit есть
-   свой тип `Cursor`, и `Cursor.lockState` перестаёт компилироваться. Лечится
-   алиасом: `using Cursor = UnityEngine.Cursor;`
+2. **`using UnityEngine.UIElements` конфликтует с `Cursor`.** Курсором владеет
+   только `InputService`, где стоит алиас `using Cursor = UnityEngine.Cursor;`.
 3. **В UI — `Time.unscaledDeltaTime`.** Иначе анимации меню застынут на паузе.
+4. **Live Reload в редакторе.** Если поменять UXML/USS во время play mode,
+   `UIDocument` пересоберёт дерево, а контроллеры останутся со ссылками на старые
+   элементы — HUD перестанет обновляться до перезапуска play mode. В билде этого нет.
 
-### Редактирование в UI Builder
+## Редактирование в UI Builder
 
 UI Builder по умолчанию пишет стили **инлайном в UXML** — для правок, относящихся
-к одному элементу, это и есть правильное место. Если же правка — повторяющийся
-стиль, её место в утилитарном классе общей таблицы: сделай таблицу активной
-(StyleSheets → сделать активной) и навешивай класс, а не заполняй поля
-инспектора.
-
-## uGUI (старое)
-
-Что ещё на старом стеке и во что превращается:
-
-| Скрипт | Что показывает | Станет |
-|---|---|---|
-| [`ResourcesView`](../Assets/Scripts/UI/ResourcesView.cs) | четыре TMP-поля с запасами из `ResourceWallet` | `ResourcesHudController` |
-| [`ClockView`](../Assets/Scripts/UI/ClockView.cs) | TMP-поле с часами из `TimeManager` | `TimeUIController` |
-| [`CanvasController`](../Assets/Scripts/UI/CanvasController.cs) | мировые полоски HP (`Image.fillAmount`) | `WorldMarkersController` |
-| [`PhpBarController`](../Assets/Scripts/UI/PhpBarController.cs) | полоска HP через `Slider` | `WorldMarkersController` |
-| [`DialogManager`](../Assets/Scripts/UI/DialogManager.cs) | окно диалога | удалить: вызывался только узлом удалённого графа ([квесты](quests-and-dialogs.md)) |
-| [`ShopController`](../Assets/Scripts/UI/ShopController.cs) | панели магазина | `ShopService` + `ShopPanelController` |
-| [`Inventory`](../Assets/Scripts/Player/Inventory.cs) | панель строительства | `BuildService` + `BuildPanelController` |
-| [`PriceTextBuilder`](../Assets/Scripts/Player/PriceTextBuilder.cs) | ценник постройки | рендерер варианта постройки из шаблона |
-
-Порядок перевода — в [плане](architecture-plan.md#этап-7-интерфейс).
-
-### Мировые полоски здоровья
-
-Раньше здесь было записано исключение «оставить мировые полоски на uGUI». Целевая
-архитектура решает это иначе, и **исключение снято**: метка над объектом — обычный
-экранный элемент, который каждый кадр встаёт в спроецированную точку. Текст
-читается одинаково на любом расстоянии, а интерфейс остаётся на одном стеке.
-Механика — в [привязке UI к миру](architecture.md#привязка-ui-к-объектам-мира).
-
-### Курсор
-
-Старые панели управляют курсором через `Cursor.lockState` из трёх мест (см.
-[Строительство](building.md#курсор-и-блокировка-ввода)). В цели режимом курсора
-владеет только `InputService`: панель, держащая мышь, просит режим, а не ставит
-его сама. Переносить панели на UI Toolkit, сохраняя старые вызовы `Cursor`, не
-нужно — это та же каша на новом стеке.
+к одному элементу, это и есть правильное место. Повторяющийся стиль — утилитарный
+класс в `MainStyle.uss`: сделай таблицу активной (StyleSheets → сделать активной)
+и навешивай класс, а не заполняй поля инспектора.
 
 ## EventSystem
 
-В сцене есть `EventSystem` со `StandaloneInputModule` — через него UI Toolkit
-получает ввод в рантайме. **Не удалять**, даже когда исчезнет последний
-uGUI-канвас. При переходе на Input System ([этап 4](architecture-plan.md#этап-4-ввод))
-модуль меняется на `InputSystemUIInputModule`.
+В каждой сцене есть `EventSystem` с `InputSystemUIInputModule` — через него UI
+Toolkit получает клики. **Не удалять**, хотя uGUI-канвасов больше нет.

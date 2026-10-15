@@ -136,7 +136,7 @@ public void TakeDamage(float damage)
 > **Исправлено** 2026-10-08: курсором владеет только `InputService` (стек режимов).
 
 `Cursor.lockState` переключают независимо
-[`ShopController`](../Assets/Scripts/UI/ShopController.cs),
+`ShopController`,
 [`Inventory`](../Assets/Scripts/Player/Inventory.cs) и
 [`DroneControl`](../Assets/Scripts/Drone/DroneControl.cs).
 
@@ -148,9 +148,9 @@ public void TakeDamage(float damage)
 
 ### P1-5. Укрепление можно начать только одно
 
-[`BsseManager.cs`](../Assets/Scripts/UI/BsseManager.cs)
+[`FortificationService`](../Assets/Scripts/Services/FortificationService.cs) (до этапа 7 — `BsseManager`)
 
-`BuildFortification` работает только при `currentFortification == null`, а в
+`TryBuild` работает только пока `Current == null`, а в
 `null` это поле не возвращается никогда. После первой секции кнопки выбора других
 секций молча перестают работать.
 
@@ -322,8 +322,8 @@ Unity сообщает об этом в консоли при каждом за�
 
 ### P3-4. Прочее
 
-- `ShopController.ByeBot` — цикл `for (int i = 0; i < 1; i++)` на одну итерацию.
-- `PriceTextBuilder` не показывает золото в ценнике.
+- ~~`ShopController.ByeBot` — цикл на одну итерацию~~ — класс удалён на этапе 7.
+- ~~`PriceTextBuilder` не показывает золото~~ — карточки `ItemCards` показывают все ресурсы.
 - `TimeManager` выводит время без ведущего нуля: `7:5` вместо `07:05`.
 - `GatlingGun.stats` публичное, но перезаписывается в `Awake`.
 - `GameManager` целиком: `firstBotCreated` не используется, `firstKillMaded` никто не

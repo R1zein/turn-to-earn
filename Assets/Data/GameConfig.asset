@@ -47,5 +47,37 @@ MonoBehaviour:
   defenderTargets:
   - Kind: 5
     Weight: 50
+  botOffers:
+  - Bot: {fileID: 5575152895582975380, guid: 50c752f75618660449cf205cbbb63067, type: 3}
+    Title: MINER BOT
+    Icon: {fileID: 21300000, guid: 4cfc29d15737ca54d8a5d64421305f84, type: 3}
+  - Bot: {fileID: 8054639023739946068, guid: 78df7b819434f5c4597f6fc4561cd21d, type: 3}
+    Title: DEFENDER BOT
+    Icon: {fileID: 21300000, guid: 03811a2bcc9126b439b59bedd128c175, type: 3}
+  buildOptions:
+  - Ghost: {fileID: -1940036876623000334, guid: d45fbb5eab4408f47a947536afd07596, type: 3}
+    Title: WALL
+    Icon: {fileID: 21300000, guid: 8a3e66d4204fa8949844ebc85821c4de, type: 3}
+  - Ghost: {fileID: 2503471276032044132, guid: 15b0248f8a7f5814fa513a74b5de1416, type: 3}
+    Title: SHOP TABLE
+    Icon: {fileID: 21300000, guid: d91cec31ff1571a45b9666f0e56ef59a, type: 3}
+  - Ghost: {fileID: -1511536859488805288, guid: ae83e8f320982aa4290f145c0d6a20af, type: 3}
+    Title: TURRET
+    Icon: {fileID: 21300000, guid: 3280314d91772744284eafe884f5a3a7, type: 3}
+  fortificationOptions:
+  - Id: Beach
+    Title: BEACH BASE
+    Icon: {fileID: 21300000, guid: 3810a7efb523bea409c0e502753a1b0f, type: 3}
+  - Id: Mountain
+    Title: MOUNTAIN BASE
+    Icon: {fileID: 21300000, guid: f776686568cdc8b449ad342fae2c4468, type: 3}
+  - Id: Forest
+    Title: FOREST BASE
+    Icon: {fileID: 21300000, guid: 1590533db60d8934583183c9404abb92, type: 3}
+  fortificationParts:
+  - PartName: Forge
+    Title: FORGE
+    Icon: {fileID: 21300000, guid: 030b3dcc26de9f347a133d62a33db909, type: 3}
+  healthBarDistance: 30
   lookScale: 0.05
   scrollScale: 1

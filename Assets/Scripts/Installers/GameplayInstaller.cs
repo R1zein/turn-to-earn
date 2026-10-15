@@ -1,3 +1,5 @@
+using UnityEngine;
+using UnityEngine.UIElements;
 using Zenject;
 
 // Everything a gameplay scene needs regardless of which map it is.
@@ -16,13 +18,20 @@ public abstract class GameplayInstaller : MonoInstaller
         Container.BindInstance(BaseInputMode).WhenInjectedInto<InputService>();
         Container.BindInterfacesAndSelfTo<InputService>().AsSingle();
 
+        // The scene's only UI document and only camera.
+        Container.Bind<UIDocument>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<Camera>().FromComponentInHierarchy().AsSingle();
+
         Container.Bind<ResourceWallet>().AsSingle();
 
-        // Bodies add themselves to the registry in OnEnable, before any Initialize.
+        // Bodies add themselves to these in OnEnable, before any Initialize.
         Container.Bind<TargetRegistry>().AsSingle();
         Container.Bind<TargetingService>().AsSingle();
+        Container.Bind<HealthBars>().AsSingle();
 
         InstallSceneBindings();
+
+        Container.BindInterfacesTo<WorldMarkersController>().AsSingle();
     }
 
     protected abstract void InstallSceneBindings();

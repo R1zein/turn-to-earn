@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="MainStyle.uss" />
+    <!-- Health bars over NPCs and turrets are added here from the HealthMarker template. -->
+    <ui:VisualElement name="WorldMarkers" picking-mode="Ignore" class="fill" />
+</ui:UXML>

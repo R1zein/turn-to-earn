@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Zenject;
 
@@ -6,11 +5,13 @@ using Zenject;
 public class ProjectInstaller : MonoInstaller
 {
     [SerializeField] private GameConfig gameConfig;
+    [SerializeField] private UITemplate uiTemplate;
 
     public override void InstallBindings()
     {
         Container.Bind<GameConfig>().FromInstance(gameConfig).AsSingle();
+        Container.Bind<UITemplate>().FromInstance(uiTemplate).AsSingle();
         // Generated from Assets/Input/Controls.inputactions; only InputService reads it.
-        Container.Bind(typeof(Controls), typeof(IDisposable)).To<Controls>().AsSingle();
+        Container.BindInterfacesAndSelfTo<Controls>().AsSingle();
     }
 }

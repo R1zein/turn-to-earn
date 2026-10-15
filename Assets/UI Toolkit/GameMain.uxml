@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="MainStyle.uss" />
+    <ui:Template name="WorldMarkers" src="WorldMarkers.uxml" />
+    <ui:Template name="Hud" src="Hud.uxml" />
+    <ui:Template name="BuildPanel" src="BuildPanel.uxml" />
+    <ui:Template name="ShopPanel" src="ShopPanel.uxml" />
+    <!-- Layers: order in this file is draw order. Every layer is stretched and
+         click-through; only an open panel catches the mouse. -->
+    <ui:Instance template="WorldMarkers" name="WorldMarkersLayer" picking-mode="Ignore" class="fill" />
+    <ui:Instance template="Hud" name="HudLayer" picking-mode="Ignore" class="fill" />
+    <ui:Instance template="BuildPanel" name="BuildPanelLayer" picking-mode="Ignore" class="fill" />
+    <ui:Instance template="ShopPanel" name="ShopPanelLayer" picking-mode="Ignore" class="fill" />
+</ui:UXML>

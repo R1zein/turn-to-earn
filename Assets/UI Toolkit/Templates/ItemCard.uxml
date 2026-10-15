@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../MainStyle.uss" />
+    <!-- One choice in a panel: a bot, a building, a base. Code fills icon, title and price. -->
+    <ui:Button name="Card" class="btn" style="width: 280px; margin: 10px; padding: 12px; align-items: center; flex-direction: column;">
+        <ui:VisualElement name="Icon" picking-mode="Ignore" style="width: 220px; height: 220px; margin-bottom: 10px; border-radius: 10px; -unity-background-scale-mode: scale-to-fit;" />
+        <ui:Label name="Title" text="TITLE" picking-mode="Ignore" class="text-accent text-md bold tracking-wide" />
+        <ui:Label name="Price" text="FREE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" style="margin-top: 4px; -unity-text-align: middle-center; white-space: normal;" />
+    </ui:Button>
+</ui:UXML>

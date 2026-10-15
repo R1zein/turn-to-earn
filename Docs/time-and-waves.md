@@ -8,7 +8,7 @@ TimeManager : ITickable           часы; стоят, пока GameStarter н�
 └── DayCycle                      какие периоды активны, сколько раз начинались, события
     ├── DayLighting               скайбокс и интенсивность света
     ├── WaveService               волна на каждом портале в начале ночи
-    └── ClockView                 TMP-часы на Canvas (временно, до этапа 7)
+    └── ClockHudController        часы в HUD
 ```
 
 ## Сутки
@@ -22,7 +22,7 @@ TimeManager : ITickable           часы; стоят, пока GameStarter н�
   начинается в 7 утра**.
 - По достижении 24 часов таймер сбрасывается в ноль.
 - `Hours`/`Minutes` и событие `OnClockChanged` (раз в игровую минуту).
-  [`ClockView`](../Assets/Scripts/UI/ClockView.cs) пишет их в TMP-поле как
+  [`ClockHudController`](../Assets/Scripts/UI/Controllers/ClockHudController.cs) пишет их в HUD как
   `{часы}:{минуты}`.
 
 > Минуты не дополняются нулём: в 7:05 на экране будет `7:5`.

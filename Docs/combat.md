@@ -91,14 +91,10 @@ public enum Fraction { Player, Friendly, Enemy, Neutral }
 
 ## Отображение здоровья
 
-| Скрипт | Чем показывает | Где |
-|---|---|---|
-| [`CanvasController`](../Assets/Scripts/UI/CanvasController.cs) | `Image.fillAmount` | мировой Canvas над NPC |
-| [`PhpBarController`](../Assets/Scripts/UI/PhpBarController.cs) | `Slider.value` | тоже uGUI |
-
-Оба подписаны на `OnDamage` и пересчитывают долю `currHP / maxHP`. Оба — на старом
-uGUI; заменяются `WorldMarkersController` на [этапе 7](architecture-plan.md#этап-7-интерфейс).
-`CanvasController` дополнительно разворачивает Canvas к камере и прячет его
-дальше `visableDistance`.
-
-> Имя `PhpBarController` — опечатка, имелось в виду «HP Bar».
+- Здоровье игрока — полоска и число в HUD,
+  [`PlayerHealthHudController`](../Assets/Scripts/UI/Controllers/PlayerHealthHudController.cs)
+  по `OnDamage`.
+- Над NPC и турелями — экранные полоски
+  [`WorldMarkersController`](../Assets/Scripts/UI/Controllers/WorldMarkersController.cs):
+  точку задаёт `HealthBarAnchor` на вложенном префабе `HPbar/Centre`, полоска
+  скрыта дальше 30 м и за спиной камеры. Подробно — в [Интерфейсе](ui.md#метки-над-объектами).

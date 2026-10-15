@@ -3,12 +3,12 @@ using Zenject;
 
 public class TableInterract : Interactable
 {
-    [Inject] private ShopController shopController;
+    [Inject] private ShopPanelController shopPanel;
 
     public Transform spawnPosition;
 
     public override void Interract()
     {
-        shopController.TryToSetActive(spawnPosition.position);
+        shopPanel.Show(spawnPosition.position);
     }
 }

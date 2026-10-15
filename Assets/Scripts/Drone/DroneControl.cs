@@ -1,12 +1,10 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 using Zenject;
 
 // War Thunder / WoT style "point-to-fly" drone control.
 //
 // Control model:
-//  - The cursor drives an on-screen aim reticle (desired direction).
-//  - A second on-screen marker shows the drone's real forward (physical direction).
+//  - The cursor drives an on-screen aim reticle (desired direction; drawn by DroneHudController).
 //  - ROLL only banks the drone around its own forward axis. It does NOT turn it.
 //  - PITCH is the only thing that rotates forward => it is what actually turns the drone.
 //  - Cursor DIRECTION -> which way to bank (roll orients the pitch plane).
@@ -21,13 +19,6 @@ using Zenject;
 [RequireComponent(typeof(Rigidbody))]
 public class DroneControl : MonoBehaviour
 {
-    [Header("UI (UI Toolkit, elements looked up by name in the HUD document)")]
-    [SerializeField] private UIDocument hud;                      // panel hosting the reticle elements
-    [SerializeField] private string aimReticleName = "Scope";     // desired direction, follows the cursor
-    [SerializeField] private string headingIndicatorName;         // real forward, driven by code; empty = unused
-    [SerializeField] private Camera viewCamera;                   // used to project forward onto screen
-    [SerializeField] private float indicatorDistance = 200f;      // how far ahead forward is projected
-
     [Header("Steering")]
     [SerializeField] private float deadZone = 0.08f;   // normalized square half-size, 0..1
     [SerializeField] private float rollSpeed = 180f;   // how fast we bank toward target (deg/s)
@@ -45,10 +36,6 @@ public class DroneControl : MonoBehaviour
     private Rigidbody rb;
     private DroneShooting shooting;
 
-    private VisualElement aimReticle;
-    private VisualElement headingIndicator;
-    private bool hudResolved;
-
     private Vector2 aim;     // cursor offset from screen center, dead-zoned, -1..1 per axis
     private bool throttle;
 
@@ -59,18 +46,13 @@ public class DroneControl : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         shooting = GetComponent<DroneShooting>();
-        if (viewCamera == null)
-            viewCamera = Camera.main;
 
         lastPosition = rb.position;
     }
 
     private void Update()
     {
-        ResolveHud();
         ReadInput();
-        UpdateReticle();
-        UpdateHeadingIndicator();
         Steer();
 
         if (shooting != null)
@@ -115,65 +97,6 @@ public class DroneControl : MonoBehaviour
         aim = raw;
         if (Mathf.Abs(aim.x) < deadZone) aim.x = 0f;
         if (Mathf.Abs(aim.y) < deadZone) aim.y = 0f;
-    }
-
-    // The document builds its elements on its own OnEnable, which may land after ours,
-    // so grab them on the first Update that finds a live root.
-    private void ResolveHud()
-    {
-        if (hudResolved || hud == null)
-            return;
-
-        VisualElement root = hud.rootVisualElement;
-        if (root == null)
-            return;
-
-        aimReticle = FindElement(root, aimReticleName);
-        headingIndicator = FindElement(root, headingIndicatorName);
-        hudResolved = true;
-    }
-
-    private static VisualElement FindElement(VisualElement root, string name)
-    {
-        return string.IsNullOrEmpty(name) ? null : root.Q<VisualElement>(name);
-    }
-
-    // Desired-direction reticle simply tracks the cursor.
-    private void UpdateReticle()
-    {
-        if (aimReticle != null)
-            PlaceAtScreenPoint(aimReticle, input.DroneAim);
-    }
-
-    // Physical-direction marker = drone forward projected onto the screen.
-    private void UpdateHeadingIndicator()
-    {
-        if (headingIndicator == null || viewCamera == null)
-            return;
-
-        Vector3 world = transform.position + transform.forward * indicatorDistance;
-        Vector3 screen = viewCamera.WorldToScreenPoint(world);
-
-        bool inFront = screen.z > 0f;
-        headingIndicator.style.display = inFront ? DisplayStyle.Flex : DisplayStyle.None;
-        if (inFront)
-            PlaceAtScreenPoint(headingIndicator, screen);
-    }
-
-    // Screen space has Y running up from the bottom, the panel has it running down from
-    // the top, hence the flip. ScreenToPanel then undoes the panel's own scaling.
-    // The elements carry translate: -50% -50%, so left/top place their centre on the point.
-    private static void PlaceAtScreenPoint(VisualElement element, Vector2 screenPoint)
-    {
-        IPanel panel = element.panel;
-        if (panel == null)
-            return;
-
-        Vector2 local = RuntimePanelUtils.ScreenToPanel(
-            panel, new Vector2(screenPoint.x, Screen.height - screenPoint.y));
-
-        element.style.left = local.x;
-        element.style.top = local.y;
     }
 
     private void Steer()

@@ -1,20 +1,17 @@
 using UnityEngine;
 using Zenject;
 
+// While a panel holds the mouse, InputService switches the on-foot action map off,
+// so walking and looking stop without this body having to know about panels.
 public class Player : MonoBehaviour
 {
-    [Inject] private ShopController shopController;
     [Inject] private TargetRegistry registry;
 
     private StatsHandler statsHandler;
     public Camera deathCamera;
-    private FirstPersonLook firstPersonLook;
-    private FirstPersonMovement firstPersonMovement;
 
     void Awake()
     {
-        firstPersonLook = GetComponentInChildren<FirstPersonLook>();
-        firstPersonMovement = GetComponent<FirstPersonMovement>();
         statsHandler = GetComponent<StatsHandler>();
     }
     private void Death()
@@ -27,15 +24,9 @@ public class Player : MonoBehaviour
         camera.transform.position = position;
         Destroy(gameObject);
     }
-    private void SetPlayerActive(bool active)
-    {
-        firstPersonLook.enabled = active;
-        firstPersonMovement.enabled = active;
-    }
     private void OnEnable()
     {
         statsHandler.OnDeath += Death;
-        shopController.OnPanelStateChange += SetPlayerActive;
         registry.Add(TargetKind.Player, this);
     }
 
@@ -43,6 +34,5 @@ public class Player : MonoBehaviour
     {
         registry.Remove(TargetKind.Player, this);
         statsHandler.OnDeath -= Death;
-        shopController.OnPanelStateChange -= SetPlayerActive;
     }
 }

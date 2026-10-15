@@ -1,23 +1,34 @@
+using UnityEngine;
 using Zenject;
 
-// Rules of building. The price is checked when a ghost is picked but taken only
-// when the building is actually placed, so an unplaced ghost costs nothing.
+// Rules of building. One ghost at a time; the price is checked when a ghost is
+// picked but taken only when the building is actually placed, so an unplaced
+// ghost costs nothing.
 public class BuildService
 {
     [Inject] private ResourceWallet wallet;
     [Inject] private BuildingPlacer placer;
 
+    public Ghost Current { get; private set; }
+
     public bool CanAfford(Ghost ghost) => wallet.Current >= ghost.requiredResources;
 
-    public Ghost StartPlacing(Ghost prefab) =>
-        CanAfford(prefab) ? placer.SpawnGhost(prefab) : null;
-
-    public bool TryPlace(Ghost ghost)
+    public void Pick(Ghost prefab)
     {
-        if (!wallet.TrySpend(ghost.requiredResources))
+        if (Current != null || !CanAfford(prefab))
+            return;
+
+        Current = placer.SpawnGhost(prefab);
+    }
+
+    public bool TryPlaceCurrent()
+    {
+        if (Current == null || !wallet.TrySpend(Current.requiredResources))
             return false;
 
-        placer.Place(ghost.prefab, ghost.transform.position, ghost.transform.rotation);
+        placer.Place(Current.prefab, Current.transform.position, Current.transform.rotation);
+        Object.Destroy(Current.gameObject);
+        Current = null;
         return true;
     }
 }

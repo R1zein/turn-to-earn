@@ -37,7 +37,7 @@ Assets/
     Player/           игрок, инвентарь, инструменты, ресурсы на руках
     Quests/           мёртвое: квесты удалённой системы
     UI/               HUD, магазин, диалоги, здоровье
-  UI Toolkit/         Main.uxml, DroneStats.uxml, Cyberpunk.uss, PanelSettings
+  UI Toolkit/         GameMain/DroneMain.uxml, слои, Templates/, MainStyle.uss, Fonts/
   Scenes/             Scene 5 (основная FPS-карта), SampleScene (дрон), Tutorial
                       в Build Settings не добавлена ни одна
   Prefabs/            98 префабов
@@ -54,9 +54,9 @@ Assets/
 |---|---|
 | Игрок | [`Player.cs`](../Assets/Scripts/Player/Player.cs) + `FirstPersonMovement` (сторонний) |
 | Добыча | [`ToolController.cs`](../Assets/Scripts/Player/ToolController.cs) → [`ResourceController`](../Assets/Scripts/ResourceController.cs) |
-| Ресурсы | [`ResourceWallet.cs`](../Assets/Scripts/Services/ResourceWallet.cs) (сервис) + [`ResourcesView.cs`](../Assets/Scripts/UI/ResourcesView.cs) |
-| Строительство | [`Inventory.cs`](../Assets/Scripts/Player/Inventory.cs) |
-| Магазин ботов | [`ShopController.cs`](../Assets/Scripts/UI/ShopController.cs) |
+| Ресурсы | [`ResourceWallet.cs`](../Assets/Scripts/Services/ResourceWallet.cs) (сервис) + `ResourcesHudController` |
+| Строительство | [`BuildService.cs`](../Assets/Scripts/Services/BuildService.cs) + [`Inventory.cs`](../Assets/Scripts/Player/Inventory.cs) |
+| Магазин | [`ShopService.cs`](../Assets/Scripts/Services/ShopService.cs) + [`ShopPanelController.cs`](../Assets/Scripts/UI/Controllers/ShopPanelController.cs) |
 | ИИ | [`NPCFacade.cs`](../Assets/Scripts/AI/NPCFacade.cs) + [`NPCNavigation.cs`](../Assets/Scripts/AI/NPCNavigation.cs) |
 | Здоровье/урон | [`StatsHandler.cs`](../Assets/Scripts/UI/StatsHandler.cs) |
 | Время и волны | [`TimeManager.cs`](../Assets/Scripts/Services/TimeManager.cs) + [`DayCycle.cs`](../Assets/Scripts/Services/DayCycle.cs) + [`TimePeriod.cs`](../Assets/Scripts/TimePeriod.cs) |

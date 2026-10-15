@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b6f899e090adf4a807e0f39105c73e, type: 3}
+  m_Name: UITemplate
+  m_EditorClassIdentifier: Assembly-CSharp::UITemplate
+  itemCard: {fileID: 9197481963319205126, guid: 0e1fadabb34c911459e0aeaeae2eeaaa, type: 3}
+  healthMarker: {fileID: 9197481963319205126, guid: a9b561423d8fdc9448e4c038e2a1ed9d, type: 3}

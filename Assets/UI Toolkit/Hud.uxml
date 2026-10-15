@@ -1,0 +1,48 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="MainStyle.uss" />
+    <ui:VisualElement name="Hud" picking-mode="Ignore" class="fill">
+        <!-- Crosshair -->
+        <ui:VisualElement picking-mode="Ignore" class="bg-accent round" style="position: absolute; top: 50%; left: 50%; translate: -50% -50%; width: 6px; height: 6px;" />
+
+        <!-- Resources, top left -->
+        <ui:VisualElement picking-mode="Ignore" class="bg-surface frame frame-lit-left" style="position: absolute; left: 40px; top: 40px; width: 340px; padding: 12px 14px 14px 14px;">
+            <ui:VisualElement picking-mode="Ignore" class="row divider-bottom" style="align-items: center; margin-bottom: 10px; padding-bottom: 6px;">
+                <ui:Label text="RESOURCES" picking-mode="Ignore" class="text-accent text-md bold tracking-wide" />
+                <ui:VisualElement picking-mode="Ignore" class="bg-hot" style="width: 8px; height: 8px;" />
+            </ui:VisualElement>
+            <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
+                <ui:Label text="STONE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                <ui:Label name="StoneValue" text="0" picking-mode="Ignore" class="text-accent text-lg bold" />
+            </ui:VisualElement>
+            <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
+                <ui:Label text="WOOD" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                <ui:Label name="WoodValue" text="0" picking-mode="Ignore" class="text-accent text-lg bold" />
+            </ui:VisualElement>
+            <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
+                <ui:Label text="IRON" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                <ui:Label name="IronValue" text="0" picking-mode="Ignore" class="text-accent text-lg bold" />
+            </ui:VisualElement>
+            <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end;">
+                <ui:Label text="GOLD" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                <ui:Label name="GoldValue" text="0" picking-mode="Ignore" class="text-hot text-lg bold" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Clock, top right -->
+        <ui:VisualElement picking-mode="Ignore" class="bg-surface frame frame-lit-left" style="position: absolute; right: 40px; top: 40px; padding: 10px 18px; align-items: flex-end;">
+            <ui:Label text="LOCAL TIME" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+            <ui:Label name="ClockValue" text="7:0" picking-mode="Ignore" class="text-accent text-xl bold tracking" />
+        </ui:VisualElement>
+
+        <!-- Player health, bottom left -->
+        <ui:VisualElement picking-mode="Ignore" class="bg-surface frame frame-lit-left" style="position: absolute; left: 40px; bottom: 40px; width: 400px; padding: 10px 14px 12px 14px;">
+            <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
+                <ui:Label text="HEALTH" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                <ui:Label name="HealthValue" text="100" picking-mode="Ignore" class="text-accent text-lg bold" />
+            </ui:VisualElement>
+            <ui:VisualElement picking-mode="Ignore" class="frame" style="height: 14px; padding: 2px; border-radius: 7px;">
+                <ui:VisualElement name="HealthFill" picking-mode="Ignore" class="bg-accent" style="height: 100%; width: 100%; border-radius: 4px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -5,29 +5,30 @@
 
 ## Призраки — свободная установка
 
-[`Inventory`](../Assets/Scripts/Player/Inventory.cs) + [`Ghost`](../Assets/Scripts/Player/Ghost.cs).
+[`BuildService`](../Assets/Scripts/Services/BuildService.cs) + [`Ghost`](../Assets/Scripts/Player/Ghost.cs).
 
 `Ghost` — полупрозрачный предпросмотр, несущий две вещи: `prefab` (что поставить)
 и `requiredResources` (цена).
 
 ### Поток
 
-[`Inventory`](../Assets/Scripts/Player/Inventory.cs) на игроке — тело: панель,
-призрак, клавиши через `InputService`. Правила — в
-[`BuildService`](../Assets/Scripts/Services/BuildService.cs), рождение — в
-[`BuildingPlacer`](../Assets/Scripts/Services/Spawning/BuildingPlacer.cs).
+Меню — [`BuildPanelController`](../Assets/Scripts/UI/Controllers/BuildPanelController.cs),
+правила и текущий призрак — [`BuildService`](../Assets/Scripts/Services/BuildService.cs),
+рождение — [`BuildingPlacer`](../Assets/Scripts/Services/Spawning/BuildingPlacer.cs),
+а [`Inventory`](../Assets/Scripts/Player/Inventory.cs) на игроке — тело, которое
+несёт призрак перед собой.
 
-1. `Tab` — открывается панель строительства (`buildPanel`), режим ввода `Ui`:
-   курсор свободен, игровые клавиши выключены. `Esc` или `Tab` закрывают панель.
-2. Кнопка панели вызывает `Build(ghostObject)`:
-   - если призрак уже держим — ничего;
-   - `BuildService.StartPlacing`: если ресурсов **хватает** — создаётся призрак
-     (цена пока не списывается);
-   - панель закрывается.
-3. Пока призрак в руках, каждый кадр:
+1. `Tab` — открывается меню строительства, режим ввода `Ui`: курсор свободен,
+   игровые клавиши выключены. `Esc` или `Tab` закрывают меню. Варианты (стена,
+   стол магазина, турель — с иконками) берутся из `GameConfig`; на которые не
+   хватает ресурсов, приглушены.
+2. Карточка вызывает `BuildService.Pick(ghost)`: если призрак уже держим или
+   ресурсов **не хватает** — ничего; иначе создаётся призрак (цена пока не
+   списывается). Меню закрывается.
+3. Пока призрак в руках, каждый кадр `Inventory`:
    - луч из центра экрана на `buildDistance` ставит призрак в точку попадания;
    - колесо мыши вращает его вокруг Y со скоростью `scrollSpeed`.
-4. `F` — `BuildService.TryPlace`: цена списывается, на месте призрака
+4. `F` — `BuildService.TryPlaceCurrent`: цена списывается, на месте призрака
    рождается настоящий `prefab` (через контейнер), призрак уничтожается. Не
    хватает ресурсов — ничего не происходит, призрак остаётся.
 
@@ -38,41 +39,36 @@
 - Если луч никуда не попал, призрак **остаётся на прежнем месте** — висит в
   воздухе, пока не наведёшься на поверхность.
 - Проверок места нет: поставить можно внутрь другого объекта, в склон, в воду.
-- Поле `ghost` после установки не обнуляется явно — код полагается на то, что
-  уничтоженный объект Unity сравнивается с `null` как истина. Работает, но
-  держится на особенности движка.
-- Флаг первой постройки идёт через `GameManager`, а флаг первого бота — через
-  event-канал. Два разных механизма для одного и того же, и оба теперь никто не
-  читает — их читали только умершие квесты, см.
-  [Квесты](quests-and-dialogs.md#два-источника-правды-о-прогрессе).
 
 ## Укрепления — сборка по частям
 
-[`BsseManager`](../Assets/Scripts/UI/BsseManager.cs) (опечатка в имени, читать
-«BaseManager») + [`Fortification`](../Assets/Scripts/UI/Fortification.cs).
+[`FortificationService`](../Assets/Scripts/Services/FortificationService.cs) +
+тело [`Fortification`](../Assets/Scripts/UI/Fortification.cs). Управляется со
+вкладки **BASE** магазина.
 
-Модель другая: укрепления уже стоят на сцене выключенными, а «строительство» —
-это включение нужных объектов.
+Модель другая: места под базу уже стоят на сцене выключенными (`FortificationBeach`,
+`FortificationForest`, `FortificationMountain`, перечислены в `LevelAnchors`), а
+«строительство» — это включение нужных объектов.
 
-- `Fortification` — секция укрепления со строковым `ID` и списком частей
-  `FortParts`.
-- `BuildFortification(buildFort)` — находит в массиве секцию с совпадающим `ID`,
-  включает её и запоминает как `currentFortification`.
-- `BuildParts(part)` — включает в текущей секции часть, **совпадающую по имени
-  объекта**.
+- `Fortification` — место под базу со строковым `ID` и списком частей `FortParts`.
+- `TryBuild(id)` — находит место с совпадающим `ID`, включает его и запоминает как
+  `Current`. Карточки мест и частей (иконка, название, ID) — в `GameConfig`.
+- `BuildPart(partName)` — включает в текущем месте часть, **совпадающую по имени
+  объекта** (сейчас одна — `Forge`).
 
 ### Ограничения
 
-- `currentFortification` **никогда не сбрасывается в `null`**, а `BuildFortification`
-  работает только когда оно `null`. То есть за сессию можно начать лишь **одну**
-  секцию укрепления; дальше кнопки выбора секции молча ничего не делают.
-- Части сопоставляются по `obj.name == part.name` — переименование объекта в
-  префабе тихо ломает сборку.
+- `Current` **никогда не сбрасывается**, а `TryBuild` работает только пока его нет.
+  За сессию можно выбрать лишь **одно** место; после выбора вкладка показывает
+  только части ([P1-5](known-issues.md#p1-5-укрепление-можно-начать-только-одно)).
+- Части сопоставляются по имени объекта — переименование в префабе тихо ломает
+  сборку.
 - Ресурсы здесь **не списываются вообще**: укрепления бесплатны.
 
 ## Магазин ботов
 
-[`ShopController`](../Assets/Scripts/UI/ShopController.cs) — покупка NPC.
+Панель магазина — [`ShopPanelController`](../Assets/Scripts/UI/Controllers/ShopPanelController.cs)
+(вкладки BOTS и BASE, см. [Интерфейс](ui.md)).
 
 Открывается не клавишей, а через взаимодействие со столом:
 [`TableInterract`](../Assets/Scripts/UI/TableInterract.cs) наследует
@@ -81,18 +77,17 @@
 
 ```
 InputService.OnInteract → PlayerInteraction (луч 1.5 м) → TableInterract.Interract()
-  → ShopController.TryToSetActive(точка спавна)
+  → ShopPanelController.Show(точка спавна)
 ```
 
-`TryToSetActive` открывает панель покупки, только если обе панели (покупки и
-апгрейда) закрыты, включает режим ввода `Ui` и шлёт событие
-`OnPanelStateChange(false)` — по нему [`Player`](../Assets/Scripts/Player/Player.cs)
-отключает обзор и движение. Закрывают магазин кнопки `CloseShop`, `Esc` и `Tab`.
+`Show` открывает панель на вкладке BOTS и включает режим ввода `Ui`: курсор
+свободен, ходьба и обзор выключены. Закрывают магазин кнопка CLOSE, `Esc` и `Tab`.
 
-`ByeBot(bot)` (читать «BuyBot») только пересылает выбор в
+Карточка бота пересылает выбор в
 [`ShopService.TryBuyBot`](../Assets/Scripts/Services/ShopService.cs): хватает
 `bot.requiredResources` — списать и заспавнить NPC в точке стола через
-[`BotSpawner`](../Assets/Scripts/Services/Spawning/BotSpawner.cs).
+[`BotSpawner`](../Assets/Scripts/Services/Spawning/BotSpawner.cs). Карточки, на
+которые не хватает ресурсов, приглушены.
 
 ## Курсор и блокировка ввода
 

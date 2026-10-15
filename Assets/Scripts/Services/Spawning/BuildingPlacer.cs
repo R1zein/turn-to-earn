@@ -2,7 +2,7 @@ using UnityEngine;
 using Zenject;
 
 // The one place buildings and their ghosts are born. Both go through the
-// container: the shop table injects ShopController, and the table ghost nests a Table.
+// container: the shop table injects ShopPanelController, and the table ghost nests a Table.
 public class BuildingPlacer
 {
     [Inject] private DiContainer container;

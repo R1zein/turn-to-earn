@@ -75,3 +75,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectInstaller
   gameConfig: {fileID: 11400000, guid: e0c6cca33a74e8f46afbfd9693479a21, type: 2}
+  uiTemplate: {fileID: 11400000, guid: c4ddcdfb87d145f40824f8a32a357d2d, type: 2}

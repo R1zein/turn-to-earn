@@ -7,6 +7,8 @@ public class ShopService
     [Inject] private ResourceWallet wallet;
     [Inject] private BotSpawner spawner;
 
+    public bool CanAfford(NPCFacade prefab) => wallet.Current >= prefab.requiredResources;
+
     public bool TryBuyBot(NPCFacade prefab, Vector3 position)
     {
         if (!wallet.TrySpend(prefab.requiredResources))

@@ -444,9 +444,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82bbae6b80af97945a78e17338670bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 1979706888108350, guid: f72d03e48b3dbfd4ca0f692e695377c3, type: 3}
-  buildingPlant: {fileID: 4513398385594971159}
-  buildPanel: {fileID: 0}
   buildDistance: 5
   scrollSpeed: 10
 --- !u!114 &8700556510767634270
