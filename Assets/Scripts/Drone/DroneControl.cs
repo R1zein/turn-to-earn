@@ -36,8 +36,13 @@ public class DroneControl : MonoBehaviour
     private Rigidbody rb;
     private DroneShooting shooting;
 
+    // |forward.y| above this = nose within ~2.5 deg of straight up/down, where bank
+    // relative to the horizon is undefined.
+    private const float NearVerticalNose = 0.999f;
+
     private Vector2 aim;     // cursor offset from screen center, dead-zoned, -1..1 per axis
     private bool throttle;
+    private bool isPushing;  // last PULL/PUSH choice, kept while the bank is undefined
 
     private Vector3 lastPosition;
     private float distanceTravelled;
@@ -107,7 +112,10 @@ public class DroneControl : MonoBehaviour
         if (rb.linearVelocity.magnitude < moveThreshold)
             return;
 
-        float currentRoll = GetSignedAngle(transform.eulerAngles.z);
+        // With the nose straight up or down the bank is undefined: don't roll and don't
+        // re-pick PULL/PUSH there, or the reading flickers 0/180 and the drone spins
+        // about its nose.
+        bool hasBank = TryGetRoll(out float currentRoll);
 
         // distance from center = maneuver strength (turn rate)
         float d = Mathf.Clamp01(aim.magnitude);
@@ -116,6 +124,9 @@ public class DroneControl : MonoBehaviour
         // including a full barrel) and hold course.
         if (d < 1e-4f)
         {
+            if (!hasBank)
+                return;
+
             float level = Mathf.MoveTowards(currentRoll, 0f, rollSpeed * Time.deltaTime) - currentRoll;
             transform.Rotate(0f, 0f, level, Space.Self);
             return;
@@ -136,16 +147,19 @@ public class DroneControl : MonoBehaviour
         float pullZ = -phi;          // bank (euler z) for the pull solution
         float pushZ = -phi + 180f;   // bank for the push solution
 
-        float distPull = Mathf.Abs(Mathf.DeltaAngle(currentRoll, pullZ));
-        float distPush = Mathf.Abs(Mathf.DeltaAngle(currentRoll, pushZ));
-
-        bool push = distPush < distPull;    // prefer pull on ties
+        if (hasBank)
+        {
+            float distPull = Mathf.Abs(Mathf.DeltaAngle(currentRoll, pullZ));
+            float distPush = Mathf.Abs(Mathf.DeltaAngle(currentRoll, pushZ));
+            isPushing = distPush < distPull;    // prefer pull on ties
+        }
+        bool push = isPushing;
         float targetZ = push ? pushZ : pullZ;
         float pitchSign = push ? -1f : 1f;  // push => nose down, pull => nose up
 
         // ROLL banks toward the chosen target by the shortest path. Using the wrapped
         // delta lets a barrel roll flow smoothly through +/-180 without snapping.
-        float rollDelta = Mathf.DeltaAngle(currentRoll, targetZ);            // <- negate for inverted bank
+        float rollDelta = hasBank ? Mathf.DeltaAngle(currentRoll, targetZ) : 0f;  // <- negate for inverted bank
 
         // PITCH continuously rotates forward => the actual turn. Strength = distance,
         // scaled by how far the bank has got: pitching while still rolling turns the
@@ -169,10 +183,20 @@ public class DroneControl : MonoBehaviour
         rb.linearVelocity *= 1f - deceleration * Time.fixedDeltaTime;
     }
 
-    private static float GetSignedAngle(float angle)
+    // Bank about the nose, measured from "level up" - world up projected onto the
+    // plane across the nose. In normal flight this equals eulerAngles.z, but it has no
+    // gimbal-lock band near vertical (where eulerAngles.z reads 0 whatever the bank).
+    private bool TryGetRoll(out float roll)
     {
-        angle %= 360f;
-        if (angle > 180f) angle -= 360f;
-        return angle;
+        Vector3 forward = transform.forward;
+        if (Mathf.Abs(forward.y) > NearVerticalNose)
+        {
+            roll = 0f;
+            return false;
+        }
+
+        Vector3 levelUp = Vector3.ProjectOnPlane(Vector3.up, forward);
+        roll = Vector3.SignedAngle(levelUp, transform.up, forward);
+        return true;
     }
 }
