@@ -48,7 +48,7 @@ null-проверок.
 | Контроллер | Сцена | Что делает |
 |---|---|---|
 | `ResourcesHudController` | Scene 5 | запасы из `ResourceWallet.OnChanged` |
-| `ClockHudController` | Scene 5 | часы из `TimeManager.OnClockChanged` (минуты без нуля: `7:5`) |
+| `ClockHudController` | Scene 5 | часы из `TimeManager.OnClockChanged` (`7:05`) и фаза суток из `DayCycle.OnPeriodEnter` |
 | `PlayerHealthHudController` | Scene 5 | здоровье игрока по `OnDamage` |
 | `BuildPanelController` | Scene 5 | `Tab` → меню; карточка → `BuildService.Pick`; недоступные по цене приглушены |
 | `ShopPanelController` | Scene 5 | открывает стол магазина; боты → `ShopService`, база → `FortificationService` |

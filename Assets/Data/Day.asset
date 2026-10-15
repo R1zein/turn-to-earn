@@ -12,40 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0847ea51e8faa8240b0140891502633a, type: 3}
   m_Name: Day
   m_EditorClassIdentifier: 
-  periodStart: 7
-  periodEnd: 23
-  skyboxMaterial: {fileID: 2100000, guid: 614a3d8218d370d40895a63854c838b3, type: 2}
+  periodStart: 7.5
+  periodEnd: 19.5
   soundEffect: {fileID: 8300000, guid: 6ba6e28d5b9004991a4ff9f8be8d67d5, type: 3}
-  curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.00066431914
-      value: -0.0013184327
-      inSlope: 0.97371936
-      outSlope: 0.97371936
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.8330591
-      value: 0.80920047
-      inSlope: -1.9926428
-      outSlope: -1.9926428
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9959717
-      value: 0.0013160706
-      inSlope: -4.959005
-      outSlope: -4.959005
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4

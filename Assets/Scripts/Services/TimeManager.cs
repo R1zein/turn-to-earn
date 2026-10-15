@@ -11,6 +11,9 @@ public class TimeManager : ITickable
     private float timer;   // seconds since midnight
     private bool isRunning;
 
+    // Continuous hour 0..24 since midnight; the start hour until the clock runs.
+    public float Hour => isRunning ? timer / config.SecondsPerHour : config.StartHour;
+
     public int Hours { get; private set; }
     public int Minutes { get; private set; }
     public event Action OnClockChanged;

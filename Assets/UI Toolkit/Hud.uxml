@@ -36,6 +36,7 @@
         <ui:VisualElement picking-mode="Ignore" class="bg-surface frame frame-lit-left" style="position: absolute; right: 40px; top: 40px; padding: 10px 18px; align-items: flex-end;">
             <ui:Label text="LOCAL TIME" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
             <ui:Label name="ClockValue" text="7:00" picking-mode="Ignore" class="text-accent text-xl bold tracking" />
+            <ui:Label name="PhaseValue" text="" picking-mode="Ignore" class="text-hot text-sm tracking heavy" />
         </ui:VisualElement>
 
         <!-- Player health, bottom left -->

@@ -10,6 +10,24 @@ public class GameConfig : ScriptableObject
     [SerializeField, Range(0, 24)] private int startHour = 7;
     [SerializeField] private TimePeriod[] dayPeriods;
 
+    [Header("Sky (curves and gradients span the whole day: hour 0..24, gradient 0..1)")]
+    [Tooltip("The sun rises when this period begins")]
+    [SerializeField] private TimePeriod dawnPeriod;
+    [Tooltip("The sun sets when this period ends")]
+    [SerializeField] private TimePeriod duskPeriod;
+    [SerializeField] private Material daySkybox;
+    [SerializeField] private Material nightSkybox;
+    [SerializeField, Range(0, 90)] private float noonSunElevation = 55;
+    [SerializeField, Range(0, 90)] private float moonElevation = 40;
+    [Tooltip("Compass direction of the sun at noon; it rises 90 deg before and sets 90 deg after")]
+    [SerializeField] private float noonSunYaw = 307;
+    [SerializeField] private Gradient sunColor = new Gradient();
+    [SerializeField] private AnimationCurve sunIntensity = AnimationCurve.Constant(0, 24, 1);
+    [SerializeField] private AnimationCurve ambientIntensity = AnimationCurve.Constant(0, 24, 1);
+    [Tooltip("Exposure of whichever skybox is up; keep it low at sunrise and sunset, where they swap")]
+    [SerializeField] private AnimationCurve skyExposure = AnimationCurve.Constant(0, 24, 1);
+    [SerializeField] private Gradient fogColor = new Gradient();
+
     [Header("Waves")]
     [Tooltip("A wave starts at every portal each time this period begins")]
     [SerializeField] private TimePeriod wavePeriod;
@@ -46,6 +64,19 @@ public class GameConfig : ScriptableObject
     public float SecondsPerHour => secondsPerHour;
     public int StartHour => startHour;
     public IReadOnlyList<TimePeriod> DayPeriods => dayPeriods;
+
+    public float SunriseHour => dawnPeriod.periodStart;
+    public float SunsetHour => duskPeriod.periodEnd;
+    public Material DaySkybox => daySkybox;
+    public Material NightSkybox => nightSkybox;
+    public float NoonSunElevation => noonSunElevation;
+    public float MoonElevation => moonElevation;
+    public float NoonSunYaw => noonSunYaw;
+    public Gradient SunColor => sunColor;
+    public AnimationCurve SunIntensity => sunIntensity;
+    public AnimationCurve AmbientIntensity => ambientIntensity;
+    public AnimationCurve SkyExposure => skyExposure;
+    public Gradient FogColor => fogColor;
 
     public TimePeriod WavePeriod => wavePeriod;
     public Enemy WaveEnemy => waveEnemy;
