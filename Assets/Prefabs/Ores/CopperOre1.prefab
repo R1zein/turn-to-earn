@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3226408224424503084}
   - component: {fileID: 1074454696204369748}
   - component: {fileID: 7374018021284908147}
+  - component: {fileID: 3745282600694586075}
   m_Layer: 0
   m_Name: CopperOre1
   m_TagString: Untagged
@@ -162,3 +163,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.0688678
   m_Center: {x: 0.08058202, y: 0.81189793, z: -0.0010805726}
+--- !u!114 &3745282600694586075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905803992639954484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10a79c265bbc9da418587462e78437f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CopperController
+  destroyEffect: {fileID: 22985309155431266, guid: 4d70f1474dd2df44fb0cab390220c661, type: 3}
+  resource: 4
+  resourceStore: 100
+  oneHitResource: 20

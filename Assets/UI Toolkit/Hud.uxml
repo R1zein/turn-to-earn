@@ -22,6 +22,10 @@
                 <ui:Label text="IRON" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
                 <ui:Label name="IronValue" text="0" picking-mode="Ignore" class="text-accent text-lg bold" />
             </ui:VisualElement>
+            <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
+                <ui:Label text="COPPER" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                <ui:Label name="CopperValue" text="0" picking-mode="Ignore" class="text-accent text-lg bold" />
+            </ui:VisualElement>
             <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end;">
                 <ui:Label text="GOLD" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
                 <ui:Label name="GoldValue" text="0" picking-mode="Ignore" class="text-hot text-lg bold" />

@@ -1363,7 +1363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82b2c087d1f7d040bdc1ee700c46c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mineableResourses: 0000000003000000
+  mineableResources: 000000000300000004000000
 --- !u!114 &2775908413399754307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1627,7 +1627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82b2c087d1f7d040bdc1ee700c46c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mineableResourses: 
+  mineableResources: 
 --- !u!114 &2715428038965899432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1857,4 +1857,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82b2c087d1f7d040bdc1ee700c46c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mineableResourses: 01000000
+  mineableResources: 01000000

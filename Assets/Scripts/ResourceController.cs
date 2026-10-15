@@ -10,8 +10,10 @@ public abstract class ResourceController : MonoBehaviour
     [Inject] private ResourceNodeSpawner spawner;
     [Inject] private TargetRegistry registry;
 
-    private MeshCollider meshColliderStone;
-    private MeshRenderer meshRendererStone;
+    // Any collider/renderer: ore veins use a SphereCollider, and looking for a
+    // MeshCollider left them null - a mined-out vein threw on death and never vanished.
+    private Collider nodeCollider;
+    private Renderer nodeRenderer;
     [FormerlySerializedAs("resourse")] public MineableResource resource;
     private bool isDying = false;
     [SerializeField] protected int resourceStore;
@@ -19,8 +21,8 @@ public abstract class ResourceController : MonoBehaviour
 
     private void Start()
     {
-        meshColliderStone = GetComponent<MeshCollider>();
-        meshRendererStone = GetComponent<MeshRenderer>();
+        nodeCollider = GetComponent<Collider>();
+        nodeRenderer = GetComponent<Renderer>();
     }
 
     private void OnEnable()
@@ -37,8 +39,8 @@ public abstract class ResourceController : MonoBehaviour
     {
         // Mined out: bots stop walking to it while the effect plays.
         registry.Remove(TargetKind.ResourceNode, this);
-        meshColliderStone.enabled = false;
-        meshRendererStone.enabled = false;
+        nodeCollider.enabled = false;
+        nodeRenderer.enabled = false;
         Instantiate(destroyEffect, transform.position, Quaternion.identity);
         await Awaitable.WaitForSecondsAsync(2f);
         spawner.Release(this);

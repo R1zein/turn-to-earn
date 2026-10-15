@@ -31,6 +31,7 @@ public class ItemCards
         if (price.tree > 0) parts.Add($"WOOD {price.tree}");
         if (price.ore > 0) parts.Add($"STONE {price.ore}");
         if (price.iron > 0) parts.Add($"IRON {price.iron}");
+        if (price.copper > 0) parts.Add($"COPPER {price.copper}");
         if (price.gold > 0) parts.Add($"GOLD {price.gold}");
         return parts.Count == 0 ? "FREE" : string.Join("  ", parts);
     }
