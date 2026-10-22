@@ -67,6 +67,14 @@ public enum Fraction { Player, Friendly, Enemy, Neutral }
 тик `interval`, `StatsHandler` ищется вверх по иерархии от попадания; бьёт тоже
 только фракцию `Enemy`.
 
+### Взрыв — `Explosions`
+
+[`Explosions.Blast(center)`](../Assets/Scripts/Services/Explosions.cs) — урон по
+площади (сейчас его зовёт только бомба дрона). Всем телам фракции `Enemy` в
+`GameConfig.BombRadius` — линейно от `BombCenterDamage` в центре до
+`BombEdgeDamage` на краю, по одному разу на `StatsHandler`. Свои и нейтральные
+не задеваются. Подробности и замер — [Дрон](drone.md#бомба).
+
 ## Турель
 
 [`GatlingGun`](../Assets/Scripts/AI/GatlingGun.cs) — автоматическая защита базы,

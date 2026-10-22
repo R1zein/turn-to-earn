@@ -17,9 +17,13 @@
             <ui:Label text="ALTITUDE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
             <ui:Label name="AltitudeValue" text="0.0 M" picking-mode="Ignore" class="text-accent text-lg bold" />
         </ui:VisualElement>
-        <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end;">
+        <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
             <ui:Label text="DISTANCE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
             <ui:Label name="DistanceValue" text="0 M" picking-mode="Ignore" class="text-hot text-lg bold" />
+        </ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end;">
+            <ui:Label text="BOMB" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+            <ui:Label name="BombValue" text="READY" picking-mode="Ignore" class="text-hot text-lg bold" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

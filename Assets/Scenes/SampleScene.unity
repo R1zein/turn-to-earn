@@ -253,6 +253,19 @@ MonoBehaviour:
   laserLeft: {fileID: 758873933}
   laserRight: {fileID: 967171046}
   debug: 0
+--- !u!114 &166311112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166311094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b0a90765d0e1bd45aa1cafd449d3879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DroneBombBay
+  dropOffset: {x: 0, y: -1.6, z: 0.2}
 --- !u!1 &247025874
 GameObject:
   m_ObjectHideFlags: 0
@@ -1176,6 +1189,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4773320998384535222, guid: ee2a658c2c3546b4abc1f27988123203, type: 3}
       insertIndex: -1
       addedObject: {fileID: 166311109}
+    - targetCorrespondingSourceObject: {fileID: 4773320998384535222, guid: ee2a658c2c3546b4abc1f27988123203, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 166311112}
   m_SourcePrefab: {fileID: 100100000, guid: ee2a658c2c3546b4abc1f27988123203, type: 3}
 --- !u!1 &1251775588
 GameObject:

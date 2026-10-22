@@ -25,7 +25,8 @@
         <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="SPACE / CTRL" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="UP / DOWN" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="SHIFT" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="BOOST" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="RMB" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="HOLD: AIM, WASD MOVE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
-        <ui:VisualElement picking-mode="Ignore" class="row"><ui:Label text="LMB / F" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="FIRE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="F" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="DROP BOMB" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row"><ui:Label text="LMB" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="FIRE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
     </ui:VisualElement>
     <!-- Cursor ring: sits on the invisible steering cursor. Code writes left/top in panel
          pixels every frame; the translate keeps the ring centred on that point. Children

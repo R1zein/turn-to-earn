@@ -94,6 +94,7 @@ public class DroneControl : MonoBehaviour
 
     private Rigidbody rb;
     private DroneShooting shooting;
+    private DroneBombBay bombBay;
 
     // Kept as an offset from the screen centre: the centre stays exact even if the
     // screen size changes after Awake (it does in the editor), or the window is resized.
@@ -127,6 +128,7 @@ public class DroneControl : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         shooting = GetComponent<DroneShooting>();
+        bombBay = GetComponent<DroneBombBay>();
         // Default 7 rad/s (400 deg/s) would clip fast rolls.
         rb.maxAngularVelocity = 20f;
 
@@ -141,6 +143,8 @@ public class DroneControl : MonoBehaviour
 
         if (shooting != null)
             shooting.Shoot();
+        if (bombBay != null)
+            bombBay.HandleInput();
     }
 
     private void FixedUpdate()

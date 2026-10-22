@@ -7,18 +7,20 @@ using Zenject;
 // diamond stays static in the screen centre (it lives in the UXML, code never
 // moves it). While aiming the ring marks where the mouse has pointed the aim (the
 // nose snaps there). The telemetry panel shows throttle, speed, altitude above
-// world zero and total distance flown - numbers the drone measures itself.
+// world zero and total distance flown - numbers the drone measures itself - and
+// whether a bomb is ready or how long until it is.
 public class DroneHudController : IInitializable, ITickable
 {
     [Inject] private UIDocument document;
     [Inject] private DroneControl drone;
+    [Inject] private DroneBombBay bombBay;
     [Inject] private Camera camera;
 
     // How far ahead the aim direction is projected while aiming, metres.
     private const float AimMarkerDistance = 100f;
 
     private VisualElement scope;
-    private Label throttle, speed, altitude, distance;
+    private Label throttle, speed, altitude, distance, bomb;
 
     public void Initialize()
     {
@@ -28,6 +30,7 @@ public class DroneHudController : IInitializable, ITickable
         speed = root.Q<Label>("SpeedValue");
         altitude = root.Q<Label>("AltitudeValue");
         distance = root.Q<Label>("DistanceValue");
+        bomb = root.Q<Label>("BombValue");
     }
 
     public void Tick()
@@ -52,6 +55,8 @@ public class DroneHudController : IInitializable, ITickable
         speed.text = drone.GetSpeed().ToString("F1", CultureInfo.InvariantCulture) + " M/S";
         altitude.text = drone.GetAltitude().ToString("F1", CultureInfo.InvariantCulture) + " M";
         distance.text = drone.GetDistanceTravelled().ToString("F0", CultureInfo.InvariantCulture) + " M";
+        float cooldown = bombBay.CooldownLeft;
+        bomb.text = cooldown <= 0f ? "READY" : Mathf.CeilToInt(cooldown).ToString(CultureInfo.InvariantCulture) + " S";
     }
 
     // Screen space has Y running up from the bottom, the panel has it running down from

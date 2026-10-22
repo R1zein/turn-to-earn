@@ -318,6 +318,13 @@ MonoBehaviour:
   spiderEnemy: {fileID: 54674587218716006, guid: 703eb41ae91721c45b46e3464dba8ad8, type: 3}
   spiderFirstWave: 3
   spidersPerWave: 1
+  bombPrefab: {fileID: 7225166753703294219, guid: 02544cefd2fd4a749b563036e67fe1ca, type: 3}
+  bombCooldown: 30
+  bombRadius: 9
+  bombCenterDamage: 300
+  bombEdgeDamage: 50
+  bombEffect: {fileID: 1714524745656972, guid: 2e33bbd89680b744a8f2b0727a31b0ca, type: 3}
+  bombEffectScale: 2.5
   rangeTarget: {fileID: 1284650868752199256, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}
   rangeRespawnDelay: 3
   enemyTargets:

@@ -1,6 +1,10 @@
 using UnityEngine;
 using Zenject;
 
+// The drone's twin lasers. Both beams meet at one FOCUS point: a ray from midway
+// between the two muzzles along the drone's nose finds what the nose is looking
+// at (or the end of the beams' reach), and each laser is turned to it every
+// frame - so the beams, and the damage rays along them, converge on the target.
 public class DroneShooting : MonoBehaviour
 {
     [Inject] private InputService input;
@@ -19,9 +23,14 @@ public class DroneShooting : MonoBehaviour
     private bool firing;
     private float damageTimer;
 
+    // Where both beams meet this frame.
+    public Vector3 FocusPoint { get; private set; }
+
     // Call this from DroneControl.Update() so all drone control stays centralized there.
     public void Shoot()
     {
+        AimAtFocus();
+
         if (input.FireStarted)
         {
             firing = true;
@@ -47,6 +56,28 @@ public class DroneShooting : MonoBehaviour
             TryDamage(laserLeft);
             TryDamage(laserRight);
         }
+    }
+
+    // The focus is found from midway between the muzzles along the nose; the beams'
+    // own reach caps it. Triggers (water, zones) are not targets.
+    private void AimAtFocus()
+    {
+        Vector3 origin = (laserLeft.transform.position + laserRight.transform.position) * 0.5f;
+        Vector3 nose = transform.forward;
+        float reach = Mathf.Max(laserLeft.MaxLength, laserRight.MaxLength);
+        FocusPoint = Physics.Raycast(origin, nose, out RaycastHit hit, reach, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)
+            ? hit.point
+            : origin + nose * reach;
+
+        Aim(laserLeft);
+        Aim(laserRight);
+    }
+
+    private void Aim(HovlLaser laser)
+    {
+        Vector3 toFocus = FocusPoint - laser.transform.position;
+        if (toFocus.sqrMagnitude > 0.01f)
+            laser.transform.rotation = Quaternion.LookRotation(toFocus, transform.up);
     }
 
     // Raycast along the same origin/direction the laser draws its beam,

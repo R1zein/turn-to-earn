@@ -42,6 +42,20 @@ public class GameConfig : ScriptableObject
     [Tooltip("Spiders per wave, across all portals, added for every wave from the first spider wave on")]
     [SerializeField] private int spidersPerWave = 1;
 
+    [Header("Drone bomb")]
+    [SerializeField] private DroneBomb bombPrefab;
+    [Tooltip("Seconds between bombs")]
+    [SerializeField] private float bombCooldown = 30f;
+    [Tooltip("Blast radius, m. With the damages below a 100 HP zombie dies within ~7 m: a crowd of ten")]
+    [SerializeField] private float bombRadius = 9f;
+    [SerializeField] private float bombCenterDamage = 300f;
+    [Tooltip("Damage right at the edge of the radius; it falls linearly from the centre")]
+    [SerializeField] private float bombEdgeDamage = 50f;
+    [Tooltip("Visual spawned at the blast")]
+    [SerializeField] private GameObject bombEffect;
+    [Tooltip("Scale of the visual: its flash is 4 m across at 1, so 2.5 roughly matches the radius")]
+    [SerializeField] private float bombEffectScale = 2.5f;
+
     [Header("Shooting range (drone scene)")]
     [Tooltip("Dummy placed on every spot of the range; it stands still")]
     [SerializeField] private Enemy rangeTarget;
@@ -105,6 +119,13 @@ public class GameConfig : ScriptableObject
     public Enemy SpiderEnemy => spiderEnemy;
     public int SpiderFirstWave => spiderFirstWave;
     public int SpidersPerWave => spidersPerWave;
+    public DroneBomb BombPrefab => bombPrefab;
+    public float BombCooldown => bombCooldown;
+    public float BombRadius => bombRadius;
+    public float BombCenterDamage => bombCenterDamage;
+    public float BombEdgeDamage => bombEdgeDamage;
+    public GameObject BombEffect => bombEffect;
+    public float BombEffectScale => bombEffectScale;
     public Enemy RangeTarget => rangeTarget;
     public float RangeRespawnDelay => rangeRespawnDelay;
 

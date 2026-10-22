@@ -57,6 +57,7 @@ public class InputService : IInitializable, ITickable, IDisposable
     public float DroneLift => controls.Drone.Lift.ReadValue<float>();
     public bool IsBoostHeld => controls.Drone.Boost.IsPressed();
     public bool IsDroneAimHeld => controls.Drone.Aim.IsPressed();
+    public bool DroneBombDropped => controls.Drone.Bomb.WasPressedThisFrame();
     public bool FireStarted => controls.Drone.Fire.WasPressedThisFrame();
     public bool FireEnded => controls.Drone.Fire.WasReleasedThisFrame();
 
