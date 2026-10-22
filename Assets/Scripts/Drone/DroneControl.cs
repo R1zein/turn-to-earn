@@ -1,58 +1,75 @@
 using UnityEngine;
 using Zenject;
 
-// War Thunder / WoT style "point-to-fly" drone control.
+// FPV quadcopter. The only lift is rotor thrust along the body's UP axis; gravity,
+// drag and inertia do the rest, so tilting the body is what makes it travel.
+// Rotation always goes through torque: a rate controller (like a real flight
+// controller) turns commanded body rates into angular acceleration.
 //
-// Control model:
-//  - The cursor drives an on-screen aim reticle (desired direction; drawn by DroneHudController).
-//  - ROLL only banks the drone around its own forward axis. It does NOT turn it.
-//  - PITCH is the only thing that rotates forward => it is what actually turns the drone.
-//  - Cursor DIRECTION -> which way to bank (roll orients the pitch plane).
-//  - Cursor DISTANCE from center -> how hard to pitch => turn speed.
-//  - Upper half: pull (nose toward belly-up). Lower half: the logic mirrors -
-//    roll flips to the opposite side and pitch pushes the nose DOWN.
-//  - Center dead-zone: no roll, no pitch, drone levels out and holds course.
-//  - Steering only works while the drone is actually moving.
+// Two flight modes over the same physics:
+//  - STAB (default): W/S and A/D tilt the drone to an angle, releasing them
+//    levels it; neutral thrust holds altitude whatever the tilt.
+//  - ACRO (hold Acro, or toggle it): the keys command rotation RATES and nothing
+//    levels - hold A/D for a barrel roll, W/S for a flip. Neutral thrust is hover
+//    thrust scaled by how upright the drone is, so a flip is a ballistic arc
+//    rather than a dive driven by the rotors.
 //
-// Sign notes: banking/pitch polarity depends on your rig. If an axis feels
-// inverted in play, flip the sign on the marked line - nothing else changes.
+// Body axes in Unity: +X rate = nose down, +Y = yaw right, +Z = roll left.
 [RequireComponent(typeof(Rigidbody))]
 public class DroneControl : MonoBehaviour
 {
-    [Header("Steering")]
-    [SerializeField] private float deadZone = 0.08f;   // normalized radius of the round dead zone, 0..1
-    [SerializeField] private float rollSpeed = 180f;   // how fast we bank toward target (deg/s)
-    [SerializeField] private float pitchRate = 90f;    // nose rotation speed at full deflection (deg/s)
+    [Header("Rates, deg/s")]
+    [Tooltip("Pitch and roll rate in ACRO: 360 = a full flip or roll per second")]
+    [SerializeField] private float acroRate = 360f;
+    [SerializeField] private float yawRate = 160f;
+    [Tooltip("1/s: how fast the body reaches a commanded rate")]
+    [SerializeField] private float rateResponse = 12f;
 
-    [Header("Movement")]
-    [SerializeField] private float thrust = 20f;
-    [SerializeField] private float deceleration = 0.5f;
-    [SerializeField] private float moveThreshold = 0.5f; // min speed (m/s) required to steer
-    [Tooltip("How fast the velocity turns toward the nose, deg/s. 0 = free drift: the drone slides on the old heading after a turn")]
-    [SerializeField] private float velocityFollow = 180f;
+    [Header("STAB mode")]
+    [SerializeField] private float maxTilt = 30f;
+    [Tooltip("Tilt with Boost held: more tilt = more speed")]
+    [SerializeField] private float boostTilt = 50f;
+    [Tooltip("1/s: attitude error (deg) -> rate")]
+    [SerializeField] private float levelResponse = 6f;
+    [SerializeField] private float maxLevelRate = 300f;
 
-    // Throttle and the cursor position. The cursor itself (confined, hidden - we draw
-    // our own reticle) is the scene's base InputMode.Drone.
+    [Header("STAB altitude hold")]
+    [Tooltip("Climb/descent speed with Lift held, m/s; released, vertical speed goes to zero")]
+    [SerializeField] private float climbSpeed = 10f;
+    [Tooltip("1/s: how hard the rotors chase the wanted vertical speed")]
+    [SerializeField] private float climbResponse = 4f;
+
+    [Header("Thrust, in g")]
+    [Tooltip("Full rotor power: the STAB limit, and ACRO with Boost")]
+    [SerializeField] private float maxThrust = 2.5f;
+    [Tooltip("ACRO with Lift up")]
+    [SerializeField] private float climbThrust = 1.8f;
+
+    [Header("Keys")]
+    [Tooltip("1/s: a key ramps the stick to full deflection in 1/value seconds")]
+    [SerializeField] private float stickResponse = 8f;
+
     [Inject] private InputService input;
 
     private Rigidbody rb;
     private DroneShooting shooting;
 
-    // |forward.y| above this = nose within ~2.5 deg of straight up/down, where bank
-    // relative to the horizon is undefined.
-    private const float NearVerticalNose = 0.999f;
-
-    private Vector2 aim;     // cursor offset from screen center, dead-zoned, -1..1 per axis
-    private bool throttle;
-    private bool isPushing;  // last PULL/PUSH choice, kept while the bank is undefined
+    // Smoothed sticks, -1..1: pitch + = nose down, roll + = right, yaw + = right, lift + = up.
+    private float pitch, roll, yaw, lift;
+    private bool boost;
+    private bool acroLatched;
 
     private Vector3 lastPosition;
     private float distanceTravelled;
+
+    public bool IsAcro => acroLatched || input.IsAcroHeld;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         shooting = GetComponent<DroneShooting>();
+        // Default 7 rad/s (400 deg/s) would clip a 360 deg/s roll plus overshoot.
+        rb.maxAngularVelocity = 20f;
 
         lastPosition = rb.position;
     }
@@ -60,7 +77,6 @@ public class DroneControl : MonoBehaviour
     private void Update()
     {
         ReadInput();
-        Steer();
 
         if (shooting != null)
             shooting.Shoot();
@@ -68,7 +84,8 @@ public class DroneControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
+        Rotate();
+        Thrust();
         TrackDistance();
     }
 
@@ -90,125 +107,93 @@ public class DroneControl : MonoBehaviour
 
     private void ReadInput()
     {
-        throttle = input.IsThrottleHeld;
+        if (input.AcroToggled)
+            acroLatched = !acroLatched;
 
-        Vector2 mouse = input.DroneAim;
-        Vector2 half = new Vector2(Screen.width, Screen.height) * 0.5f;
-
-        // offset from screen center in units of half the screen HEIGHT on both axes, so
-        // the same mouse travel gives the same deflection in every direction (dividing x
-        // by half the width made sideways turns need twice the travel on a wide screen).
-        // Full deflection is a circle of radius half-height; clamping the length keeps
-        // the direction intact.
-        Vector2 raw = Vector2.ClampMagnitude((mouse - half) / half.y, 1f);
-
-        // round dead-zone in the center: inside it we hold course. Round, not per-axis:
-        // zeroing each axis on its own snapped the direction onto an axis near it
-        // (a cursor slightly right of straight up read as exactly up).
-        aim = raw.magnitude < deadZone ? Vector2.zero : raw;
+        float step = stickResponse * Time.deltaTime;
+        pitch = Mathf.MoveTowards(pitch, input.DronePitch, step);
+        roll = Mathf.MoveTowards(roll, input.DroneRoll, step);
+        yaw = Mathf.MoveTowards(yaw, input.DroneYaw, step);
+        lift = Mathf.MoveTowards(lift, input.DroneLift, step);
+        boost = input.IsBoostHeld;
     }
 
-    private void Steer()
+    private void Rotate()
     {
-        // "only in motion": nothing happens while (nearly) stationary
-        if (rb.linearVelocity.magnitude < moveThreshold)
-            return;
+        // Commanded body rates, deg/s.
+        Vector3 rate = IsAcro
+            ? new Vector3(pitch * acroRate, 0f, -roll * acroRate)
+            : LevelingRate();
+        rate.y = yaw * yawRate;
 
-        // With the nose straight up or down the bank is undefined: don't roll and don't
-        // re-pick PULL/PUSH there, or the reading flickers 0/180 and the drone spins
-        // about its nose.
-        bool hasBank = TryGetRoll(out float currentRoll);
-
-        // distance from center = maneuver strength (turn rate)
-        float d = Mathf.Clamp01(aim.magnitude);
-
-        // Centered: no maneuver. Level the wings (recovers from any bank/roll,
-        // including a full barrel) and hold course.
-        if (d < 1e-4f)
-        {
-            if (!hasBank)
-                return;
-
-            float level = Mathf.MoveTowards(currentRoll, 0f, rollSpeed * Time.deltaTime) - currentRoll;
-            transform.Rotate(0f, 0f, level, Space.Self);
-            return;
-        }
-
-        // Direction the cursor points, in screen space: 0 = up, +90 = right, 180 = down.
-        float phi = Mathf.Atan2(aim.x, aim.y) * Mathf.Rad2Deg;
-
-        // Two ways to send the nose toward the cursor, 180 deg apart in bank:
-        //   PULL: bank so belly-up faces the cursor, then pitch the nose UP.
-        //   PUSH: bank the opposite way, then pitch the nose DOWN.
-        // Pick whichever bank is CLOSER to the current one. This gives both wanted
-        // behaviours from a single rule:
-        //   - sweeping the cursor gradually keeps the same solution, so the drone
-        //     keeps rolling the same way past 90 deg (a barrel roll);
-        //   - a sudden jump (e.g. neutral -> straight down) finds the shorter
-        //     solution: opposite bank + nose down, instead of a 180 flip.
-        float pullZ = -phi;          // bank (euler z) for the pull solution
-        float pushZ = -phi + 180f;   // bank for the push solution
-
-        if (hasBank)
-        {
-            float distPull = Mathf.Abs(Mathf.DeltaAngle(currentRoll, pullZ));
-            float distPush = Mathf.Abs(Mathf.DeltaAngle(currentRoll, pushZ));
-            isPushing = distPush < distPull;    // prefer pull on ties
-        }
-        bool push = isPushing;
-        float targetZ = push ? pushZ : pullZ;
-        float pitchSign = push ? -1f : 1f;  // push => nose down, pull => nose up
-
-        // ROLL banks toward the chosen target by the shortest path. Using the wrapped
-        // delta lets a barrel roll flow smoothly through +/-180 without snapping.
-        float rollDelta = hasBank ? Mathf.DeltaAngle(currentRoll, targetZ) : 0f;  // <- negate for inverted bank
-
-        // PITCH continuously rotates forward => the actual turn. Strength = distance,
-        // scaled by how far the bank has got: pitching while still rolling turns the
-        // nose in the old plane (a hard right swing became a 33 deg climb). cos of the
-        // remaining bank error is the share of the pitch that goes the wanted way.
-        float alignment = Mathf.Max(0f, Mathf.Cos(rollDelta * Mathf.Deg2Rad));
-        transform.Rotate(-pitchSign * d * alignment * pitchRate * Time.deltaTime, 0f, 0f, Space.Self); // <- flip sign if pitch is inverted
-
-        rollDelta = Mathf.Clamp(rollDelta, -rollSpeed * Time.deltaTime, rollSpeed * Time.deltaTime);
-        transform.Rotate(0f, 0f, rollDelta, Space.Self);
+        Vector3 current = transform.InverseTransformDirection(rb.angularVelocity);
+        Vector3 accel = (rate * Mathf.Deg2Rad - current) * rateResponse;
+        rb.AddRelativeTorque(accel, ForceMode.Acceleration);
     }
 
-    private void Move()
+    // STAB: the rate that turns the body toward the attitude the sticks ask for -
+    // level, or tilted by up to maxTilt - keeping the current heading. Built as a
+    // rotation error, so it also rights the drone from upside down after ACRO.
+    private Vector3 LevelingRate()
     {
-        // The velocity swings toward the nose, keeping its length: in a turn the drone
-        // flies where it points instead of skidding outward (11.8 deg average slip in a
-        // full-deflection turn with throttle before this).
-        Vector3 velocity = rb.linearVelocity;
-        if (velocity.sqrMagnitude > 1e-4f)
-        {
-            float maxTurn = velocityFollow * Mathf.Deg2Rad * Time.fixedDeltaTime;
-            rb.linearVelocity = Vector3.RotateTowards(velocity, transform.forward * velocity.magnitude, maxTurn, 0f);
-        }
+        float tilt = boost ? boostTilt : maxTilt;
+        Quaternion desired = Quaternion.LookRotation(Heading()) * Quaternion.Euler(pitch * tilt, 0f, -roll * tilt);
 
-        if (throttle)
-        {
-            // move strictly along the nose (no roll-based drift)
-            rb.linearVelocity += transform.forward * thrust * Time.fixedDeltaTime;
-        }
+        (desired * Quaternion.Inverse(rb.rotation)).ToAngleAxis(out float angle, out Vector3 axis);
+        if (angle > 180f)
+            angle -= 360f;
+        if (float.IsInfinity(axis.x))   // no error at all
+            return Vector3.zero;
 
-        rb.linearVelocity *= 1f - deceleration * Time.fixedDeltaTime;
+        Vector3 error = transform.InverseTransformDirection(axis * angle);
+        Vector2 pitchRoll = Vector2.ClampMagnitude(new Vector2(error.x, error.z) * levelResponse, maxLevelRate);
+        return new Vector3(pitchRoll.x, 0f, pitchRoll.y);
     }
 
-    // Bank about the nose, measured from "level up" - world up projected onto the
-    // plane across the nose. In normal flight this equals eulerAngles.z, but it has no
-    // gimbal-lock band near vertical (where eulerAngles.z reads 0 whatever the bank).
-    private bool TryGetRoll(out float roll)
+    // Horizontal direction the drone faces. With the nose near vertical the
+    // forward axis says nothing about heading, but the top does: nose up, the top
+    // faces backward; nose down, it faces forward.
+    private Vector3 Heading()
     {
         Vector3 forward = transform.forward;
-        if (Mathf.Abs(forward.y) > NearVerticalNose)
+        Vector3 flat = new Vector3(forward.x, 0f, forward.z);
+        if (flat.sqrMagnitude < 0.01f)
         {
-            roll = 0f;
-            return false;
+            Vector3 top = transform.up * (forward.y > 0f ? -1f : 1f);
+            flat = new Vector3(top.x, 0f, top.z);
+        }
+        return flat.normalized;
+    }
+
+    private void Thrust()
+    {
+        float g = -Physics.gravity.y;
+        float upright = transform.up.y;
+        float thrust;   // in g
+
+        if (IsAcro)
+        {
+            // Raw rotors: hover power when level, less as the drone tips over,
+            // none upside down - a flip is a ballistic arc. Lift and Boost add power.
+            float hover = Mathf.Max(0f, upright);
+            thrust = boost ? maxThrust
+                : lift >= 0f ? Mathf.Lerp(hover, climbThrust, lift)
+                : Mathf.Lerp(hover, 0f, -lift);
+        }
+        else if (upright > 0.1f)
+        {
+            // Altitude hold: carry the weight whatever the tilt and chase the
+            // vertical speed Lift asks for (zero when released).
+            float wantedVy = lift * climbSpeed;
+            float upAccel = g + (wantedVy - rb.linearVelocity.y) * climbResponse;
+            thrust = Mathf.Clamp(upAccel / upright / g, 0f, maxThrust);
+        }
+        else
+        {
+            // Upside down while STAB rights it: the rotors would only push it down.
+            thrust = 0f;
         }
 
-        Vector3 levelUp = Vector3.ProjectOnPlane(Vector3.up, forward);
-        roll = Vector3.SignedAngle(levelUp, transform.up, forward);
-        return true;
+        rb.AddForce(transform.up * (thrust * g), ForceMode.Acceleration);
     }
 }

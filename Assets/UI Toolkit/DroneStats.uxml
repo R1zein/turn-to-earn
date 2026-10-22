@@ -6,6 +6,10 @@
             <ui:VisualElement picking-mode="Ignore" class="bg-hot" style="width: 8px; height: 8px;" />
         </ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
+            <ui:Label text="MODE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+            <ui:Label name="ModeValue" text="STAB" picking-mode="Ignore" class="text-hot text-lg bold" />
+        </ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
             <ui:Label text="SPEED" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
             <ui:Label name="SpeedValue" text="0.0 M/S" picking-mode="Ignore" class="text-accent text-lg bold" />
         </ui:VisualElement>

@@ -47,9 +47,15 @@ public class InputService : IInitializable, ITickable, IDisposable
     public bool IsCrouchHeld => controls.Player.Crouch.IsPressed();
     public float BuildRotate => controls.Player.BuildRotate.ReadValue<float>() * config.ScrollScale;
 
-    // Drone. Fire is read as edges so DroneShooting keeps its press/release logic.
-    public Vector2 DroneAim => controls.Drone.Aim.ReadValue<Vector2>();
-    public bool IsThrottleHeld => controls.Drone.Throttle.IsPressed();
+    // Drone sticks, -1..1: pitch + = nose down, roll + = right, yaw + = right, lift + = up.
+    // Fire is read as edges so DroneShooting keeps its press/release logic.
+    public float DronePitch => controls.Drone.Pitch.ReadValue<float>();
+    public float DroneRoll => controls.Drone.Roll.ReadValue<float>();
+    public float DroneYaw => controls.Drone.Yaw.ReadValue<float>();
+    public float DroneLift => controls.Drone.Lift.ReadValue<float>();
+    public bool IsBoostHeld => controls.Drone.Boost.IsPressed();
+    public bool IsAcroHeld => controls.Drone.Acro.IsPressed();
+    public bool AcroToggled => controls.Drone.AcroToggle.WasPressedThisFrame();
     public bool FireStarted => controls.Drone.Fire.WasPressedThisFrame();
     public bool FireEnded => controls.Drone.Fire.WasReleasedThisFrame();
 
