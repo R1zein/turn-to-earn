@@ -462,36 +462,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""priority"": 0
                 },
                 {
-                    ""name"": ""Pitch"",
-                    ""type"": ""Value"",
-                    ""id"": ""18c5cd0c-aa80-45c8-9b0c-fea362c637b6"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true,
-                    ""priority"": 0
-                },
-                {
-                    ""name"": ""Roll"",
-                    ""type"": ""Value"",
-                    ""id"": ""98554ba6-dac4-4dc2-aba1-1c8665748df1"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true,
-                    ""priority"": 0
-                },
-                {
-                    ""name"": ""Yaw"",
-                    ""type"": ""Value"",
-                    ""id"": ""a9aa510e-48df-4eda-b24f-8d46affcf625"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true,
-                    ""priority"": 0
-                },
-                {
                     ""name"": ""Lift"",
                     ""type"": ""Value"",
                     ""id"": ""8e874a84-7c42-464e-b341-02f8b1a86dfc"",
@@ -512,23 +482,43 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""priority"": 0
                 },
                 {
-                    ""name"": ""Acro"",
-                    ""type"": ""Button"",
-                    ""id"": ""1ccdce06-bb96-4f77-863c-dfecaf4a61e3"",
-                    ""expectedControlType"": """",
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""4b2cca23-1f30-46c0-91b4-69f6a5ea88b5"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false,
+                    ""initialStateCheck"": true,
                     ""priority"": 0
                 },
                 {
-                    ""name"": ""AcroToggle"",
-                    ""type"": ""Button"",
-                    ""id"": ""0d49bb05-2cc1-4d33-8cd8-f1834b5a9789"",
-                    ""expectedControlType"": """",
+                    ""name"": ""Throttle"",
+                    ""type"": ""Value"",
+                    ""id"": ""835cde6e-1172-40a6-a323-6b697dbfa89b"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false,
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Yaw"",
+                    ""type"": ""Value"",
+                    ""id"": ""dfe306bd-ae9c-4947-9861-603ba60fb548"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Value"",
+                    ""id"": ""c0276ddb-da06-42a6-96e2-2f18b2148377"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
                     ""priority"": 0
                 }
             ],
@@ -543,105 +533,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""1DAxis"",
-                    ""id"": ""fc8a6c9c-4852-450a-b059-efdd29c447f8"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pitch"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Negative"",
-                    ""id"": ""e42acb6e-4b41-46bd-8293-4e78649bd96d"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pitch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Positive"",
-                    ""id"": ""b55fc306-31fd-461e-9327-3a67ac36d15c"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pitch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1DAxis"",
-                    ""id"": ""7daefb48-143c-4d2b-adac-146b7ad4ebb8"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Roll"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Negative"",
-                    ""id"": ""84ad62a9-38d3-4fee-a20b-df01a355dee5"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Roll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Positive"",
-                    ""id"": ""30feb7b9-10d7-4a63-8095-48bcd11f06de"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Roll"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1DAxis"",
-                    ""id"": ""24712086-5500-4c23-b5df-a900e632887d"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Yaw"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Negative"",
-                    ""id"": ""54615cd3-3a33-4260-8b29-a013e73d2543"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Yaw"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Positive"",
-                    ""id"": ""456e0fac-2e9f-45d5-ab39-b501e1225d31"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Yaw"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""1DAxis"",
@@ -689,39 +580,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d17d96ae-edc0-4fdb-9551-7976526a8ac8"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Acro"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9d7e4a78-c2c5-4933-9cab-1fcfc717be3d"",
-                    ""path"": ""<Keyboard>/leftAlt"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Acro"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e97b58c1-ee12-4d94-b17c-cb3f30670b8c"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AcroToggle"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""dabfeda5-4471-403d-a11e-87d66dc1f20b"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
@@ -730,6 +588,116 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c1bf7527-ff65-4598-badd-fa4aa764c493"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1DAxis"",
+                    ""id"": ""3ef5872b-0ea8-4754-bd6b-503e50851a11"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Negative"",
+                    ""id"": ""3de79e6a-99fb-4aa4-ad77-96797dba1d28"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Positive"",
+                    ""id"": ""74384d73-1def-4a1f-8826-fdd8ba5961d3"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1DAxis"",
+                    ""id"": ""92ef1588-1545-4af3-99b2-aec13b48b7ee"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Negative"",
+                    ""id"": ""7a7690f4-578e-493b-aa17-b6566529dc04"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Positive"",
+                    ""id"": ""2023025b-003e-4fca-b467-507abe40833a"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Yaw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1DAxis"",
+                    ""id"": ""42de2858-f5dc-41c3-9533-d90b1f910bd9"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Negative"",
+                    ""id"": ""110f8537-f1a0-4e2e-aae8-e6e95181406f"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Positive"",
+                    ""id"": ""c2358109-441f-41d6-ac17-e92c1c2f022b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -793,13 +761,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // Drone
         m_Drone = asset.FindActionMap("Drone", throwIfNotFound: true);
         m_Drone_Fire = m_Drone.FindAction("Fire", throwIfNotFound: true);
-        m_Drone_Pitch = m_Drone.FindAction("Pitch", throwIfNotFound: true);
-        m_Drone_Roll = m_Drone.FindAction("Roll", throwIfNotFound: true);
-        m_Drone_Yaw = m_Drone.FindAction("Yaw", throwIfNotFound: true);
         m_Drone_Lift = m_Drone.FindAction("Lift", throwIfNotFound: true);
         m_Drone_Boost = m_Drone.FindAction("Boost", throwIfNotFound: true);
-        m_Drone_Acro = m_Drone.FindAction("Acro", throwIfNotFound: true);
-        m_Drone_AcroToggle = m_Drone.FindAction("AcroToggle", throwIfNotFound: true);
+        m_Drone_Look = m_Drone.FindAction("Look", throwIfNotFound: true);
+        m_Drone_Throttle = m_Drone.FindAction("Throttle", throwIfNotFound: true);
+        m_Drone_Yaw = m_Drone.FindAction("Yaw", throwIfNotFound: true);
+        m_Drone_Roll = m_Drone.FindAction("Roll", throwIfNotFound: true);
         // Ui
         m_Ui = asset.FindActionMap("Ui", throwIfNotFound: true);
         m_Ui_Close = m_Ui.FindAction("Close", throwIfNotFound: true);
@@ -1103,13 +1070,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Drone;
     private List<IDroneActions> m_DroneActionsCallbackInterfaces = new List<IDroneActions>();
     private readonly InputAction m_Drone_Fire;
-    private readonly InputAction m_Drone_Pitch;
-    private readonly InputAction m_Drone_Roll;
-    private readonly InputAction m_Drone_Yaw;
     private readonly InputAction m_Drone_Lift;
     private readonly InputAction m_Drone_Boost;
-    private readonly InputAction m_Drone_Acro;
-    private readonly InputAction m_Drone_AcroToggle;
+    private readonly InputAction m_Drone_Look;
+    private readonly InputAction m_Drone_Throttle;
+    private readonly InputAction m_Drone_Yaw;
+    private readonly InputAction m_Drone_Roll;
     /// <summary>
     /// Provides access to input actions defined in input action map "Drone".
     /// </summary>
@@ -1126,18 +1092,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Fire => m_Wrapper.m_Drone_Fire;
         /// <summary>
-        /// Provides access to the underlying input action "Drone/Pitch".
-        /// </summary>
-        public InputAction @Pitch => m_Wrapper.m_Drone_Pitch;
-        /// <summary>
-        /// Provides access to the underlying input action "Drone/Roll".
-        /// </summary>
-        public InputAction @Roll => m_Wrapper.m_Drone_Roll;
-        /// <summary>
-        /// Provides access to the underlying input action "Drone/Yaw".
-        /// </summary>
-        public InputAction @Yaw => m_Wrapper.m_Drone_Yaw;
-        /// <summary>
         /// Provides access to the underlying input action "Drone/Lift".
         /// </summary>
         public InputAction @Lift => m_Wrapper.m_Drone_Lift;
@@ -1146,13 +1100,21 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Boost => m_Wrapper.m_Drone_Boost;
         /// <summary>
-        /// Provides access to the underlying input action "Drone/Acro".
+        /// Provides access to the underlying input action "Drone/Look".
         /// </summary>
-        public InputAction @Acro => m_Wrapper.m_Drone_Acro;
+        public InputAction @Look => m_Wrapper.m_Drone_Look;
         /// <summary>
-        /// Provides access to the underlying input action "Drone/AcroToggle".
+        /// Provides access to the underlying input action "Drone/Throttle".
         /// </summary>
-        public InputAction @AcroToggle => m_Wrapper.m_Drone_AcroToggle;
+        public InputAction @Throttle => m_Wrapper.m_Drone_Throttle;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/Yaw".
+        /// </summary>
+        public InputAction @Yaw => m_Wrapper.m_Drone_Yaw;
+        /// <summary>
+        /// Provides access to the underlying input action "Drone/Roll".
+        /// </summary>
+        public InputAction @Roll => m_Wrapper.m_Drone_Roll;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1182,27 +1144,24 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
-            @Pitch.started += instance.OnPitch;
-            @Pitch.performed += instance.OnPitch;
-            @Pitch.canceled += instance.OnPitch;
-            @Roll.started += instance.OnRoll;
-            @Roll.performed += instance.OnRoll;
-            @Roll.canceled += instance.OnRoll;
-            @Yaw.started += instance.OnYaw;
-            @Yaw.performed += instance.OnYaw;
-            @Yaw.canceled += instance.OnYaw;
             @Lift.started += instance.OnLift;
             @Lift.performed += instance.OnLift;
             @Lift.canceled += instance.OnLift;
             @Boost.started += instance.OnBoost;
             @Boost.performed += instance.OnBoost;
             @Boost.canceled += instance.OnBoost;
-            @Acro.started += instance.OnAcro;
-            @Acro.performed += instance.OnAcro;
-            @Acro.canceled += instance.OnAcro;
-            @AcroToggle.started += instance.OnAcroToggle;
-            @AcroToggle.performed += instance.OnAcroToggle;
-            @AcroToggle.canceled += instance.OnAcroToggle;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
+            @Throttle.started += instance.OnThrottle;
+            @Throttle.performed += instance.OnThrottle;
+            @Throttle.canceled += instance.OnThrottle;
+            @Yaw.started += instance.OnYaw;
+            @Yaw.performed += instance.OnYaw;
+            @Yaw.canceled += instance.OnYaw;
+            @Roll.started += instance.OnRoll;
+            @Roll.performed += instance.OnRoll;
+            @Roll.canceled += instance.OnRoll;
         }
 
         /// <summary>
@@ -1217,27 +1176,24 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
-            @Pitch.started -= instance.OnPitch;
-            @Pitch.performed -= instance.OnPitch;
-            @Pitch.canceled -= instance.OnPitch;
-            @Roll.started -= instance.OnRoll;
-            @Roll.performed -= instance.OnRoll;
-            @Roll.canceled -= instance.OnRoll;
-            @Yaw.started -= instance.OnYaw;
-            @Yaw.performed -= instance.OnYaw;
-            @Yaw.canceled -= instance.OnYaw;
             @Lift.started -= instance.OnLift;
             @Lift.performed -= instance.OnLift;
             @Lift.canceled -= instance.OnLift;
             @Boost.started -= instance.OnBoost;
             @Boost.performed -= instance.OnBoost;
             @Boost.canceled -= instance.OnBoost;
-            @Acro.started -= instance.OnAcro;
-            @Acro.performed -= instance.OnAcro;
-            @Acro.canceled -= instance.OnAcro;
-            @AcroToggle.started -= instance.OnAcroToggle;
-            @AcroToggle.performed -= instance.OnAcroToggle;
-            @AcroToggle.canceled -= instance.OnAcroToggle;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
+            @Throttle.started -= instance.OnThrottle;
+            @Throttle.performed -= instance.OnThrottle;
+            @Throttle.canceled -= instance.OnThrottle;
+            @Yaw.started -= instance.OnYaw;
+            @Yaw.performed -= instance.OnYaw;
+            @Yaw.canceled -= instance.OnYaw;
+            @Roll.started -= instance.OnRoll;
+            @Roll.performed -= instance.OnRoll;
+            @Roll.canceled -= instance.OnRoll;
         }
 
         /// <summary>
@@ -1474,27 +1430,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnFire(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Pitch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPitch(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Roll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRoll(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Yaw" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnYaw(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Lift" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -1509,19 +1444,33 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBoost(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Acro" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnAcro(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "AcroToggle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Throttle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnAcroToggle(InputAction.CallbackContext context);
+        void OnThrottle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Yaw" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnYaw(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Roll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRoll(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Ui" which allows adding and removing callbacks.

@@ -13,7 +13,7 @@
 |---|---|
 | `MainStyle.uss` | палитра в `:root` и утилитарные классы — единственная таблица стилей |
 | `GameMain.uxml` | корень `Scene 5`: слои `WorldMarkers`, `Hud`, `BuildPanel`, `ShopPanel` |
-| `DroneMain.uxml` | корень `SampleScene`: слои `WorldMarkers`, `DroneStats`, подсказка клавиш `DroneKeys`, ромб центра, маркер носа `Scope` |
+| `DroneMain.uxml` | корень `SampleScene`: слои `WorldMarkers`, `DroneStats`, подсказка клавиш `DroneKeys`, статичный ромб центра `Boresight`, кольцо курсора `Scope` |
 | `Hud.uxml` | прицел, ресурсы, часы, здоровье игрока |
 | `BuildPanel.uxml` | меню строительства |
 | `ShopPanel.uxml` | магазин: вкладки BOTS и BASE |
@@ -53,7 +53,7 @@ null-проверок.
 | `BuildPanelController` | Scene 5 | `Tab` → меню; карточка → `BuildService.Pick`; недоступные по цене приглушены |
 | `ShopPanelController` | Scene 5 | открывает стол магазина; боты → `ShopService`, база → `FortificationService` |
 | `WorldMarkersController` (`ILateTickable`) | обе | полоска над каждым `HealthBarAnchor`, см. ниже |
-| `DroneHudController` (`ITickable`) | SampleScene | маркер носа, режим STAB/ACRO, телеметрия дрона |
+| `DroneHudController` (`ITickable`) | SampleScene | кольцо на невидимом курсоре, газ, телеметрия дрона |
 
 `ItemCards` — общий помощник панелей: делает карточку из шаблона, заполняет
 иконку, название и цену (`WOOD 10  STONE 20  IRON 80` или `FREE`).

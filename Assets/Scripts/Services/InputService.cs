@@ -9,7 +9,7 @@ public enum InputMode
 {
     Gameplay,   // on foot: cursor locked, Player map
     Ui,         // a panel holds the mouse: cursor free, only Ui map
-    Drone,      // cursor confined and hidden (the drone draws its own reticle), Drone map
+    Drone,      // cursor locked: the mouse moves the drone's aim, Drone map
 }
 
 // The only reader of Controls. Turns presses into game events and exposes held
@@ -47,15 +47,15 @@ public class InputService : IInitializable, ITickable, IDisposable
     public bool IsCrouchHeld => controls.Player.Crouch.IsPressed();
     public float BuildRotate => controls.Player.BuildRotate.ReadValue<float>() * config.ScrollScale;
 
-    // Drone sticks, -1..1: pitch + = nose down, roll + = right, yaw + = right, lift + = up.
+    // Drone. Look is the raw mouse delta in pixels; the axes are -1..1: throttle + = faster,
+    // yaw + = right, roll + = right, lift + = up.
     // Fire is read as edges so DroneShooting keeps its press/release logic.
-    public float DronePitch => controls.Drone.Pitch.ReadValue<float>();
-    public float DroneRoll => controls.Drone.Roll.ReadValue<float>();
+    public Vector2 DroneLook => controls.Drone.Look.ReadValue<Vector2>();
+    public float DroneThrottle => controls.Drone.Throttle.ReadValue<float>();
     public float DroneYaw => controls.Drone.Yaw.ReadValue<float>();
+    public float DroneRoll => controls.Drone.Roll.ReadValue<float>();
     public float DroneLift => controls.Drone.Lift.ReadValue<float>();
     public bool IsBoostHeld => controls.Drone.Boost.IsPressed();
-    public bool IsAcroHeld => controls.Drone.Acro.IsPressed();
-    public bool AcroToggled => controls.Drone.AcroToggle.WasPressedThisFrame();
     public bool FireStarted => controls.Drone.Fire.WasPressedThisFrame();
     public bool FireEnded => controls.Drone.Fire.WasReleasedThisFrame();
 
@@ -114,9 +114,8 @@ public class InputService : IInitializable, ITickable, IDisposable
     private void ApplyMode()
     {
         InputMode mode = Mode;
-        Cursor.lockState = mode == InputMode.Gameplay ? CursorLockMode.Locked
-            : mode == InputMode.Drone ? CursorLockMode.Confined
-            : CursorLockMode.None;
+        // On foot and in the drone the mouse steers by its movement: locked and hidden.
+        Cursor.lockState = mode == InputMode.Ui ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = mode == InputMode.Ui;
 
         SetEnabled(controls.Player, mode == InputMode.Gameplay);

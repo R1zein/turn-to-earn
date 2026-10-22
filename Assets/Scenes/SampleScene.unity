@@ -133,7 +133,7 @@ Rigidbody:
   m_GameObject: {fileID: 166311094}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0.35
+  m_LinearDamping: 0
   m_AngularDamping: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -163,18 +163,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 746884212f5968b479d3b06900b85be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acroRate: 360
-  yawRate: 160
+  cruiseSpeed: 40
+  boostSpeed: 60
+  throttleRate: 0.6
+  climbSpeed: 10
+  speedResponse: 1.2
+  maxAcceleration: 20
+  gripResponse: 6
+  maxGrip: 90
+  pitchResponse: 4
+  maxPitchRate: 120
+  yawResponse: 3
+  maxYawRate: 90
+  bankPerDegree: 2.5
+  maxBank: 70
+  bankSpeed: 15
+  rollResponse: 6
+  rollRate: 270
+  keyTurnAngle: 45
   rateResponse: 12
-  maxTilt: 30
-  boostTilt: 50
-  levelResponse: 6
-  maxLevelRate: 300
-  climbThrust: 1.8
-  descendThrust: 0.4
-  boostThrust: 2.5
-  maxHoldThrust: 1.7
-  stickResponse: 8
+  cursorMargin: 24
 --- !u!64 &166311100
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -209,10 +217,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1f208d41fb3054a85cb304de5bf6a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 6
-  height: 2
-  followSharpness: 10
+  distance: 8
+  height: 2.5
+  pitchDown: 8
   headingSharpness: 5
+  followSharpness: 10
 --- !u!4 &166311106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4773320998384048790, guid: ee2a658c2c3546b4abc1f27988123203, type: 3}

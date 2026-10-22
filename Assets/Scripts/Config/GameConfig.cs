@@ -70,6 +70,8 @@ public class GameConfig : ScriptableObject
     // Input System normalizes scroll to +-1 per notch, same as old mouseScrollDelta on Windows.
     [Tooltip("Input System scroll -> old Input.mouseScrollDelta units")]
     [SerializeField] private float scrollScale = 1f;
+    [Tooltip("Drone: on-screen cursor pixels per pixel of mouse movement")]
+    [SerializeField] private float droneCursorSpeed = 1f;
 
     public float SecondsPerHour => secondsPerHour;
     public int StartHour => startHour;
@@ -110,5 +112,6 @@ public class GameConfig : ScriptableObject
     public float HealthBarDistance => healthBarDistance;
 
     public float LookScale => lookScale;
+    public float DroneCursorSpeed => droneCursorSpeed;
     public float ScrollScale => scrollScale;
 }

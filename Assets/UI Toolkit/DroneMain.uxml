@@ -5,8 +5,9 @@
     <!-- Layers: order in this file is draw order. Every layer is stretched and click-through. -->
     <ui:Instance template="WorldMarkers" name="WorldMarkersLayer" picking-mode="Ignore" class="fill" />
     <ui:Instance template="DroneStats" name="DroneStatsLayer" picking-mode="Ignore" class="fill" />
-    <!-- Boresight: static, marks screen centre. A different shape and colour from the
-         nose marker - the two can overlap, so they have to stay tellable apart. -->
+    <!-- Boresight: static in the screen centre - "straight and level" for the chase
+         camera. A different shape and colour from the cursor ring - the two overlap
+         when flying straight, so they have to stay tellable apart. -->
     <ui:VisualElement name="Boresight" picking-mode="Ignore" style="position: absolute; top: 50%; left: 50%; translate: -50% -50%; width: 30px; height: 30px;">
         <ui:VisualElement picking-mode="Ignore" class="outline-hot" style="position: absolute; top: 50%; left: 50%; margin-top: -10px; margin-left: -10px; width: 20px; height: 20px; rotate: 45deg; border-width: 2px;" />
         <ui:VisualElement picking-mode="Ignore" class="bg-hot" style="position: absolute; top: 50%; left: 50%; margin-top: -2px; margin-left: -2px; width: 4px; height: 4px;" />
@@ -17,17 +18,17 @@
             <ui:Label text="CONTROLS" picking-mode="Ignore" class="text-accent text-md bold tracking-wide" />
             <ui:VisualElement picking-mode="Ignore" class="bg-hot" style="width: 8px; height: 8px;" />
         </ui:VisualElement>
-        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="W A S D" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="TILT" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
-        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="Q  E" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="TURN" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="MOUSE" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="AIM" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="W / S" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="THROTTLE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="A / D" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="TURN" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="Q / E" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="BARREL ROLL" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="SPACE / CTRL" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="UP / DOWN" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="SHIFT" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="BOOST" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
-        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="RMB / ALT" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="HOLD: TRICKS" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
-        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="R" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="ACRO ON / OFF" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" class="row"><ui:Label text="LMB / F" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="FIRE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
     </ui:VisualElement>
-    <!-- Nose marker: where the nose and the lasers point, projected 100 m ahead. Code
-         writes left/top in panel pixels every frame; the translate keeps the ring centred
-         on that point. Children centre with negative margins instead of a second translate. -->
+    <!-- Cursor ring: sits on the invisible steering cursor. Code writes left/top in panel
+         pixels every frame; the translate keeps the ring centred on that point. Children
+         centre with negative margins instead of a second translate. -->
     <ui:VisualElement name="Scope" picking-mode="Ignore" style="position: absolute; top: 50%; left: 50%; translate: -50% -50%; width: 44px; height: 44px;">
         <ui:VisualElement picking-mode="Ignore" class="fill outline-accent round" style="border-width: 2px;" />
         <ui:VisualElement picking-mode="Ignore" class="bg-accent" style="position: absolute; top: -7px; left: 50%; margin-left: -1px; width: 2px; height: 7px;" />
