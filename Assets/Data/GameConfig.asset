@@ -382,3 +382,4 @@ MonoBehaviour:
   lookScale: 0.05
   scrollScale: 1
   droneCursorSpeed: 1
+  droneAimSensitivity: 0.1

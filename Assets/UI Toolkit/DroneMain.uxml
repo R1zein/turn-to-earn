@@ -5,6 +5,9 @@
     <!-- Layers: order in this file is draw order. Every layer is stretched and click-through. -->
     <ui:Instance template="WorldMarkers" name="WorldMarkersLayer" picking-mode="Ignore" class="fill" />
     <ui:Instance template="DroneStats" name="DroneStatsLayer" picking-mode="Ignore" class="fill" />
+    <!-- Dead zone around the boresight: the cursor inside it turns nothing. Code sets the
+         size every frame from the drone's radius; the translate keeps it centred. -->
+    <ui:VisualElement name="DeadZone" picking-mode="Ignore" class="outline-hot round" style="position: absolute; top: 50%; left: 50%; translate: -50% -50%; width: 60px; height: 60px; border-width: 2px; opacity: 0.6;" />
     <!-- Boresight: static in the screen centre - "straight and level" for the chase
          camera. A different shape and colour from the cursor ring - the two overlap
          when flying straight, so they have to stay tellable apart. -->
@@ -24,7 +27,8 @@
         <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="Q / E" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="BARREL ROLL" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="SPACE / CTRL" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="UP / DOWN" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="SHIFT" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="BOOST" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
-        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="RMB" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="HOLD: FIRST PERSON" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="RMB" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="HOLD: AIM, WASD MOVE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
+        <ui:VisualElement picking-mode="Ignore" class="row" style="margin-bottom: 4px;"><ui:Label text="C" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label name="AutoCentreValue" text="AUTO-CENTRE ON" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" class="row"><ui:Label text="LMB / F" picking-mode="Ignore" class="text-accent text-sm heavy" /><ui:Label text="FIRE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" /></ui:VisualElement>
     </ui:VisualElement>
     <!-- Cursor ring: sits on the invisible steering cursor. Code writes left/top in panel

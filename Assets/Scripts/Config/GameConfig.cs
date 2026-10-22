@@ -78,6 +78,8 @@ public class GameConfig : ScriptableObject
     [SerializeField] private float scrollScale = 1f;
     [Tooltip("Drone: on-screen cursor pixels per pixel of mouse movement")]
     [SerializeField] private float droneCursorSpeed = 1f;
+    [Tooltip("Drone aiming (RMB): degrees the aim turns per pixel of mouse movement")]
+    [SerializeField] private float droneAimSensitivity = 0.1f;
 
     public float SecondsPerHour => secondsPerHour;
     public int StartHour => startHour;
@@ -121,5 +123,6 @@ public class GameConfig : ScriptableObject
 
     public float LookScale => lookScale;
     public float DroneCursorSpeed => droneCursorSpeed;
+    public float DroneAimSensitivity => droneAimSensitivity;
     public float ScrollScale => scrollScale;
 }

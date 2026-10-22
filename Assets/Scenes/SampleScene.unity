@@ -167,22 +167,29 @@ MonoBehaviour:
   boostSpeed: 60
   throttleRate: 0.6
   climbSpeed: 10
+  aimMoveSpeed: 12
   speedResponse: 1.2
   maxAcceleration: 20
   gripResponse: 6
   maxGrip: 90
-  pitchResponse: 4
-  maxPitchRate: 120
-  yawResponse: 3
+  deadZone: 0.05
+  fullDeflection: 0.35
   maxYawRate: 90
-  bankPerDegree: 2.5
+  maxPitchRate: 120
+  cursorMargin: 24
+  holdResponse: 4
+  maxHoldRate: 120
+  aimHoldResponse: 15
+  aimMaxRate: 360
+  levelDelay: 0.4
+  levelRate: 90
+  autoCentreDelay: 0.35
+  autoCentreRate: 3
   maxBank: 70
   bankSpeed: 15
   rollResponse: 6
   rollRate: 270
-  keyTurnAngle: 45
   rateResponse: 12
-  cursorMargin: 24
 --- !u!64 &166311100
 MeshCollider:
   m_ObjectHideFlags: 0
