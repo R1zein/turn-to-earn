@@ -54,6 +54,10 @@ public class GameConfig : ScriptableObject
     [SerializeField] private FortificationOption[] fortificationOptions;
     [SerializeField] private FortificationPartOption[] fortificationParts;
 
+    [Header("Water")]
+    [Tooltip("Player speed while swimming (walk is 5, run 9)")]
+    [SerializeField] private float swimSpeed = 2.5f;
+
     [Header("World markers")]
     [Tooltip("Health bars further than this from the camera are hidden")]
     [SerializeField] private float healthBarDistance = 30;
@@ -102,6 +106,7 @@ public class GameConfig : ScriptableObject
     public IReadOnlyList<FortificationOption> FortificationOptions => fortificationOptions;
     public IReadOnlyList<FortificationPartOption> FortificationParts => fortificationParts;
 
+    public float SwimSpeed => swimSpeed;
     public float HealthBarDistance => healthBarDistance;
 
     public float LookScale => lookScale;

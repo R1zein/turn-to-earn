@@ -375,6 +375,7 @@ MonoBehaviour:
   - PartName: Forge
     Title: FORGE
     Icon: {fileID: 21300000, guid: 030b3dcc26de9f347a133d62a33db909, type: 3}
+  swimSpeed: 2.5
   healthBarDistance: 30
   lookScale: 0.05
   scrollScale: 1

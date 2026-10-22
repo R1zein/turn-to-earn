@@ -310,6 +310,8 @@ GameObject:
   - component: {fileID: 6308215294208978598}
   - component: {fileID: 8700556510767634270}
   - component: {fileID: 6417070452111593005}
+  - component: {fileID: 7408913811291170684}
+  - component: {fileID: 3228347001257237456}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -474,6 +476,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathCamera: {fileID: 2323889985874593450, guid: 3fce20809c776c745bed21b5b3ce427c, type: 3}
+--- !u!114 &7408913811291170684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316862578556177911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913901619a3c2924b9bee33a66de69a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Buoyancy
+  waterLayers:
+    serializedVersion: 2
+    m_Bits: 4
+  floatDepth: 1.3
+  waterDrag: 4
+  maxLift: 2
+--- !u!114 &3228347001257237456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316862578556177911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c7270ace0275a4b8c98b5b6bb2da18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Swimming
+  swimDepth: 0.9
 --- !u!1 &3478645125529616062
 GameObject:
   m_ObjectHideFlags: 0
