@@ -18,6 +18,10 @@ using Zenject;
 // held. Rotation always goes through torque: a body-rate controller turns
 // commanded rates into angular acceleration.
 //
+// Holding Aim (RMB) is the sniping stance: the camera moves to the nose (first
+// person, DroneCamera), steering works the same, and the drone brakes smoothly
+// to a hover - the throttle is kept and takes over again on release.
+//
 // Body axes in Unity: +X rate = nose down, +Y = yaw right, +Z = roll left.
 [RequireComponent(typeof(Rigidbody))]
 public class DroneControl : MonoBehaviour
@@ -82,6 +86,7 @@ public class DroneControl : MonoBehaviour
     private float roll;     // Q/E: -1 left .. 1 right
     private float lift;     // Space/Ctrl: -1 down .. 1 up
     private bool boost;
+    private bool aiming;
 
     private Vector3 lastPosition;
     private float distanceTravelled;
@@ -90,6 +95,7 @@ public class DroneControl : MonoBehaviour
     public Vector2 AimScreenPoint => new Vector2(Screen.width, Screen.height) * 0.5f + cursorOffset;
     public float Throttle => throttle;
     public bool IsBoosting => boost;
+    public bool IsAiming => aiming;
 
     private void Awake()
     {
@@ -139,6 +145,7 @@ public class DroneControl : MonoBehaviour
         roll = input.DroneRoll;
         lift = input.DroneLift;
         boost = input.IsBoostHeld;
+        aiming = input.IsDroneAimHeld;
     }
 
     // The cursor moves with the mouse 1:1 (times DroneCursorSpeed) and stays where
@@ -202,11 +209,13 @@ public class DroneControl : MonoBehaviour
     }
 
     // Push toward the wanted velocity: along the nose at the throttle's speed,
-    // plus straight up/down from Space/Ctrl. Throttle zero and no lift = hover.
+    // plus straight up/down from Space/Ctrl. Throttle zero and no lift = hover;
+    // aiming asks for zero speed too, so the drone eases to a stop with the same
+    // inertia limits as any other change of speed.
     private void Fly()
     {
         Vector3 forward = transform.forward;
-        float speed = boost ? boostSpeed : throttle * cruiseSpeed;
+        float speed = aiming ? 0f : boost ? boostSpeed : throttle * cruiseSpeed;
         Vector3 wanted = forward * speed + Vector3.up * (lift * climbSpeed);
 
         Vector3 error = wanted - rb.linearVelocity;

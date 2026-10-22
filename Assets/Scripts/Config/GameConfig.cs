@@ -42,6 +42,12 @@ public class GameConfig : ScriptableObject
     [Tooltip("Spiders per wave, across all portals, added for every wave from the first spider wave on")]
     [SerializeField] private int spidersPerWave = 1;
 
+    [Header("Shooting range (drone scene)")]
+    [Tooltip("Dummy placed on every spot of the range; it stands still")]
+    [SerializeField] private Enemy rangeTarget;
+    [Tooltip("Seconds before a killed dummy is replaced")]
+    [SerializeField] private float rangeRespawnDelay = 3f;
+
     [Header("Targeting (score = weight / distance)")]
     [SerializeField] private TargetWeight[] enemyTargets;
     [SerializeField] private TargetWeight[] bomberTargets;
@@ -97,6 +103,8 @@ public class GameConfig : ScriptableObject
     public Enemy SpiderEnemy => spiderEnemy;
     public int SpiderFirstWave => spiderFirstWave;
     public int SpidersPerWave => spidersPerWave;
+    public Enemy RangeTarget => rangeTarget;
+    public float RangeRespawnDelay => rangeRespawnDelay;
 
     public IReadOnlyList<TargetWeight> EnemyTargets => enemyTargets;
     public IReadOnlyList<TargetWeight> BomberTargets => bomberTargets;

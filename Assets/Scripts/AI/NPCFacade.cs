@@ -14,6 +14,7 @@ public abstract class NPCFacade : MonoBehaviour
     protected NPCNavigation navigation;
     protected StatsHandler statsHandler;
     public AllResources requiredResources;
+    private bool isHeldStill;
 
     // What others see this NPC as; null = nobody targets it.
     protected abstract TargetKind? Kind { get; }
@@ -41,8 +42,25 @@ public abstract class NPCFacade : MonoBehaviour
     }
     protected void Update()
     {
+        if (isHeldStill)
+            return;
+
         Navigation();
         NPCAnimationControl();
+    }
+
+    // A shooting-range dummy: no target search, no walking, idle animation. It
+    // still takes damage and dies as usual. The body may only settle vertically,
+    // so it lands on the ground but cannot be shoved or toppled.
+    public void HoldStill()
+    {
+        isHeldStill = true;
+        agent.enabled = false;
+        if (navigation != null)
+            navigation.enabled = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation
+            | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        animator.SetBool("Idle", true);
     }
     private void Death()
     {

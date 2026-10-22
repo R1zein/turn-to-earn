@@ -30,7 +30,8 @@ public class DroneHudController : IInitializable, ITickable
     {
         PlaceAtScreenPoint(scope, drone.AimScreenPoint);
 
-        throttle.text = drone.IsBoosting ? "BOOST"
+        throttle.text = drone.IsAiming ? "AIM"
+            : drone.IsBoosting ? "BOOST"
             : (drone.Throttle * 100f).ToString("F0", CultureInfo.InvariantCulture) + " %";
         // Invariant culture keeps a dot separator regardless of regional settings.
         speed.text = drone.GetSpeed().ToString("F1", CultureInfo.InvariantCulture) + " M/S";
