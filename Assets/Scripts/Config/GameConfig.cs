@@ -44,8 +44,6 @@ public class GameConfig : ScriptableObject
 
     [Header("Drone bomb")]
     [SerializeField] private DroneBomb bombPrefab;
-    [Tooltip("Seconds between bombs")]
-    [SerializeField] private float bombCooldown = 30f;
     [Tooltip("Blast radius, m. With the damages below a 100 HP zombie dies within ~7 m: a crowd of ten")]
     [SerializeField] private float bombRadius = 9f;
     [SerializeField] private float bombCenterDamage = 300f;
@@ -120,7 +118,6 @@ public class GameConfig : ScriptableObject
     public int SpiderFirstWave => spiderFirstWave;
     public int SpidersPerWave => spidersPerWave;
     public DroneBomb BombPrefab => bombPrefab;
-    public float BombCooldown => bombCooldown;
     public float BombRadius => bombRadius;
     public float BombCenterDamage => bombCenterDamage;
     public float BombEdgeDamage => bombEdgeDamage;

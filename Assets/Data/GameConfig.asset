@@ -319,7 +319,6 @@ MonoBehaviour:
   spiderFirstWave: 3
   spidersPerWave: 1
   bombPrefab: {fileID: 7225166753703294219, guid: 02544cefd2fd4a749b563036e67fe1ca, type: 3}
-  bombCooldown: 30
   bombRadius: 9
   bombCenterDamage: 300
   bombEdgeDamage: 50

@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b0a90765d0e1bd45aa1cafd449d3879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneBombBay
+  cooldown: 30
   dropOffset: {x: 0, y: -1.6, z: 0.2}
 --- !u!1 &247025874
 GameObject:
