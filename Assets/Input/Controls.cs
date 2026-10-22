@@ -530,16 +530,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
-                },
-                {
-                    ""name"": ""AutoCentre"",
-                    ""type"": ""Button"",
-                    ""id"": ""2ce274ca-c4e8-40f0-9f47-b61a10146da4"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false,
-                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -729,17 +719,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e737dcb2-cc8f-43b4-ac80-b56bd36fbdc2"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AutoCentre"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -810,7 +789,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Drone_Yaw = m_Drone.FindAction("Yaw", throwIfNotFound: true);
         m_Drone_Roll = m_Drone.FindAction("Roll", throwIfNotFound: true);
         m_Drone_Aim = m_Drone.FindAction("Aim", throwIfNotFound: true);
-        m_Drone_AutoCentre = m_Drone.FindAction("AutoCentre", throwIfNotFound: true);
         // Ui
         m_Ui = asset.FindActionMap("Ui", throwIfNotFound: true);
         m_Ui_Close = m_Ui.FindAction("Close", throwIfNotFound: true);
@@ -1121,7 +1099,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Drone_Yaw;
     private readonly InputAction m_Drone_Roll;
     private readonly InputAction m_Drone_Aim;
-    private readonly InputAction m_Drone_AutoCentre;
     /// <summary>
     /// Provides access to input actions defined in input action map "Drone".
     /// </summary>
@@ -1165,10 +1142,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Drone/Aim".
         /// </summary>
         public InputAction @Aim => m_Wrapper.m_Drone_Aim;
-        /// <summary>
-        /// Provides access to the underlying input action "Drone/AutoCentre".
-        /// </summary>
-        public InputAction @AutoCentre => m_Wrapper.m_Drone_AutoCentre;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1219,9 +1192,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
-            @AutoCentre.started += instance.OnAutoCentre;
-            @AutoCentre.performed += instance.OnAutoCentre;
-            @AutoCentre.canceled += instance.OnAutoCentre;
         }
 
         /// <summary>
@@ -1257,9 +1227,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
-            @AutoCentre.started -= instance.OnAutoCentre;
-            @AutoCentre.performed -= instance.OnAutoCentre;
-            @AutoCentre.canceled -= instance.OnAutoCentre;
         }
 
         /// <summary>
@@ -1544,13 +1511,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAim(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "AutoCentre" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnAutoCentre(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Ui" which allows adding and removing callbacks.

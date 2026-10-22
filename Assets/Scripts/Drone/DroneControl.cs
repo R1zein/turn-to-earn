@@ -8,33 +8,24 @@ using Zenject;
 // along the nose, firmer sideways ("grip") - so a hard turn at speed drifts a
 // little. Gravity is on and the engine always carries the weight.
 //
-// Steering is a MOUSE JOYSTICK. The mouse moves an invisible on-screen cursor
-// (the HUD's cyan ring); its offset from the screen centre is a deflection:
-//  - inside the dead zone around the centre (the ring around the red diamond)
-//    nothing turns - the drone holds course and pitch;
-//  - beyond it the drone turns right/left about the world vertical and pitches
-//    up/down, faster the further out, measured from the dead-zone edge so there
-//    is no jump at the boundary. Holding the cursor up makes a loop.
-// The stick turns a TARGET attitude, and the nose is held on it: the stick's
-// rates are fed forward and any error is corrected, so inside the dead zone the
-// drone holds exactly - turning with bank used to let the nose sag a few degrees
-// per turn, enough to fly a level cruise into the ground. Once the stick rests,
-// the target's wings ease back to the horizon (after half a loop this rolls the
-// drone upright - an Immelmann).
-// The cursor glides back to the centre once the mouse rests (auto-centre, C
-// toggles it): flick to turn, let go to straighten. A/D add to the sideways
-// deflection, Q/E take the roll over (barrel rolls); otherwise the wings bank
-// into the turn at speed and level out after. Rotation always goes through
-// torque: a body-rate controller turns commanded rates into angular acceleration.
+// Third person (chase camera): the mouse moves an invisible on-screen CURSOR (the
+// HUD ring is drawn on it); an autopilot points the nose where the cursor says,
+// the way a pilot would: pitch and a little rudder toward it, and a bank into the
+// turn. The chase camera sits behind the drone's heading, so the screen centre
+// (the static diamond) means "straight and level": a cursor left to the side
+// keeps the drone turning, a cursor above the centre holds a climb at that angle.
+// Q/E take the roll over - hold for barrel rolls; released, the autopilot rolls
+// back level. A/D steer while held.
 //
-// Holding Aim (RMB) is the sniping stance: the camera moves to the nose (first
-// person, DroneCamera) and the mouse stops being a joystick - like FPS mouse-look
-// it turns the target attitude directly (GameConfig.DroneAimSensitivity deg per
-// pixel) and the nose snaps onto it at full speed, so no dead zone is needed.
-// The drone brakes to a hover and W/S/A/D/Space/Ctrl move it directly -
-// forward/back, sideways, up/down - like a quadcopter. The throttle is kept and
-// takes over again on release.
+// First person (Aim, RMB held - the sniping stance): the camera moves to the
+// nose (DroneCamera) and the mouse turns a target attitude directly, like FPS
+// mouse-look (GameConfig.DroneAimSensitivity deg per pixel); the nose snaps onto
+// it at full speed. The drone brakes to a hover and W/S/A/D/Space/Ctrl move it
+// directly - forward/back, sideways, up/down - like a quadcopter. The throttle is
+// kept and takes over again on release; the cursor waits in the centre.
 //
+// Rotation always goes through torque: a body-rate controller turns commanded
+// rates into angular acceleration.
 // Body axes in Unity: +X rate = nose down, +Y = yaw right, +Z = roll left.
 [RequireComponent(typeof(Rigidbody))]
 public class DroneControl : MonoBehaviour
@@ -61,50 +52,45 @@ public class DroneControl : MonoBehaviour
     [Tooltip("Sideways acceleration limit, m/s^2 (~9 g - a full-rate loop at cruise speed needs 8.5): beyond it a turn drifts")]
     [SerializeField] private float maxGrip = 90f;
 
-    [Header("Mouse joystick")]
-    [Tooltip("Dead-zone radius around the centre, in screen heights: inside it nothing turns")]
-    [SerializeField] private float deadZone = 0.05f;
-    [Tooltip("Cursor offset for full deflection, in screen heights")]
-    [SerializeField] private float fullDeflection = 0.35f;
-    [Tooltip("Turn rate at full deflection, deg/s")]
+    [Header("Autopilot (third person)")]
+    [Tooltip("1/s: nose error (deg) -> pitch rate")]
+    [SerializeField] private float pitchResponse = 4f;
+    [SerializeField] private float maxPitchRate = 120f;
+    [Tooltip("1/s: nose error (deg) -> rudder rate")]
+    [SerializeField] private float yawResponse = 3f;
     [SerializeField] private float maxYawRate = 90f;
-    [Tooltip("Pitch rate at full deflection, deg/s")]
-    [SerializeField] private float maxPitchRate = 110f;
-    [Tooltip("The cursor stays this many pixels inside the screen edge")]
-    [SerializeField] private float cursorMargin = 24f;
-
-    [Tooltip("1/s: how hard the nose is pulled back onto the target attitude")]
-    [SerializeField] private float holdResponse = 4f;
-    [SerializeField] private float maxHoldRate = 120f;
-    [Tooltip("Aiming: how hard the nose snaps onto the target, 1/s")]
-    [SerializeField] private float aimHoldResponse = 15f;
-    [Tooltip("Aiming: fastest the nose turns, deg/s")]
-    [SerializeField] private float aimMaxRate = 360f;
-    [Tooltip("Seconds of a resting stick before the target's wings level with the horizon")]
-    [SerializeField] private float levelDelay = 0.4f;
-    [Tooltip("How fast they level, deg/s")]
-    [SerializeField] private float levelRate = 90f;
-
-    [Header("Cursor auto-centre")]
-    [Tooltip("Seconds of a resting mouse before the cursor starts back to the centre")]
-    [SerializeField] private float autoCentreDelay = 0.35f;
-    [Tooltip("1/s: how fast it glides back (3 = about a second)")]
-    [SerializeField] private float autoCentreRate = 3f;
-
-    [Header("Bank and roll")]
-    [Tooltip("Bank at full sideways deflection, at speed, deg")]
-    [SerializeField] private float maxBank = 60f;
+    [Tooltip("Bank per degree of sideways nose error, at speed")]
+    [SerializeField] private float bankPerDegree = 2.5f;
+    [SerializeField] private float maxBank = 70f;
     [Tooltip("Below this speed the drone turns flat (hovering), m/s")]
     [SerializeField] private float bankSpeed = 15f;
     [Tooltip("1/s: bank error (deg) -> roll rate")]
     [SerializeField] private float rollResponse = 6f;
+
+    [Header("Aiming (first person)")]
+    [Tooltip("How hard the nose snaps onto the aim, 1/s")]
+    [SerializeField] private float aimHoldResponse = 15f;
+    [Tooltip("Fastest the nose turns while aiming, deg/s")]
+    [SerializeField] private float aimMaxRate = 360f;
+    [Tooltip("Seconds of a resting mouse before the aim's wings level with the horizon")]
+    [SerializeField] private float aimLevelDelay = 0.4f;
+    [Tooltip("How fast they level, deg/s")]
+    [SerializeField] private float aimLevelRate = 90f;
+
+    [Header("Manual")]
     [Tooltip("Q/E roll rate, deg/s")]
     [SerializeField] private float rollRate = 270f;
+    [Tooltip("A/D swing the aim this far to the side while held, deg")]
+    [SerializeField] private float keyTurnAngle = 45f;
     [Tooltip("1/s: how fast the body reaches a commanded rate")]
     [SerializeField] private float rateResponse = 12f;
 
+    [Tooltip("The cursor stays this many pixels inside the screen edge")]
+    [SerializeField] private float cursorMargin = 24f;
+
     [Inject] private InputService input;
     [Inject] private GameConfig config;
+    [Inject] private Camera sceneCamera;
 
     private Rigidbody rb;
     private DroneShooting shooting;
@@ -112,11 +98,6 @@ public class DroneControl : MonoBehaviour
     // Kept as an offset from the screen centre: the centre stays exact even if the
     // screen size changes after Awake (it does in the editor), or the window is resized.
     private Vector2 cursorOffset;
-    private float mouseRestTime;
-    private Quaternion target;   // the attitude the stick steers; the nose is held on it
-    private float stickRestTime;
-    private Vector2 aimLook;     // aiming: mouse turn not yet applied to the target, deg
-    private bool autoCentre = true;
     private float throttle;
     private float roll;     // Q/E: -1 left .. 1 right
     private float lift;     // Space/Ctrl: -1 down .. 1 up
@@ -125,16 +106,19 @@ public class DroneControl : MonoBehaviour
     private bool boost;
     private bool aiming;
 
+    // Aiming: the attitude the mouse points, the mouse turn not yet applied to it
+    // (deg) and how long the mouse has rested.
+    private Quaternion aim;
+    private Vector2 aimLook;
+    private float aimRestTime;
+
     private Vector3 lastPosition;
     private float distanceTravelled;
 
     // The invisible cursor the pilot steers with, in screen pixels (origin bottom-left).
     public Vector2 AimScreenPoint => new Vector2(Screen.width, Screen.height) * 0.5f + cursorOffset;
-    // Dead-zone radius around the screen centre, in screen pixels.
-    public float DeadZoneRadius => deadZone * Screen.height;
-    public bool IsAutoCentring => autoCentre;
-    // Where the target attitude points: while aiming, the mouse's direction.
-    public Vector3 AimDirection => target * Vector3.forward;
+    // Aiming: where the mouse has pointed the nose.
+    public Vector3 AimDirection => aim * Vector3.forward;
     public float Throttle => throttle;
     public bool IsBoosting => boost;
     public bool IsAiming => aiming;
@@ -146,7 +130,7 @@ public class DroneControl : MonoBehaviour
         // Default 7 rad/s (400 deg/s) would clip fast rolls.
         rb.maxAngularVelocity = 20f;
 
-        target = Quaternion.LookRotation(transform.forward, Vector3.up);
+        aim = Quaternion.LookRotation(transform.forward, Vector3.up);
         lastPosition = rb.position;
     }
 
@@ -161,7 +145,10 @@ public class DroneControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Rotate();
+        if (aiming)
+            RotateAiming();
+        else
+            Rotate();
         Fly();
         TrackDistance();
     }
@@ -184,7 +171,15 @@ public class DroneControl : MonoBehaviour
 
     private void ReadInput()
     {
+        bool wasAiming = aiming;
         aiming = input.IsDroneAimHeld;
+        // The aim starts where the nose points, so pressing Aim does not jerk the drone.
+        if (aiming && !wasAiming)
+        {
+            aim = Quaternion.LookRotation(transform.forward, Vector3.up);
+            aimLook = Vector2.zero;
+        }
+
         // While aiming W/S move the drone instead of setting the throttle.
         keyMove = aiming ? input.DroneThrottle : 0f;
         if (!aiming)
@@ -193,16 +188,14 @@ public class DroneControl : MonoBehaviour
         roll = input.DroneRoll;
         lift = input.DroneLift;
         boost = input.IsBoostHeld;
-        if (input.DroneAutoCentreToggled)
-            autoCentre = !autoCentre;
     }
 
-    // The cursor moves with the mouse 1:1 (times DroneCursorSpeed). Once the mouse
-    // has rested for autoCentreDelay it glides back to the centre, if auto-centre is on.
+    // Third person: the cursor moves with the mouse 1:1 (times DroneCursorSpeed) and
+    // stays where it was left, like a normal cursor - it is only invisible.
+    // Aiming: the mouse turns the aim instead, and the cursor waits in the centre.
     private void MoveCursor()
     {
         Vector2 look = input.DroneLook;
-        // Aiming, the mouse turns the target directly; the cursor waits in the centre.
         if (aiming)
         {
             aimLook += look * config.DroneAimSensitivity;
@@ -210,86 +203,87 @@ public class DroneControl : MonoBehaviour
             return;
         }
 
-        mouseRestTime = look.sqrMagnitude > 0f ? 0f : mouseRestTime + Time.deltaTime;
-
-        cursorOffset += look * config.DroneCursorSpeed;
-        if (autoCentre && mouseRestTime > autoCentreDelay)
-            cursorOffset *= Mathf.Exp(-autoCentreRate * Time.deltaTime);
-
         Vector2 half = new Vector2(Screen.width, Screen.height) * 0.5f - Vector2.one * cursorMargin;
+        cursorOffset += look * config.DroneCursorSpeed;
         cursorOffset.x = Mathf.Clamp(cursorOffset.x, -half.x, half.x);
         cursorOffset.y = Mathf.Clamp(cursorOffset.y, -half.y, half.y);
     }
 
-    // Cursor offset as a stick deflection, -1..1 per axis: zero inside the dead
-    // zone, growing from its edge to full at fullDeflection.
-    private Vector2 Deflection()
+    // Direction under the cursor, measured from the screen centre rather than from
+    // the camera's slight look-down: the centre means level flight along the
+    // camera's heading. Swung sideways while A/D are held.
+    private Vector3 CursorDirection()
     {
-        float radius = cursorOffset.magnitude;
-        float dead = deadZone * Screen.height;
-        if (radius <= dead)
-            return Vector2.zero;
-
-        float full = fullDeflection * Screen.height;
-        float strength = Mathf.Clamp01((radius - dead) / (full - dead));
-        return cursorOffset / radius * strength;
+        Transform view = sceneCamera.transform;
+        Vector3 ray = sceneCamera.ScreenPointToRay(AimScreenPoint).direction;
+        Vector3 level = Vector3.ProjectOnPlane(view.forward, Vector3.up);
+        Vector3 direction = Quaternion.FromToRotation(view.forward, level) * ray;
+        return Quaternion.AngleAxis(keySide * keyTurnAngle, Vector3.up) * direction;
     }
 
+    // Third person: point the nose at the direction under the cursor.
     private void Rotate()
     {
-        float dt = Time.fixedDeltaTime;
-        // Aiming: no joystick - the mouse has turned the target directly (aimLook).
-        Vector2 stick = aiming ? Vector2.zero : Deflection();
-        // A/D steer like the cursor - except while aiming, where they strafe.
-        float turn = Mathf.Clamp(stick.x + (aiming ? 0f : keySide), -1f, 1f);
-        float yawRate = turn * maxYawRate;
-        float pitchRate = stick.y * maxPitchRate;   // + = nose up
+        // Aim direction in the body frame: how far the nose is off, up/down and sideways.
+        Vector3 target = transform.InverseTransformDirection(CursorDirection());
+        float pitchError = -Mathf.Atan2(target.y, target.z) * Mathf.Rad2Deg;  // + = nose must go down
+        float yawError = Mathf.Atan2(target.x, target.z) * Mathf.Rad2Deg;     // + = aim is to the right
 
-        // The target turns about the world vertical and pitches about its own wings,
-        // so pulling through the vertical makes a loop.
-        float yawStep = yawRate * dt + aimLook.x;
-        float pitchStep = pitchRate * dt + aimLook.y;
-        target = Quaternion.AngleAxis(yawStep, Vector3.up) * target * Quaternion.Euler(-pitchStep, 0f, 0f);
-        LevelTarget(yawStep != 0f || pitchStep != 0f, dt);
+        Vector3 rate;   // deg/s
+        rate.x = Mathf.Clamp(pitchError * pitchResponse, -maxPitchRate, maxPitchRate);
+        rate.y = Mathf.Clamp(yawError * yawResponse, -maxYawRate, maxYawRate);
+        float bank = Mathf.Clamp(yawError * bankPerDegree, -maxBank, maxBank);
+        rate.z = Mathf.Abs(roll) > 0.01f ? -roll * rollRate : BankRate(bank, Vector3.up);
+
+        ApplyRate(rate);
+    }
+
+    // First person: the mouse has turned the aim (about the world vertical, and
+    // about its own wings - so pulling through the vertical loops); the nose snaps
+    // onto it at full speed. Once the mouse rests, the aim's wings ease back to the
+    // horizon - away from the vertical, where "level" means nothing.
+    private void RotateAiming()
+    {
+        float dt = Time.fixedDeltaTime;
+        aim = Quaternion.AngleAxis(aimLook.x, Vector3.up) * aim * Quaternion.Euler(-aimLook.y, 0f, 0f);
+        aimRestTime = aimLook == Vector2.zero ? aimRestTime + dt : 0f;
         aimLook = Vector2.zero;
 
-        // Feed the stick's rates forward, then pull the nose onto the target.
-        Vector3 worldRate = Vector3.up * yawRate - (target * Vector3.right) * pitchRate;
-        Vector3 rate = transform.InverseTransformDirection(worldRate);  // deg/s
+        Vector3 forward = aim * Vector3.forward;
+        if (aimRestTime > aimLevelDelay && Mathf.Abs(forward.y) < 0.85f)
+            aim = Quaternion.RotateTowards(aim, Quaternion.LookRotation(forward, Vector3.up), aimLevelRate * dt);
 
-        Vector3 aim = transform.InverseTransformDirection(target * Vector3.forward);
-        float pitchError = -Mathf.Atan2(aim.y, aim.z) * Mathf.Rad2Deg;  // + = nose must go down
-        float yawError = Mathf.Atan2(aim.x, aim.z) * Mathf.Rad2Deg;     // + = target is to the right
-        float hold = aiming ? aimHoldResponse : holdResponse;
-        float maxHold = aiming ? aimMaxRate : maxHoldRate;
-        rate.x += Mathf.Clamp(pitchError * hold, -maxHold, maxHold);
-        rate.y += Mathf.Clamp(yawError * hold, -maxHold, maxHold);
-        rate.z = Mathf.Abs(roll) > 0.01f ? -roll * rollRate : BankRate(turn);
+        Vector3 target = transform.InverseTransformDirection(aim * Vector3.forward);
+        float pitchError = -Mathf.Atan2(target.y, target.z) * Mathf.Rad2Deg;
+        float yawError = Mathf.Atan2(target.x, target.z) * Mathf.Rad2Deg;
 
+        Vector3 rate;   // deg/s
+        rate.x = Mathf.Clamp(pitchError * aimHoldResponse, -aimMaxRate, aimMaxRate);
+        rate.y = Mathf.Clamp(yawError * aimHoldResponse, -aimMaxRate, aimMaxRate);
+        rate.z = Mathf.Abs(roll) > 0.01f ? -roll * rollRate : BankRate(0f, aim * Vector3.up);
+
+        ApplyRate(rate);
+    }
+
+    private void ApplyRate(Vector3 rate)
+    {
         Vector3 current = transform.InverseTransformDirection(rb.angularVelocity);
         Vector3 accel = (rate * Mathf.Deg2Rad - current) * rateResponse;
         rb.AddRelativeTorque(accel, ForceMode.Acceleration);
     }
 
-    // Once the stick has rested a moment, ease the target's wings back to the
-    // horizon - away from the vertical, where "level" means nothing.
-    private void LevelTarget(bool isSteering, float dt)
-    {
-        stickRestTime = isSteering ? 0f : stickRestTime + dt;
-        Vector3 forward = target * Vector3.forward;
-        if (stickRestTime > levelDelay && Mathf.Abs(forward.y) < 0.85f)
-            target = Quaternion.RotateTowards(target, Quaternion.LookRotation(forward, Vector3.up), levelRate * dt);
-    }
-
-    // Roll toward the target's wings, banked into the turn at speed: turning right =
-    // right wing down. Hovering it turns flat. After a barrel roll this is what
-    // brings the wings back.
-    private float BankRate(float turn)
+    // Roll toward "up", banked into the turn at speed: bank + = right wing down.
+    // Hovering it turns flat. After a barrel roll this is what brings the wings
+    // back. Nose straight up or down against a world "up", level means nothing:
+    // hold the roll.
+    private float BankRate(float bank, Vector3 up)
     {
         Vector3 forward = transform.forward;
+        if (Mathf.Abs(Vector3.Dot(forward, up)) > 0.95f)
+            return 0f;
+
         float atSpeed = Mathf.Clamp01(rb.linearVelocity.magnitude / bankSpeed);
-        float bank = turn * maxBank * atSpeed;
-        Vector3 wantedUp = Quaternion.AngleAxis(-bank, forward) * (target * Vector3.up);
+        Vector3 wantedUp = Quaternion.AngleAxis(-bank * atSpeed, forward) * up;
 
         float error = Vector3.SignedAngle(
             Vector3.ProjectOnPlane(transform.up, forward),
