@@ -126,6 +126,7 @@ public enum Fraction { Player, Friendly, Enemy, Neutral }
 [`Crossbow.prefab`](../Assets/Prefabs/Crossbow/Crossbow.prefab) — визуальный
 префаб: тренога с каменными пятами, поворотная голова `Head` (пивот на оси
 поворота, нос по `+Z`). Логики стрельбы и наведения нет.
+Весь арбалет ≈ 20.5 тыс. треугольников (ворот под ложем, чтобы не мешать копью).
 
 - `Crossbow.controller`, триггер `Fire`, клип `CrossbowFire` 2.6 с: копьё
   `Head/LoadedSpear` пропадает на 0.04 с — в этот момент надо рождать снаряд, —
