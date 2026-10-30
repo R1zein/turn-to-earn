@@ -66,6 +66,14 @@ public class GameConfig : ScriptableObject
     [SerializeField] private TargetWeight[] minerTargets;
     [SerializeField] private TargetWeight[] defenderTargets;
 
+    [Header("Build grid")]
+    [Tooltip("Cell side, m. 2 fits the wall: its 4 m module is 2 cells long and scaled to 1 cell thick")]
+    [SerializeField] private float buildCellSize = 2f;
+    [Tooltip("Buildings stand on multiples of this height, m, so neighbours on almost level ground line up")]
+    [SerializeField] private float buildHeightStep = 0.5f;
+    [Tooltip("Cells drawn around the aimed building")]
+    [SerializeField] private int buildGridRadius = 10;
+
     [Header("Shop and building")]
     [SerializeField] private BotOffer[] botOffers;
     [SerializeField] private BuildOption[] buildOptions;
@@ -125,6 +133,10 @@ public class GameConfig : ScriptableObject
     public float BombEffectScale => bombEffectScale;
     public Enemy RangeTarget => rangeTarget;
     public float RangeRespawnDelay => rangeRespawnDelay;
+
+    public float BuildCellSize => buildCellSize;
+    public float BuildHeightStep => buildHeightStep;
+    public int BuildGridRadius => buildGridRadius;
 
     public IReadOnlyList<TargetWeight> EnemyTargets => enemyTargets;
     public IReadOnlyList<TargetWeight> BomberTargets => bomberTargets;

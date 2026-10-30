@@ -1,3 +1,4 @@
+using UnityEngine;
 using Zenject;
 
 // The main FPS map: player, resource nodes, shop and building, day and night.
@@ -15,6 +16,8 @@ public class Scene5Installer : GameplayInstaller
         // Single instances already placed in the scene.
         Container.Bind<LevelAnchors>().FromComponentInHierarchy().AsSingle();
         Container.Bind<Player>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<Terrain>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<BuildGridOverlay>().FromComponentInHierarchy().AsSingle();
 
         // Everything born at runtime is born by one of these.
         Container.Bind<EnemySpawner>().AsSingle();
@@ -23,6 +26,7 @@ public class Scene5Installer : GameplayInstaller
         Container.BindInterfacesAndSelfTo<ResourceNodeSpawner>().AsSingle();
 
         Container.Bind<ShopService>().AsSingle();
+        Container.Bind<BuildGrid>().AsSingle();
         Container.Bind<BuildService>().AsSingle();
         Container.Bind<FortificationService>().AsSingle();
         Container.BindInterfacesTo<PlayerInteraction>().AsSingle();

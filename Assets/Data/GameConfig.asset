@@ -352,6 +352,9 @@ MonoBehaviour:
   defenderTargets:
   - Kind: 5
     Weight: 50
+  buildCellSize: 2
+  buildHeightStep: 0.5
+  buildGridRadius: 10
   botOffers:
   - Bot: {fileID: 5575152895582975380, guid: 50c752f75618660449cf205cbbb63067, type: 3}
     Title: MINER BOT

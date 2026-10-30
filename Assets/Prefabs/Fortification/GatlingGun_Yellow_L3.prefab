@@ -21025,6 +21025,7 @@ GameObject:
   - component: {fileID: 205676091413216282}
   - component: {fileID: 114048599433676842}
   - component: {fileID: 1914985273686563301}
+  - component: {fileID: 8844135208869808226}
   m_Layer: 0
   m_Name: GatlingGun_Yellow_L3
   m_TagString: Bot
@@ -21127,7 +21128,6 @@ MonoBehaviour:
   barrelRotationSpeed: 1000
   firingRange: 15
   muzzelFlash: {fileID: 198562569527715984}
-  stats: {fileID: 0}
   fireRate: 0.1
   damage: 5
 --- !u!114 &1914985273686563301
@@ -21145,6 +21145,20 @@ MonoBehaviour:
   maxHP: 50
   currHP: 0
   fraction: 1
+--- !u!114 &8844135208869808226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979706888108350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc7237643d2c3147af71619cc38da49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GridBuilding
+  size: {x: 2, y: 2}
+  footprintCentre: {x: 0, y: 0}
 --- !u!1001 &8297979530800346880
 PrefabInstance:
   m_ObjectHideFlags: 0
