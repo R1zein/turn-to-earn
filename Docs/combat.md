@@ -106,3 +106,17 @@ public enum Fraction { Player, Friendly, Enemy, Neutral }
   [`WorldMarkersController`](../Assets/Scripts/UI/Controllers/WorldMarkersController.cs):
   точку задаёт `HealthBarAnchor` на вложенном префабе `HPbar/Centre`, полоска
   скрыта дальше 30 м и за спиной камеры. Подробно — в [Интерфейсе](ui.md#метки-над-объектами).
+
+## Катапульта (только модель)
+
+[`Catapult.prefab`](../Assets/Prefabs/Catapult/Catapult.prefab) — визуальный
+префаб без логики стрельбы, коллайдеров и цены. Меши сделаны в Blender:
+`Assets/Meshes/Catapult/`, материалы — `Assets/Materials/Wood/` и `Stone.mat`.
+
+- Размер ≈ 2.8 × 2.5 × 5.3 м, перед по `+Z`, пивот на земле.
+- Подвижная часть — дочерний `Arm`, пивот на оси вращения: −7° взведена, 92° упёрлась
+  в перекладину. В чаше лежит `Arm/LoadedStone`.
+- `Catapult.controller`, триггер `Fire`: клип `CatapultFire` длится 3 с. Камень
+  пропадает из чаши на 0.26 с — в этот момент надо рождать снаряд, — и
+  появляется снова в конце перезарядки.
+- Снаряды: `StoneProjectile1-3` (Ø ≈ 0.5 м), только меш и материал.
