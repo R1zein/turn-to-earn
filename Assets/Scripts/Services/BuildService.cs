@@ -16,6 +16,7 @@ public class BuildService
     [Inject] private BuildingPlacer placer;
     [Inject] private BuildGrid grid;
     [Inject] private BuildGridOverlay overlay;
+    [Inject] private WallCorners wallCorners;
 
     private readonly HashSet<GridBuilding> tinted = new HashSet<GridBuilding>();
     private readonly HashSet<GridBuilding> inConflict = new HashSet<GridBuilding>();
@@ -98,6 +99,8 @@ public class BuildService
         if (gridPrefab != null)
         {
             placed.GetComponent<GridBuilding>().Claim(footprint);
+            if (placed.TryGetComponent(out WallSegment wall))
+                wallCorners.Add(wall);
             ClearConflicts();
             overlay.Hide();
         }

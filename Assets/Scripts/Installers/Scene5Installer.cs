@@ -27,6 +27,7 @@ public class Scene5Installer : GameplayInstaller
 
         Container.Bind<ShopService>().AsSingle();
         Container.Bind<BuildGrid>().AsSingle();
+        Container.Bind<WallCorners>().AsSingle();
         Container.Bind<BuildService>().AsSingle();
         Container.Bind<FortificationService>().AsSingle();
         Container.BindInterfacesTo<PlayerInteraction>().AsSingle();

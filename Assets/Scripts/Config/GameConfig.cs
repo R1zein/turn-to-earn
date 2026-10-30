@@ -79,6 +79,12 @@ public class GameConfig : ScriptableObject
     [SerializeField] private BuildOption[] buildOptions;
     [SerializeField] private FortificationOption[] fortificationOptions;
     [SerializeField] private FortificationPartOption[] fortificationParts;
+    [Tooltip("Post at the corner where two placed walls meet")]
+    [SerializeField] private GameObject wallCornerPost;
+    [Tooltip("Piece of wall continuing past its +X end to the corner post")]
+    [SerializeField] private GameObject wallArmRight;
+    [Tooltip("Piece of wall continuing past its -X end to the corner post")]
+    [SerializeField] private GameObject wallArmLeft;
 
     [Header("Water")]
     [Tooltip("Player speed while swimming (walk is 5, run 9)")]
@@ -147,6 +153,9 @@ public class GameConfig : ScriptableObject
     public IReadOnlyList<BuildOption> BuildOptions => buildOptions;
     public IReadOnlyList<FortificationOption> FortificationOptions => fortificationOptions;
     public IReadOnlyList<FortificationPartOption> FortificationParts => fortificationParts;
+    public GameObject WallCornerPost => wallCornerPost;
+    public GameObject WallArmRight => wallArmRight;
+    public GameObject WallArmLeft => wallArmLeft;
 
     public float SwimSpeed => swimSpeed;
     public float HealthBarDistance => healthBarDistance;
