@@ -67,12 +67,12 @@ public class GameConfig : ScriptableObject
     [SerializeField] private TargetWeight[] defenderTargets;
 
     [Header("Build grid")]
-    [Tooltip("Cell side, m. 2 fits the wall: its 4 m module is 2 cells long and scaled to 1 cell thick")]
-    [SerializeField] private float buildCellSize = 2f;
+    [Tooltip("Cell side, m. Footprints are set per building on GridBuilding: wall 4x2, tower 3x3, gate 6x2")]
+    [SerializeField] private float buildCellSize = 1f;
     [Tooltip("Buildings stand on multiples of this height, m, so neighbours on almost level ground line up")]
     [SerializeField] private float buildHeightStep = 0.5f;
     [Tooltip("Cells drawn around the aimed building")]
-    [SerializeField] private int buildGridRadius = 10;
+    [SerializeField] private int buildGridRadius = 14;
 
     [Header("Shop and building")]
     [SerializeField] private BotOffer[] botOffers;

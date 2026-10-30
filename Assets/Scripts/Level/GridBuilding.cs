@@ -1,9 +1,10 @@
 using UnityEngine;
 using Zenject;
 
-// A building that stands on the build grid. Knows its size in cells; once placed
-// it holds its cells until destroyed. BuildService tints it while a new building
-// is being aimed into it.
+// A building that stands on the build grid. Knows its size in cells - how much it
+// BLOCKS, which need not match its mesh: neighbours are meant to overlap a little
+// so the parts of a wall line join up. Once placed it holds its cells until
+// destroyed. BuildService tints it while a new building is being aimed into it.
 public class GridBuilding : MonoBehaviour
 {
     private static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
@@ -21,6 +22,9 @@ public class GridBuilding : MonoBehaviour
     private GridFootprint footprint;
     private bool isClaimed;
 
+    // World height of the top of the mesh, once placed.
+    public float Top { get; private set; }
+
     // Size on the grid after turning by this many quarter turns.
     public Vector2Int SizeTurned(int quarterTurns) =>
         quarterTurns % 2 == 0 ? size : new Vector2Int(size.y, size.x);
@@ -33,6 +37,10 @@ public class GridBuilding : MonoBehaviour
     {
         footprint = cells;
         isClaimed = true;
+        Top = transform.position.y;
+        foreach (Renderer part in GetComponentsInChildren<Renderer>())
+            if (!(part is ParticleSystemRenderer))
+                Top = Mathf.Max(Top, part.bounds.max.y);
         grid.Occupy(this, cells);
     }
 

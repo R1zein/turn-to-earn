@@ -21157,7 +21157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecc7237643d2c3147af71619cc38da49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridBuilding
-  size: {x: 2, y: 2}
+  size: {x: 3, y: 3}
   footprintCentre: {x: 0, y: 0}
 --- !u!1001 &8297979530800346880
 PrefabInstance:

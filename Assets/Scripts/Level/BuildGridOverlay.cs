@@ -10,13 +10,12 @@ using Zenject;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class BuildGridOverlay : MonoBehaviour
 {
-    // Quads per cell side: cells bend with the terrain instead of cutting into it.
-    private const int Subdivisions = 2;
-    private const float LineWidth = 0.08f;
+    private const float LineWidth = 0.05f;
     private const float Lift = 0.12f;
-    // Tall enough for a wall, and a hair wider than a cell so its faces clear the wall's.
-    private const float ColumnHeight = 4.4f;
-    private const float ColumnMargin = 0.06f;
+    // The column rises above the building it marks, and is a hair wider than a cell,
+    // or it would stay hidden inside a mesh wider than its cells (a tower).
+    private const float ColumnClearance = 0.25f;
+    private const float ColumnMargin = 0.14f;
 
     [Inject] private BuildGrid grid;
     [Inject] private GameConfig config;
@@ -84,7 +83,7 @@ public class BuildGridOverlay : MonoBehaviour
 
         foreach (Vector2Int cell in footprint.Cells)
             if (grid.At(cell) != null)
-                AddColumn(cell);
+                AddColumn(cell, grid.At(cell).Top);
 
         mesh.Clear();
         mesh.SetVertices(vertices);
@@ -101,7 +100,7 @@ public class BuildGridOverlay : MonoBehaviour
         return isTaken ? occupiedColor : freeColor;
     }
 
-    private void AddColumn(Vector2Int cell)
+    private void AddColumn(Vector2Int cell, float buildingTop)
     {
         float size = grid.CellSize;
         float x0 = cell.x * size - ColumnMargin;
@@ -109,7 +108,7 @@ public class BuildGridOverlay : MonoBehaviour
         float z0 = cell.y * size - ColumnMargin;
         float z1 = (cell.y + 1) * size + ColumnMargin;
         float bottom = grid.GroundHeight((x0 + x1) * 0.5f, (z0 + z1) * 0.5f) - 1f;
-        float top = bottom + 1f + ColumnHeight;
+        float top = buildingTop + ColumnClearance;
 
         var a = new Vector3(x0, bottom, z0);
         var b = new Vector3(x1, bottom, z0);
@@ -145,35 +144,26 @@ public class BuildGridOverlay : MonoBehaviour
     private void AddCell(Vector2Int cell, Color color)
     {
         float size = grid.CellSize;
-        float inner = size - LineWidth;
-        float left = cell.x * size + LineWidth * 0.5f;
-        float bottom = cell.y * size + LineWidth * 0.5f;
+        float x0 = cell.x * size + LineWidth * 0.5f;
+        float z0 = cell.y * size + LineWidth * 0.5f;
+        float x1 = (cell.x + 1) * size - LineWidth * 0.5f;
+        float z1 = (cell.y + 1) * size - LineWidth * 0.5f;
+
+        // A cell is about one terrain sample across, so a flat quad on its four
+        // corners follows the ground.
         int first = vertices.Count;
+        vertices.Add(new Vector3(x0, grid.GroundHeight(x0, z0) + Lift, z0));
+        vertices.Add(new Vector3(x0, grid.GroundHeight(x0, z1) + Lift, z1));
+        vertices.Add(new Vector3(x1, grid.GroundHeight(x1, z0) + Lift, z0));
+        vertices.Add(new Vector3(x1, grid.GroundHeight(x1, z1) + Lift, z1));
+        for (int i = 0; i < 4; i++)
+            colors.Add(color);
 
-        for (int i = 0; i <= Subdivisions; i++)
-        {
-            for (int j = 0; j <= Subdivisions; j++)
-            {
-                float x = left + inner * i / Subdivisions;
-                float z = bottom + inner * j / Subdivisions;
-                vertices.Add(new Vector3(x, grid.GroundHeight(x, z) + Lift, z));
-                colors.Add(color);
-            }
-        }
-
-        int stride = Subdivisions + 1;
-        for (int i = 0; i < Subdivisions; i++)
-        {
-            for (int j = 0; j < Subdivisions; j++)
-            {
-                int corner = first + i * stride + j;
-                triangles.Add(corner);
-                triangles.Add(corner + 1);
-                triangles.Add(corner + stride);
-                triangles.Add(corner + 1);
-                triangles.Add(corner + stride + 1);
-                triangles.Add(corner + stride);
-            }
-        }
+        triangles.Add(first);
+        triangles.Add(first + 1);
+        triangles.Add(first + 2);
+        triangles.Add(first + 1);
+        triangles.Add(first + 3);
+        triangles.Add(first + 2);
     }
 }
