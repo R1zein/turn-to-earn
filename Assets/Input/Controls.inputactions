@@ -125,6 +125,26 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "BuildRaise",
+                    "type": "Button",
+                    "id": "c302f594-96e8-422f-a8ea-ca8a3a2c2620",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "BuildLower",
+                    "type": "Button",
+                    "id": "6395cc90-cb29-4996-b5af-6a4d44a5de60",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -356,6 +376,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ToolPrevious",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6c3fc8ec-1091-4ffb-8a32-80960a08a866",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuildRaise",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ef094efc-e17f-43cb-adff-c8de52aa122a",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuildLower",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

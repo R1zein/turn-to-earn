@@ -211,6 +211,26 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""BuildRaise"",
+                    ""type"": ""Button"",
+                    ""id"": ""c302f594-96e8-422f-a8ea-ca8a3a2c2620"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""BuildLower"",
+                    ""type"": ""Button"",
+                    ""id"": ""6395cc90-cb29-4996-b5af-6a4d44a5de60"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -442,6 +462,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ToolPrevious"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c3fc8ec-1091-4ffb-8a32-80960a08a866"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuildRaise"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef094efc-e17f-43cb-adff-c8de52aa122a"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BuildLower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -789,6 +831,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_BuildRotate = m_Player.FindAction("BuildRotate", throwIfNotFound: true);
         m_Player_ToolNext = m_Player.FindAction("ToolNext", throwIfNotFound: true);
         m_Player_ToolPrevious = m_Player.FindAction("ToolPrevious", throwIfNotFound: true);
+        m_Player_BuildRaise = m_Player.FindAction("BuildRaise", throwIfNotFound: true);
+        m_Player_BuildLower = m_Player.FindAction("BuildLower", throwIfNotFound: true);
         // Drone
         m_Drone = asset.FindActionMap("Drone", throwIfNotFound: true);
         m_Drone_Fire = m_Drone.FindAction("Fire", throwIfNotFound: true);
@@ -897,6 +941,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_BuildRotate;
     private readonly InputAction m_Player_ToolNext;
     private readonly InputAction m_Player_ToolPrevious;
+    private readonly InputAction m_Player_BuildRaise;
+    private readonly InputAction m_Player_BuildLower;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -956,6 +1002,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ToolPrevious".
         /// </summary>
         public InputAction @ToolPrevious => m_Wrapper.m_Player_ToolPrevious;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/BuildRaise".
+        /// </summary>
+        public InputAction @BuildRaise => m_Wrapper.m_Player_BuildRaise;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/BuildLower".
+        /// </summary>
+        public InputAction @BuildLower => m_Wrapper.m_Player_BuildLower;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1018,6 +1072,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ToolPrevious.started += instance.OnToolPrevious;
             @ToolPrevious.performed += instance.OnToolPrevious;
             @ToolPrevious.canceled += instance.OnToolPrevious;
+            @BuildRaise.started += instance.OnBuildRaise;
+            @BuildRaise.performed += instance.OnBuildRaise;
+            @BuildRaise.canceled += instance.OnBuildRaise;
+            @BuildLower.started += instance.OnBuildLower;
+            @BuildLower.performed += instance.OnBuildLower;
+            @BuildLower.canceled += instance.OnBuildLower;
         }
 
         /// <summary>
@@ -1065,6 +1125,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ToolPrevious.started -= instance.OnToolPrevious;
             @ToolPrevious.performed -= instance.OnToolPrevious;
             @ToolPrevious.canceled -= instance.OnToolPrevious;
+            @BuildRaise.started -= instance.OnBuildRaise;
+            @BuildRaise.performed -= instance.OnBuildRaise;
+            @BuildRaise.canceled -= instance.OnBuildRaise;
+            @BuildLower.started -= instance.OnBuildLower;
+            @BuildLower.performed -= instance.OnBuildLower;
+            @BuildLower.canceled -= instance.OnBuildLower;
         }
 
         /// <summary>
@@ -1469,6 +1535,20 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToolPrevious(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BuildRaise" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBuildRaise(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BuildLower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBuildLower(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Drone" which allows adding and removing callbacks.

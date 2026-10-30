@@ -355,6 +355,8 @@ MonoBehaviour:
   buildCellSize: 1
   buildHeightStep: 0.5
   buildGridRadius: 14
+  buildSnapDistance: 2.5
+  dismantleIcon: {fileID: 21300000, guid: b24537d30b27c7447b7bfa7f1451c52e, type: 3}
   botOffers:
   - Bot: {fileID: 5575152895582975380, guid: 50c752f75618660449cf205cbbb63067, type: 3}
     Title: MINER BOT

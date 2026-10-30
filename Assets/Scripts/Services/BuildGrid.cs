@@ -36,8 +36,11 @@ public class BuildGrid
     [Inject] private Terrain terrain;
 
     private readonly Dictionary<Vector2Int, GridBuilding> occupied = new Dictionary<Vector2Int, GridBuilding>();
+    private readonly List<GridBuilding> placed = new List<GridBuilding>();
 
     public float CellSize => config.BuildCellSize;
+
+    public IReadOnlyList<GridBuilding> Placed => placed;
 
     // Grows with every change of occupancy, so views know when to redraw.
     public int Version { get; private set; }
@@ -77,7 +80,8 @@ public class BuildGrid
     {
         foreach (Vector2Int cell in footprint.Cells)
             occupied[cell] = building;
-        Version++;
+        placed.Add(building);
+        OnChanged();
     }
 
     public void Release(GridBuilding building, GridFootprint footprint)
@@ -85,6 +89,16 @@ public class BuildGrid
         foreach (Vector2Int cell in footprint.Cells)
             if (At(cell) == building)
                 occupied.Remove(cell);
+        placed.Remove(building);
+        OnChanged();
+    }
+
+    // Who joins whom may have changed, and with it which sides stand open.
+    private void OnChanged()
+    {
         Version++;
+        foreach (GridBuilding building in placed)
+            if (building != null)
+                building.RefreshSockets();
     }
 }

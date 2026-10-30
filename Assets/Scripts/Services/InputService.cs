@@ -34,6 +34,8 @@ public class InputService : IInitializable, ITickable, IDisposable
     public event Action OnJump;
     public event Action OnBuildMenu;
     public event Action OnBuildConfirm;
+    public event Action OnBuildRaise;
+    public event Action OnBuildLower;
     public event Action OnToolNext;
     public event Action OnToolPrevious;
     public event Action OnUiClose;
@@ -108,6 +110,8 @@ public class InputService : IInitializable, ITickable, IDisposable
         if (player.Interact.WasPressedThisFrame()) OnInteract?.Invoke();
         if (player.Jump.WasPressedThisFrame()) OnJump?.Invoke();
         if (player.BuildConfirm.WasPressedThisFrame()) OnBuildConfirm?.Invoke();
+        if (player.BuildRaise.WasPressedThisFrame()) OnBuildRaise?.Invoke();
+        if (player.BuildLower.WasPressedThisFrame()) OnBuildLower?.Invoke();
         if (player.ToolNext.WasPressedThisFrame()) OnToolNext?.Invoke();
         if (player.ToolPrevious.WasPressedThisFrame()) OnToolPrevious?.Invoke();
         if (player.BuildMenu.WasPressedThisFrame()) OnBuildMenu?.Invoke();

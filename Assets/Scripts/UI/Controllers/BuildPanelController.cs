@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using Zenject;
 
 // Build menu: Tab opens it, a card picks a ghost, Esc/Tab closes. Rules are BuildService's.
+// The last card starts dismantling; while that is on, Tab stops it instead of opening.
 public class BuildPanelController : IInitializable, IDisposable
 {
     [Inject] private UIDocument document;
@@ -11,6 +12,7 @@ public class BuildPanelController : IInitializable, IDisposable
     [Inject] private GameConfig config;
     [Inject] private InputService input;
     [Inject] private BuildService buildService;
+    [Inject] private Dismantler dismantler;
 
     private readonly List<Action> unsubscribe = new List<Action>();
     private readonly List<(Button card, Ghost ghost)> options = new List<(Button, Ghost)>();
@@ -28,6 +30,7 @@ public class BuildPanelController : IInitializable, IDisposable
                 () => Pick(ghost), unsubscribe);
             options.Add((card, ghost));
         }
+        cards.Add(list, "DISMANTLE", config.DismantleIcon, new AllResources(), StartDismantling, unsubscribe);
 
         input.OnBuildMenu += Show;
         input.OnUiClose += Hide;
@@ -46,6 +49,12 @@ public class BuildPanelController : IInitializable, IDisposable
         if (isOpen)
             return;
 
+        if (dismantler.IsActive)
+        {
+            dismantler.End();
+            return;
+        }
+
         isOpen = true;
         foreach (var (card, ghost) in options)
             card.SetEnabled(buildService.CanAfford(ghost));
@@ -61,6 +70,12 @@ public class BuildPanelController : IInitializable, IDisposable
         isOpen = false;
         panel.AddToClassList("hidden");
         input.PopMode();
+    }
+
+    private void StartDismantling()
+    {
+        dismantler.Begin();
+        Hide();
     }
 
     private void Pick(Ghost ghost)

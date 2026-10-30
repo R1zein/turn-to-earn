@@ -73,6 +73,10 @@ public class GameConfig : ScriptableObject
     [SerializeField] private float buildHeightStep = 0.5f;
     [Tooltip("Cells drawn around the aimed building")]
     [SerializeField] private int buildGridRadius = 14;
+    [Tooltip("How far from its spot next to a socket the aim can be for a building to snap there, m")]
+    [SerializeField] private float buildSnapDistance = 2.5f;
+    [Tooltip("Icon of the DISMANTLE card in the build menu")]
+    [SerializeField] private Sprite dismantleIcon;
 
     [Header("Shop and building")]
     [SerializeField] private BotOffer[] botOffers;
@@ -143,6 +147,8 @@ public class GameConfig : ScriptableObject
     public float BuildCellSize => buildCellSize;
     public float BuildHeightStep => buildHeightStep;
     public int BuildGridRadius => buildGridRadius;
+    public float BuildSnapDistance => buildSnapDistance;
+    public Sprite DismantleIcon => dismantleIcon;
 
     public IReadOnlyList<TargetWeight> EnemyTargets => enemyTargets;
     public IReadOnlyList<TargetWeight> BomberTargets => bomberTargets;

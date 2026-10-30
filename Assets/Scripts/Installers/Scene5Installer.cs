@@ -29,6 +29,7 @@ public class Scene5Installer : GameplayInstaller
         Container.Bind<BuildGrid>().AsSingle();
         Container.Bind<WallCorners>().AsSingle();
         Container.Bind<BuildService>().AsSingle();
+        Container.Bind<Dismantler>().AsSingle();
         Container.Bind<FortificationService>().AsSingle();
         Container.BindInterfacesTo<PlayerInteraction>().AsSingle();
 
@@ -43,6 +44,7 @@ public class Scene5Installer : GameplayInstaller
         Container.BindInterfacesTo<ClockHudController>().AsSingle();
         Container.BindInterfacesTo<PlayerHealthHudController>().AsSingle();
         Container.BindInterfacesTo<BuildPanelController>().AsSingle();
+        Container.BindInterfacesTo<BuildHintController>().AsSingle();
         Container.BindInterfacesAndSelfTo<ShopPanelController>().AsSingle();
 
         Container.BindInterfacesTo<GameStarter>().AsSingle();

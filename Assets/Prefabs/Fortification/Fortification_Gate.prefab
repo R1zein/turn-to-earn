@@ -236,6 +236,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GridBuilding
   size: {x: 6, y: 2}
   footprintCentre: {x: 0.010353088, y: 0.5999345}
+  sockets:
+  - cell: {x: 0, y: 0}
+    outward: {x: -1, y: 0}
+    closed: {fileID: 0}
+    openLeft: {fileID: 0}
+    openRight: {fileID: 0}
+  - cell: {x: 5, y: 0}
+    outward: {x: 1, y: 0}
+    closed: {fileID: 0}
+    openLeft: {fileID: 0}
+    openRight: {fileID: 0}
+  hasWalkway: 1
 --- !u!1 &1244547235134560
 GameObject:
   m_ObjectHideFlags: 0

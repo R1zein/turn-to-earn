@@ -39,6 +39,9 @@
             <ui:Label name="PhaseValue" text="" picking-mode="Ignore" class="text-hot text-sm tracking heavy" />
         </ui:VisualElement>
 
+        <!-- Keys of the build modes, bottom centre -->
+        <ui:Label name="BuildHint" text="" picking-mode="Ignore" class="hidden bg-surface frame text-accent text-md heavy tracking" style="position: absolute; bottom: 40px; left: 50%; translate: -50% 0; padding: 8px 18px;" />
+
         <!-- Player health, bottom left -->
         <ui:VisualElement picking-mode="Ignore" class="bg-surface frame frame-lit-left" style="position: absolute; left: 40px; bottom: 40px; width: 400px; padding: 10px 14px 12px 14px;">
             <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
