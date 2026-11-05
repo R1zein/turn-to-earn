@@ -11,6 +11,7 @@ public class StructurePanelController : IInitializable, ITickable
     [Inject] private UIDocument document;
     [Inject] private Camera camera;
     [Inject] private InputService input;
+    [Inject] private StructureLookup structures;
 
     private VisualElement panel;
     private VisualElement icon;
@@ -52,6 +53,6 @@ public class StructurePanelController : IInitializable, ITickable
         Ray ray = camera.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
         if (!Physics.Raycast(ray, out RaycastHit hit, Reach, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             return null;
-        return hit.collider.GetComponentInParent<Structure>();
+        return structures.At(hit);
     }
 }

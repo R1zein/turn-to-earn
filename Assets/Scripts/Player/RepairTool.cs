@@ -11,6 +11,7 @@ public class RepairTool : MonoBehaviour
     [SerializeField] private float repairPerHit = 25f;
 
     [Inject] private InputService input;
+    [Inject] private StructureLookup structures;
 
     private Animator animator;
     private SoundController soundController;
@@ -44,7 +45,7 @@ public class RepairTool : MonoBehaviour
         if (!Physics.Raycast(screenRay, out RaycastHit hit, Reach, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
             return;
 
-        Structure structure = hit.collider.GetComponentInParent<Structure>();
+        Structure structure = structures.At(hit);
         if (structure == null || structure.Stats.currHP >= structure.Stats.maxHP)
             return;
 

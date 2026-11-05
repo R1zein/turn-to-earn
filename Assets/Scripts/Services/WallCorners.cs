@@ -25,6 +25,8 @@ public class WallCorners
     // Decks of the arms overlap the walls and each other at the same height: a small
     // drop for each keeps them from flickering.
     private const float DeckDrop = 0.015f;
+    // A hit lies on the surface, often right on a cell border: step this far inside.
+    private const float HitInset = 0.05f;
 
     private class Corner
     {
@@ -70,6 +72,38 @@ public class WallCorners
                     Object.Destroy(part);
             corners.RemoveAt(i);
         }
+    }
+
+    // The wall a hit on a corner belongs to; null if what was hit is not part of a
+    // corner. For the player a corner is just where two walls meet: it takes no cells
+    // of its own but stands on the ends of both, so the cell under the hit says whose
+    // end it is. Off both walls' cells (an arm reaching past them) the nearer wall wins.
+    public WallSegment WallAt(RaycastHit hit)
+    {
+        foreach (Corner corner in corners)
+        {
+            if (!IsPart(corner, hit.collider.transform))
+                continue;
+
+            Vector3 point = hit.point - hit.normal * HitInset;
+            Vector2Int cell = grid.FootprintAt(point, Vector2Int.one).Min;
+            if (corner.Through.Cells.Contains(cell))
+                return corner.Through;
+            if (corner.Butting.Cells.Contains(cell))
+                return corner.Butting;
+            float toThrough = (point - corner.Through.transform.position).sqrMagnitude;
+            float toButting = (point - corner.Butting.transform.position).sqrMagnitude;
+            return toThrough <= toButting ? corner.Through : corner.Butting;
+        }
+        return null;
+    }
+
+    private static bool IsPart(Corner corner, Transform hit)
+    {
+        foreach (GameObject part in corner.Parts)
+            if (part != null && hit.IsChildOf(part.transform))
+                return true;
+        return false;
     }
 
     private void TryJoin(WallSegment first, WallSegment second)
