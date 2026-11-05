@@ -398,6 +398,12 @@ MonoBehaviour:
   wallArmRight: {fileID: 7294931059644103025, guid: c157d000762196f4cb4f06ec6b3742a1, type: 3}
   wallArmLeft: {fileID: 543400540115910055, guid: 62a78b3ea5e33f148b19cae234c88433, type: 3}
   wallStairStep: {fileID: 8709683895834182282, guid: c66ead8433569f945b13fd3a0bfc0ac0, type: 3}
+  wallCornerInner: {fileID: 8839918149497933902, guid: 2f2e3fbd7830ed644949bd53ca4bd511, type: 3}
+  wallCornerInnerButtLower: {fileID: 3456751805194401678, guid: f1d9bc2d395e7ba4ab03c72d9286019d, type: 3}
+  wallCornerInnerButtHigher: {fileID: 4788101091774785201, guid: fbcbd65ac068ea0488882b9f000c7d6c, type: 3}
+  wallCornerOuter: {fileID: 6060429493934524806, guid: 522443c9acb60714db8f8e09eac4666e, type: 3}
+  wallCornerOuterButtLower: {fileID: 9048013934024805990, guid: 4c04313c38a34aa4397a333c4ca4e899, type: 3}
+  wallCornerOuterButtHigher: {fileID: 3044824331861920485, guid: 1cb6573ab5e3a914c9793bca56ae0e9e, type: 3}
   swimSpeed: 2.5
   healthBarDistance: 30
   lookScale: 0.05

@@ -11,7 +11,8 @@ using Zenject;
 // out; walkways facing different ways make none. The walls may differ in height by
 // one BuildHeightStep at most, and then a model that climbs between them is used.
 // A corner model is made in the through wall's frame at its +X end and mirrored for
-// the -X end. Until GameConfig has one, a post and an arm stand in for it.
+// the -X end. Until GameConfig has one, a post and an arm stand in for it. The parts
+// of both walls a model replaces (its WallCornerModel boxes) are cut by WallMeshCuts.
 // A corner has no health of its own: it stands while both of its walls stand.
 public class WallCorners
 {
@@ -42,6 +43,7 @@ public class WallCorners
     [Inject] private GameConfig config;
     [Inject] private BuildingPlacer placer;
     [Inject] private BuildGrid grid;
+    [Inject] private WallMeshCuts cuts;
 
     private readonly List<WallSegment> walls = new List<WallSegment>();
     private readonly List<Corner> corners = new List<Corner>();
@@ -61,6 +63,7 @@ public class WallCorners
             if (!corners[i].Uses(wall))
                 continue;
 
+            cuts.Remove(corners[i]);
             foreach (GameObject part in corners[i].Parts)
                 Object.Destroy(part);
             corners.RemoveAt(i);
@@ -87,6 +90,11 @@ public class WallCorners
             GameObject part = placer.Place(model, end, body.rotation);
             part.transform.localScale = new Vector3(corner.ThroughEnd, 1f, 1f);
             corner.Parts.Add(part);
+            if (part.TryGetComponent(out WallCornerModel shape))
+            {
+                cuts.Add(corner, corner.Through, part.transform, shape.Cuts, true);
+                cuts.Add(corner, corner.Butting, part.transform, shape.Cuts, true);
+            }
         }
         else
         {

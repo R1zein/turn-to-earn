@@ -1,5 +1,10 @@
 # Задача: модели угла стены
 
+> **Сделано 2026-11-05:** 6 моделей и 4 пандуса в `Assets/Meshes/Fortification/`,
+> префабы `Fortification_WallCorner*`, слоты `GameConfig` заполнены. Вырезы стен —
+> `WallCornerModel` + `WallMeshCuts`, подробности в
+> [Строительство → Угловой участок](building.md#угловой-участок).
+
 Код угла готов ([Строительство → Угловой участок](building.md#угловой-участок)):
 [`WallCorners`](../Assets/Scripts/Services/WallCorners.cs) сам находит правильный
 угол и ставит модель из `GameConfig`. Моделей пока нет, вместо них временно стоят

@@ -10,6 +10,7 @@ public class WallSegment : MonoBehaviour
 
     [Inject] private WallCorners corners;
     [Inject] private WallStairs stairs;
+    [Inject] private WallMeshCuts cuts;
 
     public Vector3 Along => transform.right;
 
@@ -19,5 +20,6 @@ public class WallSegment : MonoBehaviour
     {
         corners.Remove(this);
         stairs.Remove(this);
+        cuts.Forget(this);
     }
 }

@@ -9,8 +9,8 @@ using Zenject;
 // deck exactly. Walls further apart than one step get no stairs.
 // Steps are only looks: the player climbs an invisible ramp along them, because a
 // capsule does not step up boxes by itself.
-// The deck boards of the lower wall under the steps are cut out of its mesh (only
-// its look: the collider keeps them), and come back when the stairs go.
+// The deck boards of the lower wall under the steps are cut out by WallMeshCuts
+// (only its look: the collider keeps them), and come back when the stairs go.
 // Like a corner, the stairs stand while both walls stand.
 public class WallStairs
 {
@@ -46,20 +46,15 @@ public class WallStairs
         public WallSegment Lower;
         public WallSegment Upper;
         public GameObject Root;
-        // Span of the steps along the lower wall's X, in its own frame.
-        public Vector2 Span;
-
         public bool Uses(WallSegment wall) => wall == Lower || wall == Upper;
     }
 
     [Inject] private GameConfig config;
     [Inject] private BuildingPlacer placer;
+    [Inject] private WallMeshCuts cuts;
 
     private readonly List<WallSegment> walls = new List<WallSegment>();
     private readonly List<Stair> stairs = new List<Stair>();
-    // Lower walls showing a cut deck: their own mesh, and the cut copy shown instead.
-    private readonly Dictionary<WallSegment, Mesh> originalMeshes = new Dictionary<WallSegment, Mesh>();
-    private readonly Dictionary<WallSegment, Mesh> cutMeshes = new Dictionary<WallSegment, Mesh>();
 
     public void Add(WallSegment wall)
     {
@@ -71,24 +66,15 @@ public class WallStairs
     public void Remove(WallSegment wall)
     {
         walls.Remove(wall);
-        var lowerWalls = new List<WallSegment>();
         for (int i = stairs.Count - 1; i >= 0; i--)
         {
             if (!stairs[i].Uses(wall))
                 continue;
 
-            if (stairs[i].Lower != wall)
-                lowerWalls.Add(stairs[i].Lower);
+            cuts.Remove(stairs[i]);
             Object.Destroy(stairs[i].Root);
             stairs.RemoveAt(i);
         }
-
-        foreach (WallSegment lower in lowerWalls)
-            RefreshDeck(lower);
-        if (cutMeshes.TryGetValue(wall, out Mesh cut))
-            Object.Destroy(cut);
-        cutMeshes.Remove(wall);
-        originalMeshes.Remove(wall);
     }
 
     private void TryConnect(WallSegment first, WallSegment second)
@@ -114,72 +100,16 @@ public class WallStairs
         Vector2 span = end > 0
             ? new Vector2(WallSegment.HalfLength - run, WallSegment.HalfLength)
             : new Vector2(-WallSegment.HalfLength, -WallSegment.HalfLength + run);
-        stairs.Add(new Stair { Lower = lower, Upper = upper, Root = Build(lower, end, rise), Span = span });
-        RefreshDeck(lower);
+        var stair = new Stair { Lower = lower, Upper = upper, Root = Build(lower, end, rise) };
+        stairs.Add(stair);
+        // The deck boards under the steps, in the lower wall's own frame.
+        var boards = new Bounds(
+            new Vector3((span.x + span.y) * 0.5f, (DeckBoardsBottom + DeckBoardsTop) * 0.5f, (DeckNearEdge + DeckFarEdge) * 0.5f),
+            new Vector3(span.y - span.x + DeckCutMargin * 2f, DeckBoardsTop - DeckBoardsBottom, DeckFarEdge - DeckNearEdge));
+        cuts.Add(stair, lower, lower.transform, new[] { boards }, false);
     }
 
     private static int StepCount(float rise) => Mathf.Max(1, Mathf.RoundToInt(rise / StepRise));
-
-    // Shows the lower wall without the boards its stairs stand over, or whole again.
-    private void RefreshDeck(WallSegment wall)
-    {
-        var filter = wall.GetComponent<MeshFilter>();
-        if (!originalMeshes.ContainsKey(wall))
-            originalMeshes[wall] = filter.sharedMesh;
-        Mesh original = originalMeshes[wall];
-
-        var spans = new List<Vector2>();
-        foreach (Stair stair in stairs)
-            if (stair.Lower == wall)
-                spans.Add(stair.Span);
-
-        if (cutMeshes.TryGetValue(wall, out Mesh previous))
-            Object.Destroy(previous);
-        cutMeshes.Remove(wall);
-        if (spans.Count == 0)
-        {
-            filter.sharedMesh = original;
-            originalMeshes.Remove(wall);
-            return;
-        }
-
-        Mesh cut = WithoutDeckBoards(original, spans);
-        cutMeshes[wall] = cut;
-        filter.sharedMesh = cut;
-    }
-
-    private static Mesh WithoutDeckBoards(Mesh original, List<Vector2> spans)
-    {
-        Mesh mesh = Object.Instantiate(original);
-        mesh.name = original.name + " (deck cut)";
-        Vector3[] vertices = original.vertices;
-        for (int sub = 0; sub < original.subMeshCount; sub++)
-        {
-            int[] triangles = original.GetTriangles(sub);
-            var kept = new List<int>(triangles.Length);
-            for (int i = 0; i < triangles.Length; i += 3)
-            {
-                if (IsDeckBoard(vertices[triangles[i]], spans) && IsDeckBoard(vertices[triangles[i + 1]], spans)
-                    && IsDeckBoard(vertices[triangles[i + 2]], spans))
-                    continue;
-                kept.Add(triangles[i]);
-                kept.Add(triangles[i + 1]);
-                kept.Add(triangles[i + 2]);
-            }
-            mesh.SetTriangles(kept, sub);
-        }
-        return mesh;
-    }
-
-    private static bool IsDeckBoard(Vector3 point, List<Vector2> spans)
-    {
-        if (point.y < DeckBoardsBottom || point.y > DeckBoardsTop || point.z < DeckNearEdge || point.z > DeckFarEdge)
-            return false;
-        foreach (Vector2 span in spans)
-            if (point.x >= span.x - DeckCutMargin && point.x <= span.y + DeckCutMargin)
-                return true;
-        return false;
-    }
 
     private GameObject Build(WallSegment lower, int end, float rise)
     {
