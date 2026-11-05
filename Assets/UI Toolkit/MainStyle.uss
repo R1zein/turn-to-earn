@@ -81,6 +81,32 @@
     border-bottom-color: var(--accent-line);
 }
 
+.divider-top {
+    border-top-width: 1px;
+    border-top-color: var(--accent-line);
+}
+
+/* the colour that stands for each resource in a price (ResourceMarks) */
+.bg-wood {
+    background-color: rgb(201, 138, 75);
+}
+
+.bg-stone {
+    background-color: rgb(169, 179, 186);
+}
+
+.bg-iron {
+    background-color: rgb(111, 168, 220);
+}
+
+.bg-copper {
+    background-color: rgb(224, 121, 74);
+}
+
+.bg-gold {
+    background-color: rgb(242, 201, 76);
+}
+
 .outline-accent {
     border-color: var(--accent);
 }
@@ -159,6 +185,16 @@
 }
 
 .btn:disabled {
+    opacity: 0.35;
+}
+
+/* the option being looked at: lit edge, not filled like .btn-on */
+.btn-lit {
+    border-color: var(--accent);
+}
+
+/* looks like :disabled but still takes the mouse, so hovering says what is missing */
+.btn-faded {
     opacity: 0.35;
 }
 

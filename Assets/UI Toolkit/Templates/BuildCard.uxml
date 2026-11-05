@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../MainStyle.uss" />
+    <ui:Template name="ResourceMarks" src="ResourceMarks.uxml" />
+    <!-- One building in the build menu, compact: five fit a row. Code fills icon, title and price. -->
+    <ui:Button name="Card" class="btn" style="width: 184px; margin: 7px; padding: 10px 10px 12px 10px; align-items: center; flex-direction: column;">
+        <ui:VisualElement name="Icon" picking-mode="Ignore" style="width: 132px; height: 132px; margin-bottom: 8px; border-radius: 10px; -unity-background-scale-mode: scale-to-fit;" />
+        <ui:Label name="Title" text="TITLE" picking-mode="Ignore" class="text-accent bold tracking" style="font-size: 24px;" />
+        <ui:Instance template="ResourceMarks" name="Price" picking-mode="Ignore" style="margin-top: 4px; min-height: 26px;" />
+    </ui:Button>
+</ui:UXML>

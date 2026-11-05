@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: UITemplate
   m_EditorClassIdentifier: Assembly-CSharp::UITemplate
   itemCard: {fileID: 9197481963319205126, guid: 0e1fadabb34c911459e0aeaeae2eeaaa, type: 3}
+  buildCard: {fileID: 9197481963319205126, guid: 61aacf2f6a9d4655a0ed528d410b15ee, type: 3}
   healthMarker: {fileID: 9197481963319205126, guid: a9b561423d8fdc9448e4c038e2a1ed9d, type: 3}

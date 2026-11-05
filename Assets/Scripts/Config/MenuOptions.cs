@@ -11,12 +11,21 @@ public class BotOffer
     public Sprite Icon;
 }
 
+// The build menu's tabs. BuildPanel.uxml has a "<name>Tab" button for each.
+public enum BuildCategory
+{
+    Fort,       // walls, towers, gates: join up on the grid
+    Defense,    // what shoots at the waves
+    Crafting,   // making things and buying bots
+}
+
 [Serializable]
 public class BuildOption
 {
     public Ghost Ghost;
     public string Title;
     public Sprite Icon;
+    public BuildCategory Category;
 }
 
 // Fortifications are scene objects, so the option names one by its Fortification.ID.

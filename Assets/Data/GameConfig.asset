@@ -368,27 +368,35 @@ MonoBehaviour:
   - Ghost: {fileID: -1940036876623000334, guid: d45fbb5eab4408f47a947536afd07596, type: 3}
     Title: WALL
     Icon: {fileID: 21300000, guid: 8a3e66d4204fa8949844ebc85821c4de, type: 3}
+    Category: 0
   - Ghost: {fileID: 3844663842018324825, guid: 9791981e0d8da7e4fb32c4ec345b1417, type: 3}
     Title: TOWER
     Icon: {fileID: 21300000, guid: 52c34de382c541f48b55a33ac8973ce0, type: 3}
+    Category: 0
   - Ghost: {fileID: 4502939052695604446, guid: f09a5039c02d81745bb80398f91004d5, type: 3}
     Title: GATE
     Icon: {fileID: 21300000, guid: 87686bdfc54f98d45bb057473144983e, type: 3}
+    Category: 0
   - Ghost: {fileID: 2503471276032044132, guid: 15b0248f8a7f5814fa513a74b5de1416, type: 3}
     Title: SHOP TABLE
     Icon: {fileID: 21300000, guid: d91cec31ff1571a45b9666f0e56ef59a, type: 3}
+    Category: 2
   - Ghost: {fileID: -1511536859488805288, guid: ae83e8f320982aa4290f145c0d6a20af, type: 3}
     Title: TURRET
     Icon: {fileID: 21300000, guid: 3280314d91772744284eafe884f5a3a7, type: 3}
+    Category: 1
   - Ghost: {fileID: 2451363157241652426, guid: 254604d099e36bc4ab038aa3f9aefe13, type: 3}
     Title: BLOOMERY
     Icon: {fileID: 21300000, guid: cdfc718843991b6428e52c592514be5e, type: 3}
+    Category: 2
   - Ghost: {fileID: 1198461986808790986, guid: 04746db1d52350c41b4257e9b0fb6f69, type: 3}
     Title: CATAPULT
     Icon: {fileID: 21300000, guid: 4a6a296cf78b45c40becfa363cccc318, type: 3}
+    Category: 1
   - Ghost: {fileID: 5468993349572021595, guid: 4e9d999e1c369734286290bd241ee406, type: 3}
     Title: CROSSBOW
     Icon: {fileID: 21300000, guid: 6e3270e4b3a87dc4d8ee47b2267ccb0b, type: 3}
+    Category: 1
   fortificationOptions:
   - Id: Beach
     Title: BEACH BASE

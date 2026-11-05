@@ -7,8 +7,10 @@ using UnityEngine.UIElements;
 public class UITemplate : ScriptableObject
 {
     [SerializeField] private VisualTreeAsset itemCard;
+    [SerializeField] private VisualTreeAsset buildCard;
     [SerializeField] private VisualTreeAsset healthMarker;
 
     public VisualTreeAsset ItemCard => itemCard;
+    public VisualTreeAsset BuildCard => buildCard;
     public VisualTreeAsset HealthMarker => healthMarker;
 }

@@ -19,7 +19,9 @@
 | `ShopPanel.uxml` | магазин: вкладки BOTS и BASE |
 | `DroneStats.uxml` | телеметрия дрона |
 | `WorldMarkers.uxml` | пустой слой для полосок здоровья над объектами |
-| `Templates/ItemCard.uxml` | карточка выбора: иконка, название, цена (бот, постройка, база, часть базы) |
+| `Templates/ItemCard.uxml` | карточка выбора в магазине: иконка, название, цена (бот, база, часть базы) |
+| `Templates/BuildCard.uxml` | компактная карточка меню строительства (184 px, пять в ряд): иконка, название, цена отметками |
+| `Templates/ResourceMarks.uxml` | количество ресурсов цветными отметками с числами: цена или кошелёк; цвета — `.bg-wood` … `.bg-gold` |
 | `Templates/HealthMarker.uxml` | полоска здоровья над объектом |
 | `PanelSettings.asset` | масштаб **ScaleWithScreenSize 1920×1080**, по ширине — как был `CanvasScaler` |
 
@@ -50,15 +52,16 @@ null-проверок.
 | `ResourcesHudController` | Scene 5 | запасы из `ResourceWallet.OnChanged` |
 | `ClockHudController` | Scene 5 | часы из `TimeManager.OnClockChanged` (`7:05`) и фаза суток из `DayCycle.OnPeriodEnter` |
 | `PlayerHealthHudController` | Scene 5 | здоровье игрока по `OnDamage` |
-| `BuildPanelController` | Scene 5 | `Tab` → меню; карточка → `BuildService.Pick`; недоступные по цене приглушены |
+| `BuildPanelController` | Scene 5 | `Tab` → меню; вкладки категорий; карточка → `BuildService.Pick`; карточка под мышью описана внизу; недоступные по цене приглушены, но отвечают на мышь |
 | `BuildHintController` (`ITickable`) | Scene 5 | клавиши режима стройки или разбора внизу по центру |
 | `StructurePanelController` (`ITickable`) | Scene 5 | справа внизу: иконка, название и HP `Structure` под прицелом (луч 12 м), см. [Строительство](building.md#строения-имя-иконка-здоровье) |
 | `ShopPanelController` | Scene 5 | открывает стол магазина; боты → `ShopService`, база → `FortificationService` |
 | `WorldMarkersController` (`ILateTickable`) | обе | полоска над каждым `HealthBarAnchor`, см. ниже |
 | `DroneHudController` (`ITickable`) | SampleScene | кольцо на невидимом курсоре, газ, телеметрия дрона |
 
-`ItemCards` — общий помощник панелей: делает карточку из шаблона, заполняет
-иконку, название и цену (`WOOD 10  STONE 20  IRON 80` или `FREE`).
+`ItemCards` — помощник магазина: делает карточку из шаблона, заполняет
+иконку, название и цену (`WOOD 10  STONE 20  IRON 80` или `FREE`). Меню
+строительства делает свои `BuildCard` само и пишет цену отметками `ResourceMarks`.
 
 ## Метки над объектами
 

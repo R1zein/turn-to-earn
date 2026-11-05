@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../MainStyle.uss" />
+    <!-- An amount of resources as a coloured mark and a number per resource: a price
+         or the wallet. Code shows the marks it needs and sets the numbers. -->
+    <ui:VisualElement name="Marks" picking-mode="Ignore" style="flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center;">
+        <ui:VisualElement name="Wood" picking-mode="Ignore" class="hidden" style="flex-direction: row; align-items: center; margin: 0 6px;">
+            <ui:VisualElement picking-mode="Ignore" class="bg-wood" style="width: 14px; height: 14px; border-radius: 3px; margin-right: 6px;" />
+            <ui:Label name="Value" text="0" picking-mode="Ignore" class="text-muted" style="font-size: 22px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Stone" picking-mode="Ignore" class="hidden" style="flex-direction: row; align-items: center; margin: 0 6px;">
+            <ui:VisualElement picking-mode="Ignore" class="bg-stone" style="width: 14px; height: 14px; border-radius: 3px; margin-right: 6px;" />
+            <ui:Label name="Value" text="0" picking-mode="Ignore" class="text-muted" style="font-size: 22px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Iron" picking-mode="Ignore" class="hidden" style="flex-direction: row; align-items: center; margin: 0 6px;">
+            <ui:VisualElement picking-mode="Ignore" class="bg-iron" style="width: 14px; height: 14px; border-radius: 3px; margin-right: 6px;" />
+            <ui:Label name="Value" text="0" picking-mode="Ignore" class="text-muted" style="font-size: 22px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Copper" picking-mode="Ignore" class="hidden" style="flex-direction: row; align-items: center; margin: 0 6px;">
+            <ui:VisualElement picking-mode="Ignore" class="bg-copper" style="width: 14px; height: 14px; border-radius: 3px; margin-right: 6px;" />
+            <ui:Label name="Value" text="0" picking-mode="Ignore" class="text-muted" style="font-size: 22px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Gold" picking-mode="Ignore" class="hidden" style="flex-direction: row; align-items: center; margin: 0 6px;">
+            <ui:VisualElement picking-mode="Ignore" class="bg-gold" style="width: 14px; height: 14px; border-radius: 3px; margin-right: 6px;" />
+            <ui:Label name="Value" text="0" picking-mode="Ignore" class="text-muted" style="font-size: 22px;" />
+        </ui:VisualElement>
+        <ui:Label name="Free" text="FREE" picking-mode="Ignore" class="text-muted tracking hidden" style="font-size: 22px;" />
+    </ui:VisualElement>
+</ui:UXML>

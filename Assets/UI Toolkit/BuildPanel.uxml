@@ -1,14 +1,44 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
     <Style src="MainStyle.uss" />
+    <ui:Template name="ResourceMarks" src="Templates/ResourceMarks.uxml" />
     <ui:VisualElement name="BuildPanel" class="fill center hidden" picking-mode="Ignore">
-        <ui:VisualElement class="bg-surface frame frame-lit-left" style="padding: 18px 22px 22px 22px;">
-            <ui:VisualElement class="row divider-bottom" style="align-items: center; margin-bottom: 12px; padding-bottom: 8px;">
+        <ui:VisualElement class="bg-surface frame frame-lit-left" style="width: 1320px; padding: 18px 24px 20px 24px;">
+            <ui:VisualElement class="divider-bottom" style="flex-direction: row; align-items: center; margin-bottom: 14px; padding-bottom: 10px;">
                 <ui:Label text="BUILD" class="text-accent text-lg bold tracking-wide" />
-                <ui:Label text="TAB / ESC - CLOSE" class="text-muted text-sm tracking heavy" style="margin-left: 40px;" />
+                <ui:Instance template="ResourceMarks" name="Wallet" picking-mode="Ignore" style="margin-left: 36px;" />
+                <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1;" />
+                <ui:Button name="DismantleButton" class="btn" style="flex-direction: row; align-items: center;">
+                    <ui:VisualElement name="DismantleIcon" picking-mode="Ignore" style="width: 30px; height: 30px; margin-right: 10px; -unity-background-scale-mode: scale-to-fit;" />
+                    <ui:Label text="DISMANTLE" picking-mode="Ignore" class="text-accent text-sm bold tracking" />
+                </ui:Button>
+                <ui:Label text="TAB / ESC - CLOSE" class="text-muted text-sm tracking heavy" style="margin-left: 24px;" />
             </ui:VisualElement>
-            <!-- Filled from the ItemCard template, one card per GameConfig build option. -->
-            <ui:VisualElement name="BuildOptions" class="row" style="justify-content: center;" />
-            <ui:Label text="PRICE IS TAKEN WHEN THE BUILDING IS PLACED (F)" class="text-muted text-sm tracking heavy" style="margin-top: 8px; -unity-text-align: middle-center;" />
+            <ui:VisualElement style="flex-direction: row; min-height: 480px;">
+                <!-- One tab per BuildCategory, named "<category>Tab"; code adds the count to its text. -->
+                <ui:VisualElement style="width: 250px; margin-right: 20px;">
+                    <ui:Button name="FortTab" text="FORT" class="btn" style="margin-bottom: 10px; padding: 12px 16px; -unity-text-align: middle-left;" />
+                    <ui:Button name="DefenseTab" text="DEFENSE" class="btn" style="margin-bottom: 10px; padding: 12px 16px; -unity-text-align: middle-left;" />
+                    <ui:Button name="CraftingTab" text="CRAFTING" class="btn" style="margin-bottom: 10px; padding: 12px 16px; -unity-text-align: middle-left;" />
+                </ui:VisualElement>
+                <!-- Filled from the BuildCard template, one card per GameConfig build option;
+                     only the open tab's cards are shown. -->
+                <ui:VisualElement name="BuildOptions" style="flex-grow: 1; flex-direction: row; flex-wrap: wrap; align-content: flex-start;" />
+            </ui:VisualElement>
+            <!-- The card under the mouse. -->
+            <ui:VisualElement name="BuildDetail" class="divider-top" style="flex-direction: row; align-items: center; margin-top: 10px; padding-top: 12px; min-height: 112px;">
+                <ui:VisualElement name="DetailIcon" picking-mode="Ignore" style="width: 96px; height: 96px; margin-right: 18px; border-radius: 10px; -unity-background-scale-mode: scale-to-fit;" />
+                <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1;">
+                    <ui:Label name="DetailTitle" text="TITLE" picking-mode="Ignore" class="text-accent text-md bold tracking-wide" />
+                    <ui:VisualElement picking-mode="Ignore" style="flex-direction: row; margin-top: 6px;">
+                        <ui:Label name="DetailSize" text="SIZE" picking-mode="Ignore" class="text-muted text-sm tracking heavy" style="margin-right: 26px;" />
+                        <ui:Label name="DetailHealth" text="HP" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement picking-mode="Ignore" style="align-items: flex-end;">
+                    <ui:Label name="DetailHint" text="CLICK - PICK   F - PLACE AND PAY" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                    <ui:Instance template="ResourceMarks" name="DetailPrice" picking-mode="Ignore" style="margin-top: 6px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
