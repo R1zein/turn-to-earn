@@ -54,6 +54,9 @@ public class GridBuilding : MonoBehaviour
 
     public IReadOnlyList<GridSocket> Sockets => sockets;
 
+    // The cells it stands on, once placed.
+    public GridFootprint Footprint => footprint;
+
     // World height of the top of the mesh, once placed.
     public float Top { get; private set; }
 

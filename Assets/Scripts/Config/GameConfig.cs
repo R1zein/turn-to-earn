@@ -91,6 +91,16 @@ public class GameConfig : ScriptableObject
     [SerializeField] private GameObject wallArmLeft;
     [Tooltip("One step of the stairs between walls at different heights: 0.25 m rise, 0.4 m run")]
     [SerializeField] private GameObject wallStairStep;
+    [Tooltip("Corner of two walls with both walkways inside the L, in the through wall's frame at its +X end. Until set, a post and an arm stand in")]
+    [SerializeField] private GameObject wallCornerInner;
+    [Tooltip("Same, the butting wall one height step lower")]
+    [SerializeField] private GameObject wallCornerInnerButtLower;
+    [Tooltip("Same, the butting wall one height step higher")]
+    [SerializeField] private GameObject wallCornerInnerButtHigher;
+    [Tooltip("Corner of two walls with both walkways outside the L, in the through wall's frame at its +X end")]
+    [SerializeField] private GameObject wallCornerOuter;
+    [SerializeField] private GameObject wallCornerOuterButtLower;
+    [SerializeField] private GameObject wallCornerOuterButtHigher;
 
     [Header("Water")]
     [Tooltip("Player speed while swimming (walk is 5, run 9)")]
@@ -165,6 +175,12 @@ public class GameConfig : ScriptableObject
     public GameObject WallArmRight => wallArmRight;
     public GameObject WallArmLeft => wallArmLeft;
     public GameObject WallStairStep => wallStairStep;
+    public GameObject WallCornerInner => wallCornerInner;
+    public GameObject WallCornerInnerButtLower => wallCornerInnerButtLower;
+    public GameObject WallCornerInnerButtHigher => wallCornerInnerButtHigher;
+    public GameObject WallCornerOuter => wallCornerOuter;
+    public GameObject WallCornerOuterButtLower => wallCornerOuterButtLower;
+    public GameObject WallCornerOuterButtHigher => wallCornerOuterButtHigher;
 
     public float SwimSpeed => swimSpeed;
     public float HealthBarDistance => healthBarDistance;

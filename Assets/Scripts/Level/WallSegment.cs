@@ -13,6 +13,8 @@ public class WallSegment : MonoBehaviour
 
     public Vector3 Along => transform.right;
 
+    public GridFootprint Cells => GetComponent<GridBuilding>().Footprint;
+
     private void OnDestroy()
     {
         corners.Remove(this);

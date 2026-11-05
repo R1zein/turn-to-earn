@@ -3,9 +3,10 @@ using UnityEngine;
 using Zenject;
 
 // Stairs between the walkways of two placed walls that stand in one line, end to
-// end, at different heights. They sit on the lower walkway against the joint and
-// climb to the upper one; the number of steps follows the height difference, and
-// each step is squashed a little so the last one meets the upper deck exactly.
+// end, one BuildHeightStep apart in height. They sit on the lower walkway against
+// the joint and climb to the upper one; the number of steps follows the height
+// difference, and each step is squashed a little so the last one meets the upper
+// deck exactly. Walls further apart than one step get no stairs.
 // Steps are only looks: the player climbs an invisible ramp along them, because a
 // capsule does not step up boxes by itself.
 // The deck boards of the lower wall under the steps are cut out of its mesh (only
@@ -16,7 +17,7 @@ public class WallStairs
     private const float StepRise = 0.25f;   // the step mesh is modelled at this rise
     private const float StepRun = 0.4f;
     private const float MinRise = 0.2f;     // less than this is no step at all
-    private const float MaxRise = 2.05f;    // 8 steps: 3.2 m of a 4 m walkway
+    private const float MaxRise = 0.55f;    // one BuildHeightStep: 2 steps
     // Where the walkway is in the wall's own frame: deck top and the middle of its width.
     private const float DeckHeight = 3.0f;
     private const float WalkwayMiddle = 0.81f;
