@@ -27,6 +27,13 @@ public class StatsHandler : MonoBehaviour
         }
     }
 
+    // Repair: never above maxHP, and the dead stay dead.
+    public void Heal(float amount)
+    {
+        if (!IsDead)
+            currHP = Mathf.Min(currHP + amount, maxHP);
+    }
+
     private void Start()
     {
         currHP = maxHP;

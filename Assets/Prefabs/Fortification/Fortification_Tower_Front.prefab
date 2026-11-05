@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5014453553578497417}
   - component: {fileID: 1929657213999872209}
   - component: {fileID: 6343555494212555017}
+  - component: {fileID: 3469480791468087889}
   m_Layer: 0
   m_Name: Fortification_Tower_Front
   m_TagString: Untagged
@@ -309,6 +310,20 @@ MonoBehaviour:
     openLeft: {fileID: 242472568376393076}
     openRight: {fileID: 896698810903673249}
   hasWalkway: 0
+--- !u!114 &3469480791468087889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300330002657932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11f3be93bafffc14781b494e21f01c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Structure
+  title: TOWER
+  icon: {fileID: 21300000, guid: 52c34de382c541f48b55a33ac8973ce0, type: 3}
 --- !u!1 &242472568376393076
 GameObject:
   m_ObjectHideFlags: 0

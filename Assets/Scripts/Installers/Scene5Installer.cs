@@ -47,6 +47,7 @@ public class Scene5Installer : GameplayInstaller
         Container.BindInterfacesTo<PlayerHealthHudController>().AsSingle();
         Container.BindInterfacesTo<BuildPanelController>().AsSingle();
         Container.BindInterfacesTo<BuildHintController>().AsSingle();
+        Container.BindInterfacesTo<StructurePanelController>().AsSingle();
         Container.BindInterfacesAndSelfTo<ShopPanelController>().AsSingle();
 
         Container.BindInterfacesTo<GameStarter>().AsSingle();

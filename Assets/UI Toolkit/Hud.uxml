@@ -42,6 +42,21 @@
         <!-- Keys of the build modes, bottom centre -->
         <ui:Label name="BuildHint" text="" picking-mode="Ignore" class="hidden bg-surface frame text-accent text-md heavy tracking" style="position: absolute; bottom: 40px; left: 50%; translate: -50% 0; padding: 8px 18px;" />
 
+        <!-- Aimed structure, bottom right -->
+        <ui:VisualElement name="StructurePanel" picking-mode="Ignore" class="hidden bg-surface frame frame-lit-left row" style="position: absolute; right: 40px; bottom: 40px; width: 420px; padding: 10px 14px 12px 14px; align-items: center;">
+            <ui:VisualElement name="StructureIcon" picking-mode="Ignore" style="width: 72px; height: 72px; margin-right: 14px; -unity-background-scale-mode: scale-to-fit;" />
+            <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1;">
+                <ui:Label name="StructureTitle" text="WALL" picking-mode="Ignore" class="text-accent text-lg bold tracking" style="margin-bottom: 4px;" />
+                <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">
+                    <ui:Label text="HP" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                    <ui:Label name="StructureHealth" text="1000 / 1000" picking-mode="Ignore" class="text-accent text-md bold" />
+                </ui:VisualElement>
+                <ui:VisualElement picking-mode="Ignore" class="frame" style="height: 14px; padding: 2px; border-radius: 7px;">
+                    <ui:VisualElement name="StructureHealthFill" picking-mode="Ignore" class="bg-accent" style="height: 100%; width: 100%; border-radius: 4px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+
         <!-- Player health, bottom left -->
         <ui:VisualElement picking-mode="Ignore" class="bg-surface frame frame-lit-left" style="position: absolute; left: 40px; bottom: 40px; width: 400px; padding: 10px 14px 12px 14px;">
             <ui:VisualElement picking-mode="Ignore" class="row" style="align-items: flex-end; margin-bottom: 6px;">

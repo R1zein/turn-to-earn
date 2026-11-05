@@ -14,7 +14,7 @@
 | `MainStyle.uss` | палитра в `:root` и утилитарные классы — единственная таблица стилей |
 | `GameMain.uxml` | корень `Scene 5`: слои `WorldMarkers`, `Hud`, `BuildPanel`, `ShopPanel` |
 | `DroneMain.uxml` | корень `SampleScene`: слои `WorldMarkers`, `DroneStats`, подсказка клавиш `DroneKeys`, статичный ромб центра `Boresight`, кольцо курсора `Scope` |
-| `Hud.uxml` | прицел, ресурсы, часы, здоровье игрока |
+| `Hud.uxml` | прицел, ресурсы, часы, здоровье игрока, подсказка режима стройки, панель строения под прицелом |
 | `BuildPanel.uxml` | меню строительства |
 | `ShopPanel.uxml` | магазин: вкладки BOTS и BASE |
 | `DroneStats.uxml` | телеметрия дрона |
@@ -51,6 +51,8 @@ null-проверок.
 | `ClockHudController` | Scene 5 | часы из `TimeManager.OnClockChanged` (`7:05`) и фаза суток из `DayCycle.OnPeriodEnter` |
 | `PlayerHealthHudController` | Scene 5 | здоровье игрока по `OnDamage` |
 | `BuildPanelController` | Scene 5 | `Tab` → меню; карточка → `BuildService.Pick`; недоступные по цене приглушены |
+| `BuildHintController` (`ITickable`) | Scene 5 | клавиши режима стройки или разбора внизу по центру |
+| `StructurePanelController` (`ITickable`) | Scene 5 | справа внизу: иконка, название и HP `Structure` под прицелом (луч 12 м), см. [Строительство](building.md#строения-имя-иконка-здоровье) |
 | `ShopPanelController` | Scene 5 | открывает стол магазина; боты → `ShopService`, база → `FortificationService` |
 | `WorldMarkersController` (`ILateTickable`) | обе | полоска над каждым `HealthBarAnchor`, см. ниже |
 | `DroneHudController` (`ITickable`) | SampleScene | кольцо на невидимом курсоре, газ, телеметрия дрона |

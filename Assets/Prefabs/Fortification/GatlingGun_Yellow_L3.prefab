@@ -21026,6 +21026,7 @@ GameObject:
   - component: {fileID: 114048599433676842}
   - component: {fileID: 1914985273686563301}
   - component: {fileID: 8844135208869808226}
+  - component: {fileID: 7608337181616176495}
   m_Layer: 0
   m_Name: GatlingGun_Yellow_L3
   m_TagString: Bot
@@ -21159,6 +21160,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GridBuilding
   size: {x: 3, y: 3}
   footprintCentre: {x: 0, y: 0}
+  sockets: []
+  hasWalkway: 0
+--- !u!114 &7608337181616176495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979706888108350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11f3be93bafffc14781b494e21f01c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Structure
+  title: TURRET
+  icon: {fileID: 21300000, guid: 3280314d91772744284eafe884f5a3a7, type: 3}
 --- !u!1001 &8297979530800346880
 PrefabInstance:
   m_ObjectHideFlags: 0
