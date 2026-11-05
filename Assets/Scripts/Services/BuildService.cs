@@ -20,6 +20,7 @@ public class BuildService
     [Inject] private BuildGrid grid;
     [Inject] private BuildGridOverlay overlay;
     [Inject] private WallCorners wallCorners;
+    [Inject] private WallStairs wallStairs;
     [Inject] private GameConfig config;
 
     private readonly HashSet<GridBuilding> tinted = new HashSet<GridBuilding>();
@@ -132,7 +133,10 @@ public class BuildService
         {
             placed.GetComponent<GridBuilding>().Claim(footprint, quarterTurns, Current.requiredResources);
             if (placed.TryGetComponent(out WallSegment wall))
+            {
                 wallCorners.Add(wall);
+                wallStairs.Add(wall);
+            }
             ClearConflicts();
             overlay.Hide();
         }

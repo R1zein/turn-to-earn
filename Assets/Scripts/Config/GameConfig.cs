@@ -89,6 +89,8 @@ public class GameConfig : ScriptableObject
     [SerializeField] private GameObject wallArmRight;
     [Tooltip("Piece of wall continuing past its -X end to the corner post")]
     [SerializeField] private GameObject wallArmLeft;
+    [Tooltip("One step of the stairs between walls at different heights: 0.25 m rise, 0.4 m run")]
+    [SerializeField] private GameObject wallStairStep;
 
     [Header("Water")]
     [Tooltip("Player speed while swimming (walk is 5, run 9)")]
@@ -162,6 +164,7 @@ public class GameConfig : ScriptableObject
     public GameObject WallCornerPost => wallCornerPost;
     public GameObject WallArmRight => wallArmRight;
     public GameObject WallArmLeft => wallArmLeft;
+    public GameObject WallStairStep => wallStairStep;
 
     public float SwimSpeed => swimSpeed;
     public float HealthBarDistance => healthBarDistance;

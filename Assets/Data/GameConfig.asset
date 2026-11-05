@@ -397,6 +397,7 @@ MonoBehaviour:
   wallCornerPost: {fileID: 5601812216709018003, guid: 27e3ef112816aca41a62e11623fa344f, type: 3}
   wallArmRight: {fileID: 7294931059644103025, guid: c157d000762196f4cb4f06ec6b3742a1, type: 3}
   wallArmLeft: {fileID: 543400540115910055, guid: 62a78b3ea5e33f148b19cae234c88433, type: 3}
+  wallStairStep: {fileID: 8709683895834182282, guid: c66ead8433569f945b13fd3a0bfc0ac0, type: 3}
   swimSpeed: 2.5
   healthBarDistance: 30
   lookScale: 0.05
