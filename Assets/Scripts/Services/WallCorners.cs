@@ -13,7 +13,8 @@ using Zenject;
 // A corner model is made in the through wall's frame at its +X end and mirrored for
 // the -X end. Until GameConfig has one, a post and an arm stand in for it. The parts
 // of both walls a model replaces (its WallCornerModel boxes) are cut by WallMeshCuts.
-// A corner has no health of its own: it stands while both of its walls stand.
+// A corner model is a structure with health of its own: destroyed, it is gone and
+// the walls get their cut parts back. It also goes when either of its walls goes.
 public class WallCorners
 {
     private const int EndCells = 2;
@@ -65,7 +66,8 @@ public class WallCorners
 
             cuts.Remove(corners[i]);
             foreach (GameObject part in corners[i].Parts)
-                Object.Destroy(part);
+                if (part != null)
+                    Object.Destroy(part);
             corners.RemoveAt(i);
         }
     }
@@ -95,12 +97,21 @@ public class WallCorners
                 cuts.Add(corner, corner.Through, part.transform, shape.Cuts, true);
                 cuts.Add(corner, corner.Butting, part.transform, shape.Cuts, true);
             }
+            // Its own Building destroys the model; here the walls get whole again.
+            if (part.TryGetComponent(out StatsHandler stats))
+                stats.OnDeath += () => Lose(corner);
         }
         else
         {
             AddPostAndArms(corner);
         }
         corners.Add(corner);
+    }
+
+    private void Lose(Corner corner)
+    {
+        cuts.Remove(corner);
+        corners.Remove(corner);
     }
 
     // The corner the two walls make, if they touch the right way; its parts not built yet.
