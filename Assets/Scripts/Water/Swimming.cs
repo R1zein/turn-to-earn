@@ -2,10 +2,10 @@ using System;
 using UnityEngine;
 using Zenject;
 
-// Water deeper than swimDepth slows the player to GameConfig.SwimSpeed. Goes
-// through FirstPersonMovement's speed overrides, as Crouch does, so walking and
-// running on land are untouched. Staying afloat is Buoyancy's job.
-[RequireComponent(typeof(Buoyancy), typeof(FirstPersonMovement))]
+// Tells the legs they are in water, and limits them to GameConfig.SwimSpeed once
+// it is deeper than swimDepth — a speed limit of PlayerMovement, as crouching is.
+// Staying afloat is Buoyancy's job.
+[RequireComponent(typeof(Buoyancy), typeof(PlayerMovement))]
 public class Swimming : MonoBehaviour
 {
     [Inject] private GameConfig config;
@@ -14,7 +14,7 @@ public class Swimming : MonoBehaviour
     [SerializeField] private float swimDepth = 0.9f;
 
     private Buoyancy buoyancy;
-    private FirstPersonMovement movement;
+    private PlayerMovement movement;
     private Func<float> swimSpeed;
 
     public bool IsSwimming { get; private set; }
@@ -22,12 +22,14 @@ public class Swimming : MonoBehaviour
     private void Awake()
     {
         buoyancy = GetComponent<Buoyancy>();
-        movement = GetComponent<FirstPersonMovement>();
+        movement = GetComponent<PlayerMovement>();
         swimSpeed = () => config.SwimSpeed;
     }
 
     private void FixedUpdate()
     {
+        movement.IsInWater = buoyancy.Depth > 0f;
+
         bool isDeep = buoyancy.Depth > swimDepth;
         if (isDeep != IsSwimming)
             SetSwimming(isDeep);
@@ -35,6 +37,7 @@ public class Swimming : MonoBehaviour
 
     private void OnDisable()
     {
+        movement.IsInWater = false;
         if (IsSwimming)
             SetSwimming(false);
     }
@@ -43,8 +46,8 @@ public class Swimming : MonoBehaviour
     {
         IsSwimming = value;
         if (value)
-            movement.speedOverrides.Add(swimSpeed);
+            movement.AddSpeedLimit(swimSpeed);
         else
-            movement.speedOverrides.Remove(swimSpeed);
+            movement.RemoveSpeedLimit(swimSpeed);
     }
 }

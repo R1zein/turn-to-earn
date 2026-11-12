@@ -54,6 +54,11 @@
                 <ui:VisualElement picking-mode="Ignore" class="frame" style="height: 14px; padding: 2px; border-radius: 7px;">
                     <ui:VisualElement name="StructureHealthFill" picking-mode="Ignore" class="bg-accent" style="height: 100%; width: 100%; border-radius: 4px;" />
                 </ui:VisualElement>
+                <!-- Within reach, what E opens: the tabs of its window. -->
+                <ui:VisualElement name="StructureHint" picking-mode="Ignore" class="hidden" style="flex-direction: row; align-items: center; margin-top: 8px;">
+                    <ui:Label text="E" picking-mode="Ignore" class="text-accent text-sm bold" style="margin-right: 12px;" />
+                    <ui:Label name="StructureHintText" text="MODIFY" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
 

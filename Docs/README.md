@@ -24,6 +24,7 @@
 - [Архитектура: Zenject + UI Toolkit](architecture.md) — целевые правила для всего нового кода
 
 ### Механики
+- [Игрок: движение и обзор](player.md)
 - [Ресурсы и добыча](resources.md)
 - [Строительство](building.md)
   - [Задача: модели угла стены](wall-corner-models.md) — для агента по Blender

@@ -1,6 +1,8 @@
 using UnityEngine;
 using Zenject;
 
+// The tool in hand: the number keys pick from `tools` in order, 1 is the first.
+// A key past the end of the list does nothing.
 public class ToolsSwap : MonoBehaviour
 {
     public GameObject[] tools;
@@ -15,33 +17,20 @@ public class ToolsSwap : MonoBehaviour
 
     private void OnEnable()
     {
-        input.OnToolNext += Next;
-        input.OnToolPrevious += Previous;
+        input.OnToolSlot += Select;
     }
 
     private void OnDisable()
     {
-        input.OnToolNext -= Next;
-        input.OnToolPrevious -= Previous;
+        input.OnToolSlot -= Select;
     }
 
-    private void Next()
+    private void Select(int slot)
     {
-        toolIndex++;
-        if (toolIndex >= tools.Length)
-        {
-            toolIndex = 0;
-        }
-        Swap();
-    }
+        if (slot >= tools.Length)
+            return;
 
-    private void Previous()
-    {
-        toolIndex--;
-        if (toolIndex < 0)
-        {
-            toolIndex = tools.Length - 1;
-        }
+        toolIndex = slot;
         Swap();
     }
 

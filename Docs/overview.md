@@ -52,11 +52,12 @@ Assets/
 
 | Подсистема | Главный скрипт |
 |---|---|
-| Игрок | [`Player.cs`](../Assets/Scripts/Player/Player.cs) + `FirstPersonMovement` (сторонний) |
+| Игрок | [`Player.cs`](../Assets/Scripts/Player/Player.cs) + [`PlayerMovement.cs`](../Assets/Scripts/Player/PlayerMovement.cs), [`PlayerLook.cs`](../Assets/Scripts/Player/PlayerLook.cs) — [Игрок](player.md) |
 | Добыча | [`ToolController.cs`](../Assets/Scripts/Player/ToolController.cs) → [`ResourceController`](../Assets/Scripts/ResourceController.cs) |
 | Ресурсы | [`ResourceWallet.cs`](../Assets/Scripts/Services/ResourceWallet.cs) (сервис) + `ResourcesHudController` |
 | Строительство | [`BuildService.cs`](../Assets/Scripts/Services/BuildService.cs) + [`Inventory.cs`](../Assets/Scripts/Player/Inventory.cs) |
-| Магазин | [`ShopService.cs`](../Assets/Scripts/Services/ShopService.cs) + [`ShopPanelController.cs`](../Assets/Scripts/UI/Controllers/ShopPanelController.cs) |
+| Магазин | [`ShopService.cs`](../Assets/Scripts/Services/ShopService.cs) + вкладки `BotsTab`, `BaseTab` |
+| Окно строения, модификация | [`StructureWindowController.cs`](../Assets/Scripts/UI/Controllers/StructureWindowController.cs) + [`StructureUpgrades.cs`](../Assets/Scripts/Services/StructureUpgrades.cs) |
 | ИИ | [`NPCFacade.cs`](../Assets/Scripts/AI/NPCFacade.cs) + [`NPCNavigation.cs`](../Assets/Scripts/AI/NPCNavigation.cs) |
 | Здоровье/урон | [`StatsHandler.cs`](../Assets/Scripts/UI/StatsHandler.cs) |
 | Время и волны | [`TimeManager.cs`](../Assets/Scripts/Services/TimeManager.cs) + [`DayCycle.cs`](../Assets/Scripts/Services/DayCycle.cs) + [`TimePeriod.cs`](../Assets/Scripts/TimePeriod.cs) |

@@ -2,14 +2,18 @@ using System;
 using UnityEngine;
 using Zenject;
 
-// On the interact key, casts a ray from the screen centre and uses whatever
-// Interactable it hits. Knows neither tables nor any other concrete thing.
+// On the interact key (E), casts a ray from the screen centre and opens the window
+// of the structure it hits, if that structure has any tabs. Knows neither tables
+// nor walls: what a structure offers is the tabs' business.
 public class PlayerInteraction : IInitializable, IDisposable
 {
-    private const float Reach = 1.5f;
+    // Also how near the structure panel shows the interact hint.
+    public const float Reach = 2.5f;
 
     [Inject] private InputService input;
     [Inject] private Camera camera;
+    [Inject] private StructureLookup structures;
+    [Inject] private StructureWindowController window;
 
     public void Initialize() => input.OnInteract += Interact;
 
@@ -22,10 +26,11 @@ public class PlayerInteraction : IInitializable, IDisposable
             return;
 
         Ray ray = camera.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-        if (Physics.Raycast(ray, out RaycastHit hit, Reach)
-            && hit.collider.gameObject.TryGetComponent<Interactable>(out var item))
-        {
-            item.Interact();
-        }
+        if (!Physics.Raycast(ray, out RaycastHit hit, Reach, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+            return;
+
+        Structure structure = structures.At(hit);
+        if (structure != null)
+            window.Open(structure);
     }
 }

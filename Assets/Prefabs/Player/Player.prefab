@@ -304,14 +304,13 @@ GameObject:
   - component: {fileID: 197934946834585225}
   - component: {fileID: 200023681812810464}
   - component: {fileID: 7961306369344961774}
-  - component: {fileID: 8912272366931860640}
-  - component: {fileID: 1377205707136890058}
-  - component: {fileID: 3578222175118149973}
   - component: {fileID: 6308215294208978598}
   - component: {fileID: 8700556510767634270}
   - component: {fileID: 6417070452111593005}
   - component: {fileID: 7408913811291170684}
   - component: {fileID: 3228347001257237456}
+  - component: {fileID: 1552231259612328216}
+  - component: {fileID: 8318052097588523408}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -334,7 +333,6 @@ Transform:
   m_Children:
   - {fileID: 3994029231150870922}
   - {fileID: 1127523559329123419}
-  - {fileID: 7041939714331643767}
   - {fileID: 4440200551834434331}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -383,57 +381,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
+  m_Interpolate: 1
+  m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &8912272366931860640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3316862578556177911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97fca36bd81de7c4cafce7bbf02ca611, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  canRun: 1
-  runSpeed: 9
---- !u!114 &1377205707136890058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3316862578556177911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f977f53412d81140ab13b3fca57cca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpStrength: 2
-  groundCheck: {fileID: 9110193901412962303}
---- !u!114 &3578222175118149973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3316862578556177911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b67ddb3d23b8340b125aede56d7e8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movement: {fileID: 8912272366931860640}
-  movementSpeed: 2
-  headToLower: {fileID: 3994029231150870922}
-  crouchYHeadPosition: 0.5
-  colliderToLower: {fileID: 200023681812810464}
 --- !u!114 &6308215294208978598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,6 +459,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Swimming
   swimDepth: 0.9
+--- !u!114 &1552231259612328216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316862578556177911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e1b50c3718fa654aa9a98bcb0c40c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  walkSpeed: 5
+  runSpeed: 9
+  acceleration: 45
+  deceleration: 60
+  airAcceleration: 15
+  jumpHeight: 0.9
+  riseGravity: 2.2
+  fallGravity: 3
+  maxFallSpeed: 30
+  coyoteTime: 0.12
+  jumpBuffer: 0.12
+  maxSlopeAngle: 50
+  stepHeight: 0.3
+  groundProbeDistance: 0.45
+  stickSpeed: 5
+  maxStickSpeed: 14
+  climbSpeed: 2.5
+--- !u!114 &8318052097588523408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316862578556177911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5316a6b8b540e2149bf0a68bf5cd4882, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCrouch
+  crouchSpeed: 2
+  crouchHeadHeight: 0.5
 --- !u!1 &3478645125529616062
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,10 +514,10 @@ GameObject:
   - component: {fileID: 3174951101413935557}
   - component: {fileID: 6419831847723033540}
   - component: {fileID: 1158265994570285679}
-  - component: {fileID: 7939555738909663907}
   - component: {fileID: 282779397940235765}
   - component: {fileID: 2706281209297588355}
   - component: {fileID: 4100526755046286551}
+  - component: {fileID: 6244274994565876586}
   m_Layer: 0
   m_Name: First Person Camera
   m_TagString: MainCamera
@@ -620,21 +615,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3478645125529616062}
   m_Enabled: 1
---- !u!114 &7939555738909663907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3478645125529616062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec72980442fddac4d86e75ab24b4d027, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 197934946834585225}
-  sensitivity: 2
-  smoothing: 1.5
 --- !u!114 &282779397940235765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,9 +640,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tools:
+  - {fileID: 3250670559410734295}
   - {fileID: 8180827138528879147}
   - {fileID: 8935051664390162174}
-  - {fileID: 3250670559410734295}
   - {fileID: 4446414571465427169}
   - {fileID: 6900132202316071458}
 --- !u!114 &4100526755046286551
@@ -709,6 +689,20 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &6244274994565876586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3478645125529616062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23aff2142fa8fa648887d7f094d05196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerLook
+  sensitivity: 2
+  smoothing: 1.5
 --- !u!1 &4367017166571911240
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,7 +841,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4440200551834434331}
-  - component: {fileID: 1852433597701497254}
+  - component: {fileID: 3231318075405762256}
   m_Layer: 0
   m_Name: First Person Audio
   m_TagString: Untagged
@@ -872,7 +866,7 @@ Transform:
   - {fileID: 3829042579750598663}
   m_Father: {fileID: 197934946834585225}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1852433597701497254
+--- !u!114 &3231318075405762256
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -881,74 +875,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5676508231181706033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f45facc01772ba47a9ae17bb7061b71, type: 3}
+  m_Script: {fileID: 11500000, guid: 66e9af87ff83bca4b889c0e8cc786fc8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 8912272366931860640}
-  groundCheck: {fileID: 9110193901412962303}
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerFootsteps
   stepAudio: {fileID: 18327750656175900}
-  runningAudio: {fileID: 0}
-  velocityThreshold: 0.01
   landingAudio: {fileID: 73942744667358616}
-  landingSFX:
+  landingClips:
   - {fileID: 8300000, guid: 9fcb6dc763cd0354da305b5de2091287, type: 3}
   - {fileID: 8300000, guid: ab9637a2491abbf4ca9c9601321cbb88, type: 3}
   - {fileID: 8300000, guid: 50b288ce0d5ac1e439827c5365c74c31, type: 3}
-  jump: {fileID: 0}
-  jumpAudio: {fileID: 0}
-  jumpSFX: []
-  crouch: {fileID: 0}
-  crouchStartAudio: {fileID: 0}
-  crouchedAudio: {fileID: 0}
-  crouchEndAudio: {fileID: 0}
-  crouchStartSFX: []
-  crouchEndSFX: []
---- !u!1 &5710128266580800587
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7041939714331643767}
-  - component: {fileID: 9110193901412962303}
-  m_Layer: 0
-  m_Name: Ground Check
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7041939714331643767
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5710128266580800587}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 197934946834585225}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9110193901412962303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5710128266580800587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 084c01ab381b9da4082c1f84cf70751b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distanceThreshold: 0.15
-  isGrounded: 0
+  minSpeed: 0.5000002
 --- !u!1 &7009288053545579641
 GameObject:
   m_ObjectHideFlags: 0

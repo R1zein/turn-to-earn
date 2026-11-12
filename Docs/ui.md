@@ -12,11 +12,11 @@
 | Файл | Что это |
 |---|---|
 | `MainStyle.uss` | палитра в `:root` и утилитарные классы — единственная таблица стилей |
-| `GameMain.uxml` | корень `Scene 5`: слои `WorldMarkers`, `Hud`, `BuildPanel`, `ShopPanel` |
+| `GameMain.uxml` | корень `Scene 5`: слои `WorldMarkers`, `Hud`, `BuildPanel`, `StructureWindow` |
 | `DroneMain.uxml` | корень `SampleScene`: слои `WorldMarkers`, `DroneStats`, подсказка клавиш `DroneKeys`, статичный ромб центра `Boresight`, кольцо курсора `Scope` |
-| `Hud.uxml` | прицел, ресурсы, часы, здоровье игрока, подсказка режима стройки, панель строения под прицелом |
+| `Hud.uxml` | прицел, ресурсы, часы, здоровье игрока, подсказка режима стройки, панель строения под прицелом с подсказкой `E` |
 | `BuildPanel.uxml` | меню строительства |
-| `ShopPanel.uxml` | магазин: вкладки BOTS и BASE |
+| `StructureWindow.uxml` | окно строения по `E`: шапка (иконка, название, HP), вкладки BOTS, BASE, MODIFY и их страницы |
 | `DroneStats.uxml` | телеметрия дрона |
 | `WorldMarkers.uxml` | пустой слой для полосок здоровья над объектами |
 | `Templates/ItemCard.uxml` | карточка выбора в магазине: иконка, название, цена (бот, база, часть базы) |
@@ -34,9 +34,9 @@
 
 На сцену — один `UIDocument` с корневым UXML. Каждый слой — `<ui:Instance>` с
 классом `.fill` и `picking-mode="Ignore"`; порядок в файле — порядок отрисовки.
-Панели (`BuildPanel`, `ShopPanel`) скрыты классом `.hidden`; открытая панель
+Панели (`BuildPanel`, `StructureWindow`) скрыты классом `.hidden`; открытая панель
 снимает его и просит у `InputService` режим `Ui` — курсор свободен, игровые
-клавиши выключены. Закрываются панели своей кнопкой, `Esc` или `Tab`.
+клавиши выключены. Закрываются панели своей кнопкой, `Esc` или `Tab`; окно строения — ещё и `E`.
 
 Стиль подключён и в корневом UXML, и в каждом слое: таблица слоя нужна UI
 Builder для предпросмотра, а корневая — элементам, созданным из шаблонов в
@@ -54,10 +54,15 @@ null-проверок.
 | `PlayerHealthHudController` | Scene 5 | здоровье игрока по `OnDamage` |
 | `BuildPanelController` | Scene 5 | `Tab` → меню; вкладки категорий; карточка → `BuildService.Pick`; карточка под мышью описана внизу; недоступные по цене приглушены, но отвечают на мышь |
 | `BuildHintController` (`ITickable`) | Scene 5 | клавиши режима стройки или разбора внизу по центру |
-| `StructurePanelController` (`ITickable`) | Scene 5 | справа внизу: иконка, название и HP `Structure` под прицелом (луч 12 м), см. [Строительство](building.md#строения-имя-иконка-здоровье) |
-| `ShopPanelController` | Scene 5 | открывает стол магазина; боты → `ShopService`, база → `FortificationService` |
+| `StructurePanelController` (`ITickable`) | Scene 5 | справа внизу: иконка, название и HP `Structure` под прицелом (луч 12 м); ближе 2.5 м — `E` и подписи вкладок окна, см. [Строительство](building.md#строения-имя-иконка-здоровье) |
+| `StructureWindowController` | Scene 5 | окно строения: шапка, вкладки строения, открытие и закрытие; при улучшении переходит на новое строение, см. [Строительство](building.md#окно-строения) |
+| `BotsTab`, `BaseTab`, `ModifyTab` | Scene 5 | вкладки окна строения (`IStructureTab`): боты → `ShopService`, база → `FortificationService`, улучшения → `StructureUpgrades` |
 | `WorldMarkersController` (`ILateTickable`) | обе | полоска над каждым `HealthBarAnchor`, см. ниже |
 | `DroneHudController` (`ITickable`) | SampleScene | кольцо на невидимом курсоре, газ, телеметрия дрона |
+
+`ResourceMarks` — заполняет элемент из шаблона `ResourceMarks`: цена (только то,
+что просит, нехватка розовым, `FREE`) или кошелёк. Им пользуются меню
+строительства и вкладка MODIFY.
 
 `ItemCards` — помощник магазина: делает карточку из шаблона, заполняет
 иконку, название и цену (`WOOD 10  STONE 20  IRON 80` или `FREE`). Меню

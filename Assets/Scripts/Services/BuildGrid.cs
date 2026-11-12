@@ -76,17 +76,17 @@ public class BuildGrid
 
     public GridBuilding At(Vector2Int cell) => occupied.TryGetValue(cell, out GridBuilding building) ? building : null;
 
-    public void Occupy(GridBuilding building, GridFootprint footprint)
+    public void Occupy(GridBuilding building, IEnumerable<Vector2Int> cells)
     {
-        foreach (Vector2Int cell in footprint.Cells)
+        foreach (Vector2Int cell in cells)
             occupied[cell] = building;
         placed.Add(building);
         OnChanged();
     }
 
-    public void Release(GridBuilding building, GridFootprint footprint)
+    public void Release(GridBuilding building, IEnumerable<Vector2Int> cells)
     {
-        foreach (Vector2Int cell in footprint.Cells)
+        foreach (Vector2Int cell in cells)
             if (At(cell) == building)
                 occupied.Remove(cell);
         placed.Remove(building);

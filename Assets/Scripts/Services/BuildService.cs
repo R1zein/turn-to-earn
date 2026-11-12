@@ -131,12 +131,7 @@ public class BuildService
         GameObject placed = placer.Place(Current.prefab, Current.transform.position, Current.transform.rotation);
         if (gridPrefab != null)
         {
-            placed.GetComponent<GridBuilding>().Claim(footprint, quarterTurns, Current.requiredResources);
-            if (placed.TryGetComponent(out WallSegment wall))
-            {
-                wallCorners.Add(wall);
-                wallStairs.Add(wall);
-            }
+            Settle(placed.GetComponent<GridBuilding>(), footprint, quarterTurns, Current.requiredResources);
             ClearConflicts();
             overlay.Hide();
         }
@@ -145,6 +140,18 @@ public class BuildService
         Current = null;
         gridPrefab = null;
         return true;
+    }
+
+    // A building just born on the grid takes its cells and, if it is a wall, joins
+    // its neighbours in corners and stairs. `price` is what dismantling pays back.
+    public void Settle(GridBuilding placed, GridFootprint cells, int turns, AllResources price)
+    {
+        placed.Claim(cells, turns, price);
+        if (placed.TryGetComponent(out WallSegment wall))
+        {
+            wallCorners.Add(wall);
+            wallStairs.Add(wall);
+        }
     }
 
     // The nearest footprint that joins a free socket of a placed building, within
@@ -173,7 +180,7 @@ public class BuildService
                     var candidate = new GridFootprint(min, size);
                     Vector3 centre = grid.Centre(candidate);
                     float distance = Vector2.Distance(new Vector2(point.x, point.z), new Vector2(centre.x, centre.z));
-                    if (distance < bestDistance && IsFree(candidate))
+                    if (distance < bestDistance && IsFree(gridPrefab.CellsAt(candidate, quarterTurns)))
                     {
                         best = candidate;
                         bestDistance = distance;
@@ -185,9 +192,9 @@ public class BuildService
         return best;
     }
 
-    private bool IsFree(GridFootprint cells)
+    private bool IsFree(IEnumerable<Vector2Int> cells)
     {
-        foreach (Vector2Int cell in cells.Cells)
+        foreach (Vector2Int cell in cells)
             if (grid.At(cell) != null)
                 return false;
         return true;
@@ -209,7 +216,7 @@ public class BuildService
     private void ShowConflicts()
     {
         inConflict.Clear();
-        foreach (Vector2Int cell in footprint.Cells)
+        foreach (Vector2Int cell in gridPrefab.CellsAt(footprint, quarterTurns))
         {
             GridBuilding building = grid.At(cell);
             if (building != null)

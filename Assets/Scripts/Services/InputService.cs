@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using Zenject;
 using Cursor = UnityEngine.Cursor;
 
@@ -17,17 +18,11 @@ public enum InputMode
 // another panel returns to the one below. The scene's base mode cannot be popped.
 public class InputService : IInitializable, ITickable, IDisposable
 {
-    // Smoothing of the old Input Manager "Horizontal"/"Vertical" axes
-    // (gravity 3, sensitivity 3, snap). Walking was tuned against it.
-    private const float AxisSensitivity = 3f;
-    private const float AxisGravity = 3f;
-
     [Inject] private Controls controls;
     [Inject] private GameConfig config;
     [Inject] private InputMode baseMode;
 
     private readonly Stack<InputMode> modes = new Stack<InputMode>();
-    private Vector2 move;
 
     public event Action OnAttack;
     public event Action OnInteract;
@@ -36,14 +31,15 @@ public class InputService : IInitializable, ITickable, IDisposable
     public event Action OnBuildConfirm;
     public event Action OnBuildRaise;
     public event Action OnBuildLower;
-    public event Action OnToolNext;
-    public event Action OnToolPrevious;
+    // A number key: 0 for 1, 1 for 2 and so on.
+    public event Action<int> OnToolSlot;
     public event Action OnUiClose;
 
     public InputMode Mode => modes.Peek();
 
-    // On foot.
-    public Vector2 Move => move;
+    // On foot. Move is the keys as they are, x — strafe, y — forward; easing in and
+    // out of a walk is PlayerMovement's acceleration, not the input's.
+    public Vector2 Move => controls.Player.Move.ReadValue<Vector2>();
     public Vector2 Look => controls.Player.Look.ReadValue<Vector2>() * config.LookScale;
     public bool IsRunHeld => controls.Player.Run.IsPressed();
     public bool IsCrouchHeld => controls.Player.Crouch.IsPressed();
@@ -96,14 +92,7 @@ public class InputService : IInitializable, ITickable, IDisposable
             OnUiClose?.Invoke();
 
         if (!controls.Player.enabled)
-        {
-            move = Vector2.zero;
             return;
-        }
-
-        Vector2 rawMove = controls.Player.Move.ReadValue<Vector2>();
-        move.x = SmoothAxis(move.x, rawMove.x);
-        move.y = SmoothAxis(move.y, rawMove.y);
 
         var player = controls.Player;
         if (player.Attack.WasPressedThisFrame()) OnAttack?.Invoke();
@@ -112,10 +101,12 @@ public class InputService : IInitializable, ITickable, IDisposable
         if (player.BuildConfirm.WasPressedThisFrame()) OnBuildConfirm?.Invoke();
         if (player.BuildRaise.WasPressedThisFrame()) OnBuildRaise?.Invoke();
         if (player.BuildLower.WasPressedThisFrame()) OnBuildLower?.Invoke();
-        if (player.ToolNext.WasPressedThisFrame()) OnToolNext?.Invoke();
-        if (player.ToolPrevious.WasPressedThisFrame()) OnToolPrevious?.Invoke();
+        if (player.ToolSlot.WasPressedThisFrame()) OnToolSlot?.Invoke(Slot(player.ToolSlot.activeControl));
         if (player.BuildMenu.WasPressedThisFrame()) OnBuildMenu?.Invoke();
     }
+
+    // The digit keys are consecutive in Key, from Digit1 to Digit9.
+    private static int Slot(InputControl key) => ((KeyControl)key).keyCode - Key.Digit1;
 
     private void ApplyMode()
     {
@@ -135,18 +126,5 @@ public class InputService : IInitializable, ITickable, IDisposable
             map.Enable();
         else
             map.Disable();
-    }
-
-    // Same rule as an Input Manager key axis: move toward the pressed direction at
-    // `sensitivity`, snap through zero when reversing, fall back at `gravity`.
-    private static float SmoothAxis(float value, float target)
-    {
-        float dt = Time.deltaTime;
-        if (target == 0f)
-            return Mathf.MoveTowards(value, 0f, AxisGravity * dt);
-
-        if (value != 0f && Mathf.Sign(value) != Mathf.Sign(target))
-            value = 0f;
-        return Mathf.MoveTowards(value, target, AxisSensitivity * dt);
     }
 }

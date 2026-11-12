@@ -32,6 +32,7 @@ public class Scene5Installer : GameplayInstaller
         Container.Bind<StructureLookup>().AsSingle();
         Container.Bind<WallStairs>().AsSingle();
         Container.Bind<BuildService>().AsSingle();
+        Container.Bind<StructureUpgrades>().AsSingle();
         Container.Bind<Dismantler>().AsSingle();
         Container.Bind<FortificationService>().AsSingle();
         Container.BindInterfacesTo<PlayerInteraction>().AsSingle();
@@ -41,15 +42,20 @@ public class Scene5Installer : GameplayInstaller
         Container.BindInterfacesTo<DayLighting>().AsSingle();
         Container.BindInterfacesTo<WaveService>().AsSingle();
 
-        // UI. ShopPanelController is opened by the shop table, so it is also bound to itself.
+        // UI. StructureWindowController is opened by PlayerInteraction, so it is also bound to itself.
         Container.Bind<ItemCards>().AsSingle();
+        Container.Bind<ResourceMarks>().AsSingle();
         Container.BindInterfacesTo<ResourcesHudController>().AsSingle();
         Container.BindInterfacesTo<ClockHudController>().AsSingle();
         Container.BindInterfacesTo<PlayerHealthHudController>().AsSingle();
         Container.BindInterfacesTo<BuildPanelController>().AsSingle();
         Container.BindInterfacesTo<BuildHintController>().AsSingle();
         Container.BindInterfacesTo<StructurePanelController>().AsSingle();
-        Container.BindInterfacesAndSelfTo<ShopPanelController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<StructureWindowController>().AsSingle();
+        // Tabs of the structure window, in the order they stand in it.
+        Container.BindInterfacesTo<BotsTab>().AsSingle();
+        Container.BindInterfacesTo<BaseTab>().AsSingle();
+        Container.BindInterfacesTo<ModifyTab>().AsSingle();
 
         Container.BindInterfacesTo<GameStarter>().AsSingle();
     }

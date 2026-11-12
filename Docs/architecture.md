@@ -146,7 +146,7 @@ public class ResourcesHudController : IInitializable, IDisposable
 - **`new` на классе с `[Inject]`-полями его ломает.** Такой объект создаётся только
   фабрикой или `DiContainer.Instantiate`.
 - **Связь — по конкретному классу.** Интерфейс заводится, только когда реализаций
-  две и больше (`IInteractable`: стол магазина, ворота) или когда сцены
+  две и больше (`IStructureTab`: вкладки BOTS, BASE, MODIFY) или когда сцены
   подставляют разные. Интерфейс «на будущее» не делаем.
 - **Все сервисы — `AsSingle`.** Один экземпляр на контейнер, а не статический
   синглтон: перезагрузили сцену — получили чистое состояние. Это заодно лечит
@@ -251,7 +251,7 @@ Input System — сгенерированный класс `Controls` в `Projec
 клавиши:
 
 - превращает нажатия в игровые события (`OnAttack`, `OnInteract`, `OnBuildConfirm`,
-  `OnToolNext`, ...);
+  `OnToolSlot`, ...);
 - отдаёт удерживаемое состояние для тел, которым оно нужно каждый кадр
   (`Move`, `Look`, `IsRunHeld`, `DroneLook`, `DroneThrottle`, ...);
 - **держит режим курсора** стеком `InputMode` (`Gameplay` / `Ui` / `Drone`):
@@ -356,7 +356,7 @@ Main.uxml
 ├── DroneHud      телеметрия дрона       (уже есть: DroneStats.uxml)
 ├── WorldMarkers  полоски HP над NPC и постройками
 ├── BuildPanel    выбор постройки
-├── ShopPanel     покупка ботов
+├── StructureWindow окно строения по E: вкладки BOTS, BASE, MODIFY
 ├── Dialog        реплики квестов — когда появится новая система квестов
 └── PauseMenu     системная, держит мышь
 ```

@@ -289,6 +289,7 @@ MonoBehaviour:
     openLeft: {fileID: 0}
     openRight: {fileID: 0}
   hasWalkway: 1
+  extraCells: []
 --- !u!114 &4519780013801740175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,3 +316,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Structure
   title: WALL
   icon: {fileID: 21300000, guid: 8a3e66d4204fa8949844ebc85821c4de, type: 3}
+  upgrades:
+  - results:
+    - {fileID: 7298766266428248107, guid: 21e8d94fe68ca4240aab72f34852f916, type: 3}
+    - {fileID: 4712621284629559877, guid: bfa22409566c93840b37a2f9bc6e61f7, type: 3}
+    price:
+      iron: 0
+      tree: 10
+      ore: 0
+      gold: 0
+      copper: 0
+    description: A LADDER UP TO THE WALKWAY FROM INSIDE. NEEDS ONE FREE CELL IN FRONT
+      OF THE WALKWAY

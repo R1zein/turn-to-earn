@@ -193,19 +193,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""priority"": 0
                 },
                 {
-                    ""name"": ""ToolNext"",
+                    ""name"": ""ToolSlot"",
                     ""type"": ""Button"",
                     ""id"": ""f4e8d243-1026-4de3-aa01-c33d029da1e0"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false,
-                    ""priority"": 0
-                },
-                {
-                    ""name"": ""ToolPrevious"",
-                    ""type"": ""Button"",
-                    ""id"": ""b2b29f8a-4c1c-4a82-a3a7-2807821fc00d"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -402,7 +392,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a53e6b70-2495-4f99-8e36-533e6852eac4"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -445,23 +435,100 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""29d9d6b9-2b84-4ae7-a0a3-f09a1f31c1b5"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""id"": ""0bfe1618-4258-4bd2-ba22-802b9db38fba"",
+                    ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ToolNext"",
+                    ""action"": ""ToolSlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ef3091fb-b482-4b43-9210-7ede02a7c5a8"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""id"": ""7e0f8d17-ab29-4a5e-ad5c-41bb8936367d"",
+                    ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ToolPrevious"",
+                    ""action"": ""ToolSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2256bcef-8ce5-4919-a7ba-c8eb132508b6"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToolSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4319d78a-3d41-4f89-a52d-21dc263c09c3"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToolSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f81a6d12-cb69-4ebb-afc8-4e9d17dae042"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToolSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a6ad494b-da78-4c24-a090-b4f0c4a4894e"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToolSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2620a65f-fd7b-4fd1-aa63-0fed1567ac5f"",
+                    ""path"": ""<Keyboard>/7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToolSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f577d51-9711-4bcb-a0a6-b4f28b0a9dcc"",
+                    ""path"": ""<Keyboard>/8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToolSlot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29e2a9f7-1fbb-43e1-8761-0c0b705e10d3"",
+                    ""path"": ""<Keyboard>/9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToolSlot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -811,6 +878,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Close"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6482eaa6-218d-4990-a4e3-7b45cab772b5"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Close"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -829,8 +907,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_BuildConfirm = m_Player.FindAction("BuildConfirm", throwIfNotFound: true);
         m_Player_BuildMenu = m_Player.FindAction("BuildMenu", throwIfNotFound: true);
         m_Player_BuildRotate = m_Player.FindAction("BuildRotate", throwIfNotFound: true);
-        m_Player_ToolNext = m_Player.FindAction("ToolNext", throwIfNotFound: true);
-        m_Player_ToolPrevious = m_Player.FindAction("ToolPrevious", throwIfNotFound: true);
+        m_Player_ToolSlot = m_Player.FindAction("ToolSlot", throwIfNotFound: true);
         m_Player_BuildRaise = m_Player.FindAction("BuildRaise", throwIfNotFound: true);
         m_Player_BuildLower = m_Player.FindAction("BuildLower", throwIfNotFound: true);
         // Drone
@@ -939,8 +1016,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_BuildConfirm;
     private readonly InputAction m_Player_BuildMenu;
     private readonly InputAction m_Player_BuildRotate;
-    private readonly InputAction m_Player_ToolNext;
-    private readonly InputAction m_Player_ToolPrevious;
+    private readonly InputAction m_Player_ToolSlot;
     private readonly InputAction m_Player_BuildRaise;
     private readonly InputAction m_Player_BuildLower;
     /// <summary>
@@ -995,13 +1071,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @BuildRotate => m_Wrapper.m_Player_BuildRotate;
         /// <summary>
-        /// Provides access to the underlying input action "Player/ToolNext".
+        /// Provides access to the underlying input action "Player/ToolSlot".
         /// </summary>
-        public InputAction @ToolNext => m_Wrapper.m_Player_ToolNext;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/ToolPrevious".
-        /// </summary>
-        public InputAction @ToolPrevious => m_Wrapper.m_Player_ToolPrevious;
+        public InputAction @ToolSlot => m_Wrapper.m_Player_ToolSlot;
         /// <summary>
         /// Provides access to the underlying input action "Player/BuildRaise".
         /// </summary>
@@ -1066,12 +1138,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @BuildRotate.started += instance.OnBuildRotate;
             @BuildRotate.performed += instance.OnBuildRotate;
             @BuildRotate.canceled += instance.OnBuildRotate;
-            @ToolNext.started += instance.OnToolNext;
-            @ToolNext.performed += instance.OnToolNext;
-            @ToolNext.canceled += instance.OnToolNext;
-            @ToolPrevious.started += instance.OnToolPrevious;
-            @ToolPrevious.performed += instance.OnToolPrevious;
-            @ToolPrevious.canceled += instance.OnToolPrevious;
+            @ToolSlot.started += instance.OnToolSlot;
+            @ToolSlot.performed += instance.OnToolSlot;
+            @ToolSlot.canceled += instance.OnToolSlot;
             @BuildRaise.started += instance.OnBuildRaise;
             @BuildRaise.performed += instance.OnBuildRaise;
             @BuildRaise.canceled += instance.OnBuildRaise;
@@ -1119,12 +1188,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @BuildRotate.started -= instance.OnBuildRotate;
             @BuildRotate.performed -= instance.OnBuildRotate;
             @BuildRotate.canceled -= instance.OnBuildRotate;
-            @ToolNext.started -= instance.OnToolNext;
-            @ToolNext.performed -= instance.OnToolNext;
-            @ToolNext.canceled -= instance.OnToolNext;
-            @ToolPrevious.started -= instance.OnToolPrevious;
-            @ToolPrevious.performed -= instance.OnToolPrevious;
-            @ToolPrevious.canceled -= instance.OnToolPrevious;
+            @ToolSlot.started -= instance.OnToolSlot;
+            @ToolSlot.performed -= instance.OnToolSlot;
+            @ToolSlot.canceled -= instance.OnToolSlot;
             @BuildRaise.started -= instance.OnBuildRaise;
             @BuildRaise.performed -= instance.OnBuildRaise;
             @BuildRaise.canceled -= instance.OnBuildRaise;
@@ -1522,19 +1588,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBuildRotate(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "ToolNext" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "ToolSlot" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnToolNext(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "ToolPrevious" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnToolPrevious(InputAction.CallbackContext context);
+        void OnToolSlot(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "BuildRaise" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

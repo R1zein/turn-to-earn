@@ -41,7 +41,10 @@ public class GridBuilding : MonoBehaviour
     [SerializeField] private GridSocket[] sockets = new GridSocket[0];
     [Tooltip("Has a walkway on its +Z side, which a tower opens up to")]
     [SerializeField] private bool hasWalkway;
+    [Tooltip("Cells outside the footprint it also blocks (the foot of a wall's ladder), in the same frame as the sockets' cells")]
+    [SerializeField] private Vector2Int[] extraCells = new Vector2Int[0];
 
+    private readonly List<Vector2Int> occupied = new List<Vector2Int>();
     private GridFootprint footprint;
     private int quarterTurns;
     private bool isClaimed;
@@ -54,8 +57,10 @@ public class GridBuilding : MonoBehaviour
 
     public IReadOnlyList<GridSocket> Sockets => sockets;
 
-    // The cells it stands on, once placed.
+    // The rectangle it stands on, once placed. Extra cells are not part of it.
     public GridFootprint Footprint => footprint;
+
+    public int QuarterTurns => quarterTurns;
 
     // World height of the top of the mesh, once placed.
     public float Top { get; private set; }
@@ -64,14 +69,23 @@ public class GridBuilding : MonoBehaviour
     public Vector2Int SizeTurned(int quarterTurns) =>
         quarterTurns % 2 == 0 ? size : new Vector2Int(size.y, size.x);
 
+    // Every cell it blocks when standing on `cells` turned by `turns`: the footprint and the extra cells.
+    public IEnumerable<Vector2Int> CellsAt(GridFootprint cells, int turns)
+    {
+        foreach (Vector2Int cell in cells.Cells)
+            yield return cell;
+        foreach (Vector2Int extra in extraCells)
+            yield return cells.Min + TurnedCell(extra, turns);
+    }
+
     // Where the prefab's pivot goes for its cells to be centred on `centre`.
     public Vector3 PivotFor(Vector3 centre, Quaternion rotation) =>
         centre - rotation * new Vector3(footprintCentre.x, 0f, footprintCentre.y);
 
-    // A socket's cell, as an offset from the footprint's corner, after quarter turns.
-    public Vector2Int TurnedCell(GridSocket socket, int turns)
+    // A cell in the prefab's frame (a socket's, an extra one), as an offset from the
+    // footprint's corner, after quarter turns. Cells outside the footprint turn with it.
+    public Vector2Int TurnedCell(Vector2Int c, int turns)
     {
-        Vector2Int c = socket.cell;
         switch (turns)
         {
             case 1: return new Vector2Int(c.y, size.x - 1 - c.x);
@@ -80,6 +94,8 @@ public class GridBuilding : MonoBehaviour
             default: return c;
         }
     }
+
+    public Vector2Int TurnedCell(GridSocket socket, int turns) => TurnedCell(socket.cell, turns);
 
     public static Vector2Int TurnedOutward(GridSocket socket, int turns)
     {
@@ -145,14 +161,23 @@ public class GridBuilding : MonoBehaviour
         foreach (Renderer part in GetComponentsInChildren<Renderer>())
             if (!(part is ParticleSystemRenderer))
                 Top = Mathf.Max(Top, part.bounds.max.y);
-        grid.Occupy(this, cells);
+        occupied.Clear();
+        occupied.AddRange(CellsAt(cells, turns));
+        grid.Occupy(this, occupied);
     }
 
-    private void OnDestroy()
+    // Gives its cells back now rather than when destroyed at the end of the frame:
+    // a structure upgraded in its place takes them at once.
+    public void Leave()
     {
-        if (isClaimed)
-            grid.Release(this, footprint);
+        if (!isClaimed)
+            return;
+
+        isClaimed = false;
+        grid.Release(this, occupied);
     }
+
+    private void OnDestroy() => Leave();
 
     public void SetConflict(bool isInConflict)
     {

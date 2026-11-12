@@ -18,6 +18,7 @@ public class BuildPanelController : IInitializable, IDisposable
     [Inject] private BuildService buildService;
     [Inject] private Dismantler dismantler;
     [Inject] private ResourceWallet wallet;
+    [Inject] private ResourceMarks marks;
 
     private readonly List<Action> unsubscribe = new List<Action>();
     private readonly List<(Button card, BuildOption option)> options = new List<(Button, BuildOption)>();
@@ -123,10 +124,10 @@ public class BuildPanelController : IInitializable, IDisposable
     private void Refresh()
     {
         AllResources have = wallet.Current;
-        ShowMarks(walletMarks, have, have, isPrice: false);
+        marks.Show(walletMarks, have, have, isPrice: false);
         foreach (var (card, option) in options)
         {
-            ShowMarks(card.Q("Price"), option.Ghost.requiredResources, have, isPrice: true);
+            marks.Show(card.Q("Price"), option.Ghost.requiredResources, have, isPrice: true);
             card.EnableInClassList("btn-faded", !buildService.CanAfford(option.Ghost));
         }
         Describe(lit, described);
@@ -188,32 +189,7 @@ public class BuildPanelController : IInitializable, IDisposable
         detailHint.EnableInClassList("text-muted", canAfford);
         detailHint.EnableInClassList("heavy", canAfford);
         detailHint.EnableInClassList("text-hot", !canAfford);
-        ShowMarks(detailPrice, ghost.requiredResources, wallet.Current, isPrice: true);
-    }
-
-    // A price shows only what it asks for (FREE if nothing) and turns hot what the
-    // wallet is short of; the wallet itself shows every resource.
-    private void ShowMarks(VisualElement marks, AllResources amount, AllResources have, bool isPrice)
-    {
-        bool asksAnything = false;
-        asksAnything |= ShowMark(marks.Q("Wood"), amount.tree, have.tree, isPrice);
-        asksAnything |= ShowMark(marks.Q("Stone"), amount.ore, have.ore, isPrice);
-        asksAnything |= ShowMark(marks.Q("Iron"), amount.iron, have.iron, isPrice);
-        asksAnything |= ShowMark(marks.Q("Copper"), amount.copper, have.copper, isPrice);
-        asksAnything |= ShowMark(marks.Q("Gold"), amount.gold, have.gold, isPrice);
-        marks.Q("Free").EnableInClassList("hidden", !isPrice || asksAnything);
-    }
-
-    private bool ShowMark(VisualElement mark, int value, int have, bool isPrice)
-    {
-        bool isShown = !isPrice || value > 0;
-        mark.EnableInClassList("hidden", !isShown);
-        Label number = mark.Q<Label>("Value");
-        number.text = value.ToString();
-        bool isShort = isPrice && value > have;
-        number.EnableInClassList("text-hot", isShort);
-        number.EnableInClassList("text-muted", !isShort);
-        return isPrice && isShown;
+        marks.Show(detailPrice, ghost.requiredResources, wallet.Current, isPrice: true);
     }
 
     private void StartDismantling()
