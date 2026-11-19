@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 3004494634473836026}
   - component: {fileID: 8054639023739946068}
   - component: {fileID: 8420902637644959895}
+  - component: {fileID: 4897401367579637374}
   m_Layer: 0
   m_Name: RobotDefender
   m_TagString: Bot
@@ -181,7 +182,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5030082726617585826}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 962a0e3fe67666f499ad6a2b14beece4, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -243,8 +244,8 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
+  m_Interpolate: 1
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &3004494634473836026
 MonoBehaviour:
@@ -278,6 +279,7 @@ MonoBehaviour:
     tree: 0
     ore: 0
     gold: 0
+    copper: 0
 --- !u!114 &8420902637644959895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,8 +294,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sightDistance: 100
   attackDistance: 2
-  target: {fileID: 0}
-  isDead: 0
+--- !u!114 &4897401367579637374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5030082726617585826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ccd001d83fa3a4ca9d49085bfaf178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCMotor
 --- !u!1 &5030082726617585828
 GameObject:
   m_ObjectHideFlags: 0

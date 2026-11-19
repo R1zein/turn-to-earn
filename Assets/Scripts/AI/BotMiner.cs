@@ -14,7 +14,7 @@ public class BotMiner : NPCFacade
         navigation.LookEverywhere(config.MinerTargets);
     }
 
-    protected void Update()
+    protected override void Update()
     {
         base.Update();
         timer += Time.deltaTime;
@@ -49,6 +49,6 @@ public class BotMiner : NPCFacade
     protected override void Navigation()
     {
         navigation.Rescan(config.MinerTargets);
-
+        navigation.Follow();
     }
 }

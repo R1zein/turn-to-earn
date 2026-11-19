@@ -1638,6 +1638,8 @@ GameObject:
   - component: {fileID: 54674587218716006}
   - component: {fileID: 6226021542839624954}
   - component: {fileID: 2972470448179811524}
+  - component: {fileID: 5295341705710853900}
+  - component: {fileID: 6726464969276284825}
   m_Layer: 0
   m_Name: spider
   m_TagString: Untagged
@@ -1709,8 +1711,8 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
+  m_Interpolate: 1
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!195 &4156994750015296948
 NavMeshAgent:
@@ -1766,6 +1768,7 @@ MonoBehaviour:
     tree: 0
     ore: 0
     gold: 0
+    copper: 0
 --- !u!114 &6226021542839624954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1780,8 +1783,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sightDistance: 20
   attackDistance: 5.5
-  target: {fileID: 0}
-  isDead: 0
 --- !u!135 &2972470448179811524
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1803,6 +1804,41 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.2998775
   m_Center: {x: 0, y: 0.7998775, z: 0}
+--- !u!136 &5295341705710853900
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7237286591617226822}
+  m_Material: {fileID: 13400000, guid: 962a0e3fe67666f499ad6a2b14beece4, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6726464969276284825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7237286591617226822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19ccd001d83fa3a4ca9d49085bfaf178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NPCMotor
 --- !u!1 &7272635695837676185
 GameObject:
   m_ObjectHideFlags: 0

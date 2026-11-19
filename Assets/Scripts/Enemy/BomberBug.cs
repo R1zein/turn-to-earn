@@ -15,6 +15,7 @@ public class BomberBug :NPCFacade
     protected override void Navigation()
     {
         navigation.Rescan(config.BomberTargets);
+        navigation.Follow();
     }
 
     protected override void NPCAnimationControl()
