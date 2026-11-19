@@ -3,52 +3,34 @@ using UnityEngine;
 public class BotMiner : NPCFacade
 {
     public float mineDistance = 5;
-    private float timer;
-    private float targetDistance;
     public float cooldown;
+    private float timer;
 
     protected override TargetKind? Kind => TargetKind.BotMiner;
 
-    private void Start()
-    {
-        navigation.LookEverywhere(config.MinerTargets);
-    }
+    private void Start() => navigation.LookEverywhere(config.MinerTargets);
 
-    protected override void Update()
-    {
-        base.Update();
-        timer += Time.deltaTime;
-        if (navigation.target != null)
-        {
-            targetDistance = Vector3.Distance(transform.position, navigation.target.position);
-            if (targetDistance <= mineDistance & timer >= cooldown)
-            {
-                timer = 0;
-                BotMineResource();
-                animator.SetBool("Run", false);
-                animator.SetBool("Idle", true);
-            }
-        }
-    }
+    protected override void Navigation() => navigation.Rescan(config.MinerTargets);
 
     protected override void NPCAnimationControl()
     {
-        if (targetDistance > mineDistance)
+        timer += Time.deltaTime;
+        bool canMine = navigation.InAttackRange(mineDistance);
+        animator.SetBool("Run", !canMine && motor.IsMoving);
+        animator.SetBool("Idle", canMine || !motor.IsMoving);
+        if (!canMine)
         {
-            animator.SetBool("Idle", false);
-            animator.SetBool("Run", true);
+            navigation.Follow();
+            return;
         }
-    }
-    private void BotMineResource()
-    {
-        var resource = navigation.target.GetComponent<ResourceController>();
-        resource.TakeHit();
-        animator.SetTrigger("Mine");
-    }
 
-    protected override void Navigation()
-    {
-        navigation.Rescan(config.MinerTargets);
-        navigation.Follow();
+        motor.Stop();
+        motor.Face(navigation.PointFrom(AimPoint));
+        if (timer >= cooldown && navigation.target.TryGetComponent(out ResourceController node))
+        {
+            timer = 0f;
+            node.TakeHit();
+            animator.SetTrigger("Mine");
+        }
     }
 }

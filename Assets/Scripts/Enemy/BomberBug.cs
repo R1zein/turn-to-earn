@@ -1,41 +1,29 @@
 using UnityEngine;
 
-public class BomberBug :NPCFacade
+public class BomberBug : NPCFacade
 {
-
-
-    // Was never found by defenders or turrets (they looked for Enemy), kept that way.
     protected override TargetKind? Kind => null;
 
-    void Start()
-    {
-        navigation.LookEverywhere(config.BomberTargets);
-    }
+    private void Start() => navigation.LookEverywhere(config.BomberTargets);
 
-    protected override void Navigation()
-    {
-        navigation.Rescan(config.BomberTargets);
-        navigation.Follow();
-    }
+    protected override void Navigation() => navigation.Rescan(config.BomberTargets);
 
     protected override void NPCAnimationControl()
     {
-        if (navigation.target == null)
+        bool attacking = navigation.InAttackRange(navigation.attackDistance);
+        animator.SetFloat("locomotion", !attacking && motor.IsMoving ? 1f : 0f);
+        if (!attacking)
         {
-            animator.SetFloat("locomotion", 0);
-            return;
-        }
-        animator.SetFloat("locomotion", 1f);
-        if (Vector3.Distance(transform.position, navigation.target.transform.position) <= navigation.attackDistance)
-        {
-            animator.SetTrigger("attack1");
+            navigation.Follow();
             return;
         }
 
+        motor.Stop();
+        motor.Face(navigation.PointFrom(AimPoint));
+        animator.SetTrigger("attack1");
     }
 
     public void PlayAudio()
     {
-        
     }
 }

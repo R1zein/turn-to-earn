@@ -18,6 +18,7 @@ public class NPCNavigation : MonoBehaviour
     private NavMeshPath path;
     private Vector3 destination;
     private Vector3? approachPoint;
+    private TargetGeometry targetGeometry;
     private float timer;
 
     public Transform target { get; private set; }
@@ -31,19 +32,19 @@ public class NPCNavigation : MonoBehaviour
 
     public bool InAttackRange(float range)
     {
-        if (target == null || motor.IsTraversingLink || motor.IsAirborne)
-            return false;
-
-        Vector3 point = ContactPoint(target);
-        Vector3 delta = point - transform.position;
-        if (delta.sqrMagnitude > range * range)
+        if (target == null || !target.gameObject.activeInHierarchy || motor.IsTraversingLink || motor.IsAirborne)
             return false;
 
         Vector3 origin = transform.position + Vector3.up * 0.8f;
-        Vector3 aim = point + Vector3.up * 0.5f - origin;
-        return !Physics.Raycast(origin, aim.normalized, out RaycastHit hit, aim.magnitude,
+        Vector3 aim = PointFrom(origin) - origin;
+        if (aim.sqrMagnitude > range * range)
+            return false;
+
+        return aim.sqrMagnitude < 0.0001f || !Physics.Raycast(origin, aim.normalized, out RaycastHit hit, aim.magnitude,
             Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) || hit.transform.IsChildOf(target);
     }
+
+    public Vector3 PointFrom(Vector3 origin) => targetGeometry.ClosestPoint(origin);
 
     public void LookEverywhere(IReadOnlyList<TargetWeight> weights)
     {
@@ -91,7 +92,10 @@ public class NPCNavigation : MonoBehaviour
 
     private bool Select(IReadOnlyList<TargetWeight> weights, float range)
     {
-        target = targeting.FindBest(transform.position, weights, range, HasRoute);
+        Transform best = targeting.FindBest(transform.position, weights, range, HasRoute);
+        if (target != best)
+            targetGeometry = best != null ? new TargetGeometry(best) : null;
+        target = best;
         return target != null;
     }
 

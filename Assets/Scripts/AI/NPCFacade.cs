@@ -93,7 +93,7 @@ public abstract class NPCFacade : MonoBehaviour
         if (attacking)
         {
             motor.Stop();
-            motor.Face(navigation.target.position);
+            motor.Face(navigation.PointFrom(AimPoint));
         }
         else
             navigation.Follow();
