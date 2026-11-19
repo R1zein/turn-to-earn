@@ -60,12 +60,6 @@ public class GameConfig : ScriptableObject
     [Tooltip("Seconds before a killed dummy is replaced")]
     [SerializeField] private float rangeRespawnDelay = 3f;
 
-    [Header("Targeting (score = weight / distance)")]
-    [SerializeField] private TargetWeight[] enemyTargets;
-    [SerializeField] private TargetWeight[] bomberTargets;
-    [SerializeField] private TargetWeight[] minerTargets;
-    [SerializeField] private TargetWeight[] defenderTargets;
-
     [Header("Build grid")]
     [Tooltip("Cell side, m. Footprints are set per building on GridBuilding: wall 4x2, tower 3x3, gate 6x2")]
     [SerializeField] private float buildCellSize = 1f;
@@ -161,11 +155,6 @@ public class GameConfig : ScriptableObject
     public int BuildGridRadius => buildGridRadius;
     public float BuildSnapDistance => buildSnapDistance;
     public Sprite DismantleIcon => dismantleIcon;
-
-    public IReadOnlyList<TargetWeight> EnemyTargets => enemyTargets;
-    public IReadOnlyList<TargetWeight> BomberTargets => bomberTargets;
-    public IReadOnlyList<TargetWeight> MinerTargets => minerTargets;
-    public IReadOnlyList<TargetWeight> DefenderTargets => defenderTargets;
 
     public IReadOnlyList<BotOffer> BotOffers => botOffers;
     public IReadOnlyList<BuildOption> BuildOptions => buildOptions;

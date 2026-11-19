@@ -8,7 +8,6 @@ public abstract class ResourceController : MonoBehaviour
 
     [Inject] protected ResourceWallet wallet;
     [Inject] private ResourceNodeSpawner spawner;
-    [Inject] private TargetRegistry registry;
 
     // Any collider/renderer: ore veins use a SphereCollider, and looking for a
     // MeshCollider left them null - a mined-out vein threw on death and never vanished.
@@ -25,22 +24,12 @@ public abstract class ResourceController : MonoBehaviour
         nodeRenderer = GetComponent<Renderer>();
     }
 
-    private void OnEnable()
-    {
-        registry.Add(TargetKind.ResourceNode, this);
-    }
-
-    private void OnDisable()
-    {
-        registry.Remove(TargetKind.ResourceNode, this);
-    }
-
     private void OnDestroy() => spawner.Release(this);
 
     private async Awaitable DeathEffect()
     {
         // Mined out: bots stop walking to it while the effect plays.
-        registry.Remove(TargetKind.ResourceNode, this);
+        GetComponent<Targetable>().MakeUnavailable();
         nodeCollider.enabled = false;
         nodeRenderer.enabled = false;
         Instantiate(destroyEffect, transform.position, Quaternion.identity);

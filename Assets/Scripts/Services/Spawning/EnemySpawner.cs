@@ -43,6 +43,6 @@ public class EnemySpawner
     {
         Enemy enemy = Spawn(prefab, point);
         if (portal.ApproachPoint is Vector3 waypoint)
-            enemy.GetComponent<NPCNavigation>().Approach(waypoint);
+            enemy.GetComponent<NPCMotor>().SetPortalExit(waypoint);
     }
 }

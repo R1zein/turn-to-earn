@@ -75,7 +75,7 @@ public void TakeDamage(float damage)
 
 > **Исправлено** 2026-10-08 на этапе 6 (`TargetingService` + `TargetRegistry`, `DamageDealer`, `BotNavigation` удалён).
 
-[`NPCNavigation.cs:54`](../Assets/Scripts/AI/NPCNavigation.cs)
+Исторический `NPCNavigation.cs:54`
 
 `ChaseTarget` ограничивает сканирование одним разом в секунду через поле `timer`.
 Но `Enemy` вызывает `ChaseTarget` четыре раза за кадр, и каждый вызов добавляет
@@ -95,7 +95,7 @@ public void TakeDamage(float damage)
 
 > **Исправлено** 2026-10-08 на этапе 6 (`TargetingService` + `TargetRegistry`, `DamageDealer`, `BotNavigation` удалён).
 
-[`NPCNavigation.cs:46,77`](../Assets/Scripts/AI/NPCNavigation.cs)
+Исторический `NPCNavigation.cs:46,77`
 
 `priorityTargets.Add(newTarget, score)` бросит `ArgumentException`, если один и
 тот же `Transform` придёт дважды за цикл — а это случится, когда на объекте
@@ -191,6 +191,9 @@ Light directionlLight = GameObject.Find("Directional Light")...;    // испо�
 террейна) и сгладить его либо соединить части `NavMeshLink`.
 
 ### P1-9. Смерть игрока оставляет врагов без цели
+
+Исправлено. Снятие игрока с учёта освобождает метки. Назначенные на него враги
+получают срочный пересчёт по живым целям.
 
 Найдено 2026-10-15. Игрок уничтожается при смерти, у врагов `target` становится
 `null`, и вся волна стоит на месте. Заодно: зомби, поставленный в сцене

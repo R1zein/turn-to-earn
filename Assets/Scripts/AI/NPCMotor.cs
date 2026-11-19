@@ -23,6 +23,8 @@ public class NPCMotor : MonoBehaviour
     private float pushUntil;
     private bool hasOrder;
     private Vector3? facingPoint;
+    private Vector3? portalExit;
+    private NavMeshPath portalPath;
 
     public bool IsGrounded { get; private set; }
     public bool IsAirborne { get; private set; }
@@ -60,7 +62,35 @@ public class NPCMotor : MonoBehaviour
     public bool HasRoute(Vector3 point, NavMeshPath path) => IsOnNavMesh && !IsAirborne
         && agent.CalculatePath(point, path) && path.status == NavMeshPathStatus.PathComplete;
 
-    public bool HasOrder => hasOrder && IsOnNavMesh && (agent.pathPending || agent.hasPath);
+    private bool HasOrder => hasOrder && IsOnNavMesh
+        && (agent.pathPending || (agent.hasPath && agent.pathStatus == NavMeshPathStatus.PathComplete));
+
+    public void SetPortalExit(Vector3 point) => portalExit = point;
+
+    public bool FollowPortalRoute()
+    {
+        if (portalExit is not Vector3 point)
+            return false;
+        if (IsTraversingLink || IsAirborne || !IsOnNavMesh)
+            return true;
+
+        portalPath ??= new NavMeshPath();
+        if ((point - body.position).sqrMagnitude > 1f && (HasOrder || HasRoute(point, portalPath)))
+        {
+            MoveTo(point);
+            return true;
+        }
+
+        portalExit = null;
+        hasOrder = false;
+        return false;
+    }
+
+    public void Park(RigidbodyConstraints constraints)
+    {
+        body.constraints = constraints;
+        enabled = false;
+    }
 
     public void MoveTo(Vector3 point)
     {

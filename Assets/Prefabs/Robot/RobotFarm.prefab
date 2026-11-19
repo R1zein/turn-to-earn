@@ -126,7 +126,6 @@ GameObject:
   - component: {fileID: 827910225028722305}
   - component: {fileID: 5575152895582975380}
   - component: {fileID: 3004494634473836026}
-  - component: {fileID: 5442173694480960467}
   - component: {fileID: 4764134152931210440}
   - component: {fileID: 3267202092924083620}
   - component: {fileID: 3497299746068759626}
@@ -261,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b2c4cfed12c3e4c8136cbd25095824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackDistance: 2
   requiredResources:
     iron: 0
     tree: 0
@@ -284,20 +284,6 @@ MonoBehaviour:
   maxHP: 100
   currHP: 0
   fraction: 1
---- !u!114 &5442173694480960467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5030082726617585826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b67b55a2cd377a2428b7a884a7dfae8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sightDistance: 100
-  attackDistance: 2
 --- !u!114 &4764134152931210440
 MonoBehaviour:
   m_ObjectHideFlags: 0

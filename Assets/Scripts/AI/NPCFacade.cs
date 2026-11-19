@@ -1,101 +1,111 @@
 using UnityEngine;
 using Zenject;
 
+[RequireComponent(typeof(NPCMotor), typeof(TargetSeeker), typeof(StatsHandler))]
 public abstract class NPCFacade : MonoBehaviour
 {
-    [Inject] protected GameConfig config;
-    [Inject] private TargetRegistry registry;
+    [SerializeField, Min(0f)] private float attackDistance = 2f;
+    [Inject] private WeaponSight sight;
+    public AllResources requiredResources;
 
     protected Animator animator;
     protected NPCMotor motor;
-    private Rigidbody rb;
-    protected Collider _collider;
-    protected NPCNavigation navigation;
     protected StatsHandler statsHandler;
-    public AllResources requiredResources;
+    private Collider bodyCollider;
+    private TargetSeeker seeker;
     private bool isHeldStill;
 
     public StatsHandler Health => statsHandler;
-    public Vector3 AimPoint => _collider.bounds.center;
-
-    // What others see this NPC as; null = nobody targets it.
-    protected abstract TargetKind? Kind { get; }
+    public Vector3 AimPoint => bodyCollider.bounds.center;
+    protected Targetable Target { get; private set; }
+    protected virtual float EngageDistance => attackDistance;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         motor = GetComponent<NPCMotor>();
-        rb = GetComponent<Rigidbody>();
-        _collider = GetComponent<Collider>();
-        navigation = GetComponent<NPCNavigation>();
+        bodyCollider = GetComponent<Collider>();
+        seeker = GetComponent<TargetSeeker>();
         statsHandler = GetComponent<StatsHandler>();
     }
+
     private void OnEnable()
     {
         statsHandler.OnDeath += Death;
-        if (Kind.HasValue)
-            registry.Add(Kind.Value, this);
+        seeker.OnTargetChanged += OnTargetChanged;
+        Target = seeker.Current;
     }
+
     private void OnDisable()
     {
         statsHandler.OnDeath -= Death;
-        if (Kind.HasValue)
-            registry.Remove(Kind.Value, this);
+        seeker.OnTargetChanged -= OnTargetChanged;
+        Target = null;
     }
-    protected virtual void Update()
+
+    private void OnTargetChanged(Targetable target) => Target = target;
+
+    private void Update()
     {
         if (isHeldStill || statsHandler.IsDead)
             return;
 
-        Navigation();
-        NPCAnimationControl();
+        bool hasPortalOrder = motor.FollowPortalRoute();
+        Vector3 point = default;
+        bool engaging = !hasPortalOrder && CanEngage(out point);
+        if (engaging)
+        {
+            motor.Stop();
+            motor.Face(point);
+        }
+        else if (!hasPortalOrder)
+        {
+            if (Target != null && Target.IsAvailable)
+                motor.MoveTo(Target.ClosestPoint(transform.position));
+            else
+                motor.Stop();
+        }
+        NPCAnimationControl(engaging);
     }
 
-    // A shooting-range dummy: no target search, no walking, idle animation. It
-    // still takes damage and dies as usual. The body may only settle vertically,
-    // so it lands on the ground but cannot be shoved or toppled.
+    private bool CanEngage(out Vector3 point)
+    {
+        point = Vector3.zero;
+        if (Target == null || !Target.IsAvailable || motor.IsAirborne || motor.IsTraversingLink)
+            return false;
+
+        Vector3 origin = AimPoint;
+        point = Target.ClosestPoint(origin);
+        Vector3 direction = point - origin;
+        if (direction.sqrMagnitude > EngageDistance * EngageDistance)
+            return false;
+        return direction.sqrMagnitude < 0.0001f
+            || sight.Trace(transform, new Ray(origin, direction.normalized), direction.magnitude) is not RaycastHit hit
+            || hit.transform.IsChildOf(Target.transform);
+    }
+
+    // A shooting-range dummy can settle vertically and still takes damage.
     public void HoldStill()
     {
         isHeldStill = true;
-        motor.enabled = false;
-        if (navigation != null)
-            navigation.enabled = false;
-        rb.constraints = RigidbodyConstraints.FreezeRotation
-            | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        seeker.enabled = false;
+        motor.Park(RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ);
         animator.SetBool("Idle", true);
     }
+
     private void Death()
     {
-        // The body lingers for the death animation; it is no longer a target.
-        if (Kind.HasValue)
-            registry.Remove(Kind.Value, this);
-
+        seeker.enabled = false;
         animator.SetBool("Death", true);
-        _collider.enabled = false;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
-        motor.enabled = false;
-        if(navigation != null)
-        {
-            navigation.enabled = false;
-        }
-        Destroy(gameObject, 3);
+        bodyCollider.enabled = false;
+        motor.Park(RigidbodyConstraints.FreezeAll);
+        Destroy(gameObject, 3f);
     }
-    protected abstract void Navigation();
 
-
-
-    protected virtual void NPCAnimationControl()
+    protected virtual void NPCAnimationControl(bool engaging)
     {
-        bool attacking = navigation.InAttackRange(navigation.attackDistance);
-        animator.SetBool("Attack", attacking);
-        animator.SetBool("Run", !attacking && motor.IsMoving);
-        animator.SetBool("Idle", !attacking && !motor.IsMoving);
-        if (attacking)
-        {
-            motor.Stop();
-            motor.Face(navigation.PointFrom(AimPoint));
-        }
-        else
-            navigation.Follow();
+        animator.SetBool("Attack", engaging);
+        animator.SetBool("Run", !engaging && motor.IsMoving);
+        animator.SetBool("Idle", !engaging && !motor.IsMoving);
     }
 }

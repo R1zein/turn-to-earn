@@ -58,7 +58,7 @@ Assets/
 | Строительство | [`BuildService.cs`](../Assets/Scripts/Services/BuildService.cs) + [`Inventory.cs`](../Assets/Scripts/Player/Inventory.cs) |
 | Магазин | [`ShopService.cs`](../Assets/Scripts/Services/ShopService.cs) + вкладки `BotsTab`, `BaseTab` |
 | Окно строения, модификация | [`StructureWindowController.cs`](../Assets/Scripts/UI/Controllers/StructureWindowController.cs) + [`StructureUpgrades.cs`](../Assets/Scripts/Services/StructureUpgrades.cs) |
-| ИИ | [`NPCFacade.cs`](../Assets/Scripts/AI/NPCFacade.cs) + [`NPCNavigation.cs`](../Assets/Scripts/AI/NPCNavigation.cs) |
+| ИИ | [`NPCMotor.cs`](../Assets/Scripts/AI/NPCMotor.cs) и [`TargetingService.cs`](../Assets/Scripts/Services/Targeting/TargetingService.cs) |
 | Здоровье/урон | [`StatsHandler.cs`](../Assets/Scripts/UI/StatsHandler.cs) |
 | Время и волны | [`TimeManager.cs`](../Assets/Scripts/Services/TimeManager.cs) + [`DayCycle.cs`](../Assets/Scripts/Services/DayCycle.cs) + [`TimePeriod.cs`](../Assets/Scripts/TimePeriod.cs) |
 | Дрон | [`DroneControl.cs`](../Assets/Scripts/Drone/DroneControl.cs) |
@@ -72,7 +72,7 @@ Assets/
    [`Scripts/Installers`](../Assets/Scripts/Installers/). Префабы с `[Inject]`
    рождаются только спавнерами из [`Services/Spawning`](../Assets/Scripts/Services/Spawning/) через `DiContainer.InstantiatePrefab`.
 2. **События** — `StatsHandler.OnDeath`/`OnDamage`, `ResourceWallet.OnChanged`.
-3. **Реестр целей** — тела сами встают в `TargetRegistry`, цели выбирает
+3. **Выбор целей** — тела регистрируются через `Targetable` и `TargetSeeker`, цели назначает
    `TargetingService` ([ИИ](ai.md)). Остаток старого — `Camera.main` в нескольких скриптах.
 
 Синглтонов и `FindAnyObjectByType` / `GameObject.Find` в своём коде больше нет.

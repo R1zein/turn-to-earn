@@ -1,12 +1,9 @@
 using UnityEngine;
-using Zenject;
 
 // While a panel holds the mouse, InputService switches the on-foot action map off,
 // so walking and looking stop without this body having to know about panels.
 public class Player : MonoBehaviour
 {
-    [Inject] private TargetRegistry registry;
-
     private StatsHandler statsHandler;
     public Camera deathCamera;
 
@@ -27,12 +24,10 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         statsHandler.OnDeath += Death;
-        registry.Add(TargetKind.Player, this);
     }
 
     private void OnDisable()
     {
-        registry.Remove(TargetKind.Player, this);
         statsHandler.OnDeath -= Death;
     }
 }

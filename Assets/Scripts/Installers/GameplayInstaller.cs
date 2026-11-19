@@ -25,8 +25,8 @@ public abstract class GameplayInstaller : MonoInstaller
         Container.Bind<ResourceWallet>().AsSingle();
 
         // Bodies add themselves to these in OnEnable, before any Initialize.
-        Container.Bind<TargetRegistry>().AsSingle();
-        Container.Bind<TargetingService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<TargetingService>().AsSingle();
+        Container.Bind<WeaponSight>().AsSingle();
         Container.Bind<HealthBars>().AsSingle();
 
         InstallSceneBindings();

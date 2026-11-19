@@ -126,7 +126,6 @@ GameObject:
   - component: {fileID: 827910225028722305}
   - component: {fileID: 3004494634473836026}
   - component: {fileID: 8054639023739946068}
-  - component: {fileID: 8420902637644959895}
   - component: {fileID: 4897401367579637374}
   - component: {fileID: 3343581475621300585}
   - component: {fileID: 865732474760112432}
@@ -276,26 +275,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0076dcd41a56a4ab06f72633d42dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackDistance: 2
   requiredResources:
     iron: 0
     tree: 0
     ore: 0
     gold: 0
     copper: 0
---- !u!114 &8420902637644959895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5030082726617585826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b67b55a2cd377a2428b7a884a7dfae8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sightDistance: 100
-  attackDistance: 2
 --- !u!114 &4897401367579637374
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,26 +1,10 @@
-using UnityEngine;
-
 public class BomberBug : NPCFacade
 {
-    protected override TargetKind? Kind => null;
-
-    private void Start() => navigation.LookEverywhere(config.BomberTargets);
-
-    protected override void Navigation() => navigation.Rescan(config.BomberTargets);
-
-    protected override void NPCAnimationControl()
+    protected override void NPCAnimationControl(bool engaging)
     {
-        bool attacking = navigation.InAttackRange(navigation.attackDistance);
-        animator.SetFloat("locomotion", !attacking && motor.IsMoving ? 1f : 0f);
-        if (!attacking)
-        {
-            navigation.Follow();
-            return;
-        }
-
-        motor.Stop();
-        motor.Face(navigation.PointFrom(AimPoint));
-        animator.SetTrigger("attack1");
+        animator.SetFloat("locomotion", !engaging && motor.IsMoving ? 1f : 0f);
+        if (engaging)
+            animator.SetTrigger("attack1");
     }
 
     public void PlayAudio()

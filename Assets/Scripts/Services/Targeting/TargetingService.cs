@@ -1,90 +1,179 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-[Serializable]
-public struct TargetWeight
+// Assigns one target per seeker. Only this service changes marks.
+public class TargetingService : ITickable
 {
-    public TargetKind Kind;
-    public float Weight;
-}
+    private const float RescanInterval = 0.75f;
 
-// Decides where NPCs and turrets go. One pass over the registry, every kind at
-// once: score = weight / distance, the highest score wins.
-public class TargetingService
-{
-    [Inject] private TargetRegistry registry;
+    private readonly HashSet<Targetable> targets = new HashSet<Targetable>();
+    private readonly List<TargetSeeker> seekers = new List<TargetSeeker>();
+    private readonly HashSet<TargetSeeker> registered = new HashSet<TargetSeeker>();
+    private readonly Dictionary<TargetSeeker, Targetable> assignments = new Dictionary<TargetSeeker, Targetable>();
+    private readonly Dictionary<Targetable, int> marks = new Dictionary<Targetable, int>();
+    private readonly Queue<TargetSeeker> urgent = new Queue<TargetSeeker>();
+    private readonly HashSet<TargetSeeker> queued = new HashSet<TargetSeeker>();
+    private readonly HashSet<TargetSeeker> updated = new HashSet<TargetSeeker>();
+    private readonly List<Targetable> deadTargets = new List<Targetable>();
+    private readonly List<(Targetable body, float score)> ranked = new List<(Targetable, float)>();
+    private int cursor;
 
-    public Transform FindBest(Vector3 from, IReadOnlyList<TargetWeight> weights,
-        float maxDistance = float.PositiveInfinity, Predicate<Component> isAvailable = null)
+    public void Register(Targetable target) => targets.Add(target);
+
+    public void Register(TargetSeeker seeker)
     {
-        Transform best = null;
-        float bestScore = 0f;
-        foreach (TargetWeight weight in weights)
-        {
-            foreach (Component body in registry.Get(weight.Kind))
-            {
-                float distance = Vector3.Distance(from, body.transform.position);
-                if (distance > maxDistance)
-                    continue;
+        if (!registered.Add(seeker))
+            return;
+        seekers.Add(seeker);
+        RequestRescan(seeker);
+    }
 
-                float score = weight.Weight / Mathf.Max(1f, distance);
-                if (score > bestScore && (isAvailable == null || isAvailable(body)))
-                {
-                    bestScore = score;
-                    best = body.transform;
-                }
+    public void Unregister(Targetable target)
+    {
+        if (!targets.Remove(target))
+            return;
+
+        var affected = new List<TargetSeeker>();
+        foreach (var assignment in assignments)
+            if (ReferenceEquals(assignment.Value, target))
+                affected.Add(assignment.Key);
+
+        foreach (TargetSeeker seeker in affected)
+        {
+            Assign(seeker, null);
+            RequestRescan(seeker);
+        }
+        marks.Remove(target);
+    }
+
+    public void Unregister(TargetSeeker seeker)
+    {
+        if (!registered.Remove(seeker))
+            return;
+
+        int index = seekers.IndexOf(seeker);
+        seekers.RemoveAt(index);
+        if (index < cursor)
+            cursor--;
+        queued.Remove(seeker);
+        Assign(seeker, null);
+    }
+
+    public void RequestRescan(TargetSeeker seeker)
+    {
+        if (seeker != null && registered.Contains(seeker) && queued.Add(seeker))
+            urgent.Enqueue(seeker);
+    }
+
+    public void Tick()
+    {
+        RemoveDestroyedBodies();
+        updated.Clear();
+
+        // Leave requests raised by assignment callbacks for the next tick.
+        int urgentCount = urgent.Count;
+        for (int i = 0; i < urgentCount; i++)
+        {
+            TargetSeeker seeker = urgent.Dequeue();
+            if (queued.Remove(seeker) && registered.Contains(seeker) && updated.Add(seeker))
+                Choose(seeker);
+        }
+
+        int length = seekers.Count;
+        int budget = Mathf.CeilToInt(length * Time.deltaTime / RescanInterval);
+        for (int visited = 0; visited < length && budget > 0 && seekers.Count > 0; visited++)
+        {
+            if (cursor >= seekers.Count)
+                cursor = 0;
+            TargetSeeker seeker = seekers[cursor++];
+            if (updated.Add(seeker))
+            {
+                Choose(seeker);
+                budget--;
             }
         }
-        return best;
     }
 
-    public T FindNearest<T>(TargetKind kind, Vector3 from, float maxDistance,
-        Predicate<T> isAvailable = null) where T : Component
+    private void Choose(TargetSeeker seeker)
     {
-        T nearest = null;
-        float nearestDistance = maxDistance;
-        foreach (Component body in registry.Get(kind))
+        if (seeker == null || !seeker.isActiveAndEnabled)
+            return;
+
+        assignments.TryGetValue(seeker, out Targetable current);
+        TargetProfile profile = seeker.Profile;
+        Vector3 origin = seeker.Origin;
+        ranked.Clear();
+        foreach (Targetable target in targets)
         {
-            float distance = Vector3.Distance(from, body.transform.position);
-            if (distance <= nearestDistance && body is T typed && (isAvailable == null || isAvailable(typed)))
+            if (!target.IsAvailable || target.transform == seeker.transform || !profile.Targets(target.Faction)
+                || !profile.TryGetWeight(target.Type, out float weight))
+                continue;
+
+            float distance = Vector3.Distance(origin, target.ClosestPoint(origin));
+            if (profile.MaxDistance > 0f && distance > profile.MaxDistance)
+                continue;
+
+            marks.TryGetValue(target, out int load);
+            bool isCurrent = target == current;
+            float crowd = Mathf.Max(0, load - (isCurrent ? 1 : 0)) / (float)target.Capacity;
+            float score = (weight + target.WeightOffset) * profile.DistanceMultiplier(distance)
+                * profile.CrowdMultiplier(crowd) * (isCurrent ? profile.HoldBonus : 1f);
+            if (score > 0f && float.IsFinite(score))
+                ranked.Add((target, score));
+        }
+
+        ranked.Sort((left, right) => right.score.CompareTo(left.score));
+        Targetable next = null;
+        foreach (var candidate in ranked)
+        {
+            if (seeker.CanSelect(candidate.body))
             {
-                nearestDistance = distance;
-                nearest = typed;
+                next = candidate.body;
+                break;
             }
         }
-        return nearest;
+        Assign(seeker, next);
     }
 
-    public NPCFacade FindVisibleEnemy(Transform owner, Vector3 origin, float range) =>
-        FindNearest<NPCFacade>(TargetKind.Enemy, origin, range,
-            enemy => CanSeeEnemy(owner, origin, enemy, range));
-
-    public bool CanSeeEnemy(Transform owner, Vector3 origin, NPCFacade enemy, float range)
+    private void Assign(TargetSeeker seeker, Targetable next)
     {
-        if (enemy == null || !enemy.isActiveAndEnabled || enemy.Health.IsDead)
-            return false;
+        assignments.TryGetValue(seeker, out Targetable previous);
+        if (ReferenceEquals(previous, next))
+            return;
 
-        Vector3 direction = enemy.AimPoint - origin;
-        float distance = direction.magnitude;
-        return distance <= range && (Trace(owner, new Ray(origin, direction.normalized), distance) is not RaycastHit hit
-            || hit.transform.IsChildOf(enemy.transform));
-    }
-
-    public RaycastHit? Trace(Transform owner, Ray ray, float distance)
-    {
-        if (!Physics.Raycast(ray, out RaycastHit first, distance, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
-            return null;
-        if (owner == null || !first.transform.IsChildOf(owner))
-            return first;
-
-        RaycastHit? closest = null;
-        foreach (RaycastHit hit in Physics.RaycastAll(ray, distance, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+        if (!ReferenceEquals(previous, null) && marks.TryGetValue(previous, out int oldCount))
         {
-            if (!hit.transform.IsChildOf(owner) && (!closest.HasValue || hit.distance < closest.Value.distance))
-                closest = hit;
+            if (oldCount == 1)
+                marks.Remove(previous);
+            else
+                marks[previous] = oldCount - 1;
         }
-        return closest;
+
+        if (next == null)
+            assignments.Remove(seeker);
+        else
+        {
+            assignments[seeker] = next;
+            marks.TryGetValue(next, out int count);
+            marks[next] = count + 1;
+        }
+
+        if (seeker != null)
+            seeker.Assign(next);
+    }
+
+    private void RemoveDestroyedBodies()
+    {
+        foreach (Targetable target in targets)
+            if (target == null)
+                deadTargets.Add(target);
+        foreach (Targetable target in deadTargets)
+            Unregister(target);
+        deadTargets.Clear();
+
+        for (int i = seekers.Count - 1; i >= 0; i--)
+            if (seekers[i] == null)
+                Unregister(seekers[i]);
     }
 }

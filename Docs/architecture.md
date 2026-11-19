@@ -68,7 +68,7 @@ public class GameplayInstaller : MonoInstaller
         Container.Bind<UIDocument>().FromComponentInHierarchy().AsSingle();
         Container.Bind<LevelAnchors>().FromComponentInHierarchy().AsSingle();
 
-        Container.Bind<TargetRegistry>().AsSingle();
+        Container.BindInterfacesAndSelfTo<TargetingService>().AsSingle();
         Container.Bind<EnemySpawner>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<TimeManager>().AsSingle();
@@ -131,7 +131,7 @@ public class ResourcesHudController : IInitializable, IDisposable
 
 | Привязка | Когда | Пример в turn-to-earn |
 |---|---|---|
-| `Bind<T>().AsSingle()` | класс без жизненного цикла, его только зовут | `ResourceWallet`, `GameProgress`, `TargetRegistry` |
+| `Bind<T>().AsSingle()` | класс без жизненного цикла, его только зовут | `ResourceWallet`, `GameProgress`, `WeaponSight` |
 | `BindInterfacesAndSelfTo<T>().AsSingle()` | класс реализует `IInitializable` / `ITickable` / `IDisposable` — без этого Zenject не узнает, что его надо инициализировать и тикать | `TimeManager`, `InputService`, все UI-контроллеры |
 | `BindInterfacesTo<T>()` | класс никто не должен звать напрямую | `GameStarter` |
 | `Bind<T>().FromInstance(x)` / `BindInstance(x)` | ScriptableObject или ассет из поля инсталлера | `GameConfig`, `UITemplate` |
@@ -280,8 +280,8 @@ ScriptableObject-ассеты, поданные в инсталлер и заб�
 
 | Сущность | Тело (на префабе) | Мозг (в контейнере) |
 |---|---|---|
-| Враг, бот | наследник `NPCFacade`: агент, аниматор, коллайдер | `TargetingService` выбирает цель по `TargetRegistry` |
-| Турель | `GatlingGun`: поворот, вспышка | `TargetingService` |
+| Враг, бот | `NPCFacade`, `NPCMotor`, `Targetable`, `TargetSeeker` | `TargetingService` назначает цель по профилю и меткам |
+| Турель | `GatlingGun`, `Targetable`, `TargetSeeker` | `TargetingService` назначает видимую цель |
 | Узел ресурса | `ResourceController`: меш, коллайдер, запас | `ResourceWallet` начисляет, `ResourceNodeSpawner` ведёт точки |
 | Постройка | `Building`: модель, звук урона | `BuildService`: правила и цена |
 | Дрон | `DroneControl` — полёт **не трогать** | телеметрию читает UI-контроллер |
@@ -300,7 +300,7 @@ ScriptableObject-ассеты, поданные в инсталлер и заб�
 | объект уже стоит в сцене, ему нужны сервисы | просто `[Inject]`-поля: `SceneContext` инжектит все объекты сцены при загрузке | ворота, стол магазина |
 | сервису нужен один известный объект сцены | `Bind<T>().FromComponentInHierarchy()` | `Camera`, `UIDocument` |
 | сервисам нужны точки и объекты уровня | один `MonoBehaviour`-«карта» `LevelAnchors` с `[SerializeField]`-ссылками и геттерами, без логики | спавн игрока, портал зомби, точки ресурсов, точка у стола, `BuildingPoint` |
-| объект рождается из префаба | только `DiContainer.InstantiatePrefab…` внутри спавнера; спавнер же ставит его на учёт в реестре | `EnemySpawner`, `BotSpawner`, `ResourceNodeSpawner`, `BuildingPlacer` |
+| объект рождается из префаба | `DiContainer.InstantiatePrefab…` внутри спавнера. Цели и искатели регистрируют себя после инъекции | `EnemySpawner`, `BotSpawner`, `ResourceNodeSpawner`, `BuildingPlacer` |
 
 `LevelAnchors` заменяет `GameObject.FindGameObjectWithTag("BuildingPoint")`,
 дочерние точки `ResourceSpawner` и поле `spawnPos` у `ZombieSpawn` (сделано: в карте лежат
@@ -308,24 +308,21 @@ ScriptableObject-ассеты, поданные в инсталлер и заб�
 
 ```csharp
 // Рождение через контейнер (иначе [Inject] на компонентах не отработает)
-// и постановка на учёт. Кто именно и где — забота сцены.
+// Компоненты цели ставят себя на учёт после инъекции.
 public class EnemySpawner
 {
     [Inject] private DiContainer    _container;
-    [Inject] private TargetRegistry _registry;
 
     public Enemy Spawn(Enemy prefab, Vector3 position)
     {
-        var enemy = _container.InstantiatePrefabForComponent<Enemy>(
+        return _container.InstantiatePrefabForComponent<Enemy>(
             prefab, position, Quaternion.identity, null);
-        _registry.Add(enemy);
-        return enemy;
     }
 }
 ```
 
-Сервис, держащий список тел, проверяет их жизнь через Unity-null (`if (!body)`):
-уничтоженный объект сам сообщает о себе, и телу не нужно помнить про отписку.
+`Targetable` и `TargetSeeker` снимаются с учёта при отключении и смерти.
+Сервис также отбрасывает уничтоженные объекты через Unity-null.
 
 ### Квесты
 

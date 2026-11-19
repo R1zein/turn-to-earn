@@ -1,12 +1,10 @@
 using UnityEngine;
 using Zenject;
 
+[RequireComponent(typeof(TargetSeeker), typeof(StatsHandler))]
 public class GatlingGun : MonoBehaviour
 {
-    private const float ScanInterval = 0.25f;
-
-    [Inject] private TargetRegistry registry;
-    [Inject] private TargetingService targeting;
+    [Inject] private WeaponSight sight;
 
     public Transform go_baseRotation;
     public Transform go_GunBody;
@@ -17,40 +15,27 @@ public class GatlingGun : MonoBehaviour
     public float fireRate = 0.1f;
     public float damage;
 
-    private NPCFacade target;
+    private TargetSeeker seeker;
     private StatsHandler stats;
     private float spin;
-    private float nextScan;
     private float nextShot;
 
     private void Awake()
     {
-        GetComponent<SphereCollider>().radius = firingRange;
         stats = GetComponent<StatsHandler>();
+        seeker = GetComponent<TargetSeeker>();
+        seeker.ConfigureSight(muzzelFlash.transform, CanSee);
+        GetComponent<SphereCollider>().radius = seeker.Profile.MaxDistance > 0f ? seeker.Profile.MaxDistance : firingRange;
     }
 
-    private void OnEnable()
-    {
-        stats.OnDeath += Death;
-        registry.Add(TargetKind.Turret, this);
-    }
+    private void OnEnable() => stats.OnDeath += Death;
 
-    private void OnDisable()
-    {
-        registry.Remove(TargetKind.Turret, this);
-        stats.OnDeath -= Death;
-    }
+    private void OnDisable() => stats.OnDeath -= Death;
 
     private void Update()
     {
-        Vector3 origin = muzzelFlash.transform.position;
-        if (Time.time >= nextScan)
-        {
-            target = targeting.FindVisibleEnemy(transform, origin, firingRange);
-            nextScan = Time.time + ScanInterval;
-        }
-
-        bool canFire = targeting.CanSeeEnemy(transform, origin, target, firingRange);
+        Targetable target = seeker.Current;
+        bool canFire = seeker.IsInRange(target) && CanSee(target);
         if (canFire)
         {
             Vector3 aim = target.AimPoint;
@@ -60,7 +45,7 @@ public class GatlingGun : MonoBehaviour
             if ((aim - go_GunBody.position).sqrMagnitude > 0.001f)
                 go_GunBody.LookAt(aim);
 
-            if (Time.time >= nextShot && targeting.CanSeeEnemy(transform, muzzelFlash.transform.position, target, firingRange))
+            if (Time.time >= nextShot && CanSee(target))
             {
                 nextShot = Time.time + fireRate;
                 target.Health.TakeDamage(damage);
@@ -75,10 +60,13 @@ public class GatlingGun : MonoBehaviour
             muzzelFlash.Stop();
     }
 
+    private bool CanSee(Targetable target) => sight.CanSee(transform, muzzelFlash.transform.position, target);
+
     private void OnDrawGizmosSelected()
     {
+        float range = GetComponent<TargetSeeker>()?.Profile?.MaxDistance ?? 0f;
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, firingRange);
+        Gizmos.DrawWireSphere(transform.position, range > 0f ? range : firingRange);
     }
 
     private void Death()
