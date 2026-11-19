@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1929657213999872209}
   - component: {fileID: 6343555494212555017}
   - component: {fileID: 3469480791468087889}
+  - component: {fileID: 9057669909164886568}
   m_Layer: 0
   m_Name: Fortification_Tower_Front
   m_TagString: Untagged
@@ -50,6 +51,7 @@ Transform:
   - {fileID: 1483748545087658849}
   - {fileID: 8546421225137805403}
   - {fileID: 3477179542540329330}
+  - {fileID: 8204553050465598558}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33957111747489624
@@ -310,6 +312,7 @@ MonoBehaviour:
     openLeft: {fileID: 242472568376393076}
     openRight: {fileID: 896698810903673249}
   hasWalkway: 0
+  extraCells: []
 --- !u!114 &3469480791468087889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +327,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Structure
   title: TOWER
   icon: {fileID: 21300000, guid: 52c34de382c541f48b55a33ac8973ce0, type: 3}
+  upgrades:
+  - results:
+    - {fileID: 7608337181616176495, guid: f72d03e48b3dbfd4ca0f692e695377c3, type: 3}
+    price:
+      iron: 80
+      tree: 10
+      ore: 20
+      gold: 0
+      copper: 0
+    description: Mount a rapid-fire turret on the tower roof. Uses the tower's one
+      weapon slot.
+    actionLabel: INSTALL TURRET
+    action: 1
+  - results:
+    - {fileID: 4874874520397753000, guid: 58fef3d18b5571347a449818fe80b07f, type: 3}
+    price:
+      iron: 10
+      tree: 25
+      ore: 0
+      gold: 0
+      copper: 0
+    description: Mount an automatic crossbow on the tower roof. Uses the tower's
+      one weapon slot.
+    actionLabel: INSTALL CROSSBOW
+    action: 1
+  - results:
+    - {fileID: 3469480791468087889}
+    price:
+      iron: 0
+      tree: 0
+      ore: 0
+      gold: 0
+      copper: 0
+    description: Free the weapon slot. Materials spent on the weapon are not refunded.
+    actionLabel: REMOVE WEAPON
+    action: 2
+--- !u!114 &9057669909164886568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300330002657932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae613cd42d49e794b84ee972765863fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerMount
+  socket: {fileID: 8204553050465598558}
 --- !u!1 &242472568376393076
 GameObject:
   m_ObjectHideFlags: 0
@@ -1567,6 +1619,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 3796468158486274516, guid: 83e2a624c05074945a381ec4b7e0714b, type: 3}
+--- !u!1 &7118213580398175372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8204553050465598558}
+  m_Layer: 0
+  m_Name: Weapon Socket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8204553050465598558
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7118213580398175372}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6.22, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4263025509734090}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7686150106714325849
 GameObject:
   m_ObjectHideFlags: 0

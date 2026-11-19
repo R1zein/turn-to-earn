@@ -67,9 +67,9 @@ public class StructurePanelController : IInitializable, ITickable
             return null;
 
         Ray ray = camera.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-        if (!Physics.Raycast(ray, out RaycastHit hit, Reach, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+        if (!Physics.Raycast(ray, out RaycastHit hit, Reach, Physics.DefaultRaycastLayers & ~LayerMask.GetMask("Viewmodel"), QueryTriggerInteraction.Ignore))
             return null;
         distance = hit.distance;
-        return structures.At(hit);
+        return structures.ForInteraction(hit);
     }
 }

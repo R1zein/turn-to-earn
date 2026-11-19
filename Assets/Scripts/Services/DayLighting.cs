@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 using Zenject;
 
 // How the world looks at every moment of the day, from one continuous clock
 // rather than per period, so nothing jumps at a phase boundary:
-//  - the sun rises at the start of dawn, peaks at noon and sets at the end of
-//    dusk; at night the same light is a dim moon at a fixed angle. It swaps
-//    direction at the horizon, where its intensity curve is ~0;
+//  - the directional light stays above the horizon. Its intensity curve drives
+//    sunrise and sunset, keeping shadows from sweeping across the map;
 //  - sun colour and intensity, ambient and reflection intensity, fog colour and
 //    sky exposure come from the Sky curves of GameConfig (whole day, 0..24 h);
 //  - the day and night skyboxes swap at sunrise and sunset, where the exposure
@@ -16,6 +16,7 @@ public class DayLighting : IInitializable, ITickable, IDisposable
     [Inject] private TimeManager timeManager;
     [Inject] private GameConfig config;
     [Inject] private LevelAnchors anchors;
+    [Inject] private Terrain terrain;
 
     private Material daySky;
     private Material nightSky;
@@ -30,6 +31,8 @@ public class DayLighting : IInitializable, ITickable, IDisposable
         nightSky = new Material(config.NightSkybox);
         baseReflection = RenderSettings.reflectionIntensity;
         baseProbe = anchors.ReflectionProbe.intensity;
+        anchors.Sun.transform.rotation = Quaternion.Euler(Mathf.Max(5f, config.NoonSunElevation), config.NoonSunYaw, 0f);
+        terrain.shadowCastingMode = ShadowCastingMode.Off;
         Apply(timeManager.Hour);
     }
 
@@ -48,18 +51,6 @@ public class DayLighting : IInitializable, ITickable, IDisposable
         bool isSunUp = hour >= sunrise && hour < sunset;
 
         Light sun = anchors.Sun;
-        if (isSunUp)
-        {
-            float t = Mathf.InverseLerp(sunrise, sunset, hour);
-            float elevation = config.NoonSunElevation * Mathf.Sin(Mathf.PI * t);
-            float yaw = config.NoonSunYaw - 90f + 180f * t;
-            sun.transform.rotation = Quaternion.Euler(elevation, yaw, 0f);
-        }
-        else
-        {
-            sun.transform.rotation = Quaternion.Euler(config.MoonElevation, config.NoonSunYaw + 180f, 0f);
-        }
-
         float dayFraction = hour / 24f;
         sun.color = config.SunColor.Evaluate(dayFraction);
         sun.intensity = config.SunIntensity.Evaluate(hour);

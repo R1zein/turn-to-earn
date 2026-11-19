@@ -72,6 +72,7 @@ public class WallStairs
                 continue;
 
             cuts.Remove(stairs[i]);
+            stairs[i].Root.SetActive(false);
             Object.Destroy(stairs[i].Root);
             stairs.RemoveAt(i);
         }

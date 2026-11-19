@@ -21,7 +21,7 @@ public class StructureWindowController : IInitializable, IDisposable
     private readonly List<Action> unsubscribe = new List<Action>();
     private readonly Dictionary<IStructureTab, Button> buttons = new Dictionary<IStructureTab, Button>();
     private readonly Dictionary<IStructureTab, VisualElement> pages = new Dictionary<IStructureTab, VisualElement>();
-    private VisualElement panel, icon, healthFill;
+    private VisualElement panel, frame, tabBar, icon, healthFill;
     private Label title, health;
     private Structure current;
     private IStructureTab shown;
@@ -30,6 +30,8 @@ public class StructureWindowController : IInitializable, IDisposable
     public void Initialize()
     {
         panel = document.rootVisualElement.Q("StructureWindow");
+        frame = panel.Q("WindowFrame");
+        tabBar = panel.Q("WindowTabs");
         icon = panel.Q("WindowIcon");
         title = panel.Q<Label>("WindowTitle");
         health = panel.Q<Label>("WindowHealth");
@@ -107,13 +109,18 @@ public class StructureWindowController : IInitializable, IDisposable
         DrawHealth();
 
         IStructureTab first = null;
+        int tabCount = 0;
         foreach (IStructureTab tab in tabs)
         {
             bool has = tab.IsFor(structure);
             buttons[tab].EnableInClassList("hidden", !has);
             if (has && first == null)
                 first = tab;
+            if (has)
+                tabCount++;
         }
+        tabBar.EnableInClassList("hidden", tabCount == 1);
+        frame.style.width = tabCount == 1 ? 870f : 1240f;
         Select(preferred != null && preferred.IsFor(structure) ? preferred : first);
     }
 

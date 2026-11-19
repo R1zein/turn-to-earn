@@ -12,6 +12,7 @@ public class RepairTool : MonoBehaviour
 
     [Inject] private InputService input;
     [Inject] private StructureLookup structures;
+    [Inject] private Camera aimCamera;
 
     private Animator animator;
     private SoundController soundController;
@@ -41,8 +42,8 @@ public class RepairTool : MonoBehaviour
     // Animation event of the swing.
     public void Hit()
     {
-        Ray screenRay = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-        if (!Physics.Raycast(screenRay, out RaycastHit hit, Reach, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+        Ray screenRay = aimCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+        if (!Physics.Raycast(screenRay, out RaycastHit hit, Reach, Physics.DefaultRaycastLayers & ~LayerMask.GetMask("Viewmodel"), QueryTriggerInteraction.Ignore))
             return;
 
         Structure structure = structures.At(hit);

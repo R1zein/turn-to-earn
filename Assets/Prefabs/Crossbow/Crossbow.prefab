@@ -199,6 +199,7 @@ GameObject:
   - component: {fileID: 1633073862284077707}
   - component: {fileID: 4874874520397753000}
   - component: {fileID: 637436760070827129}
+  - component: {fileID: 4815073041300483567}
   m_Layer: 0
   m_Name: Crossbow
   m_TagString: Untagged
@@ -482,6 +483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Structure
   title: CROSSBOW
   icon: {fileID: 21300000, guid: 6e3270e4b3a87dc4d8ee47b2267ccb0b, type: 3}
+  upgrades: []
 --- !u!114 &637436760070827129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +500,52 @@ MonoBehaviour:
   footprintCentre: {x: 0, y: 0.18132341}
   sockets: []
   hasWalkway: 0
+  extraCells: []
+--- !u!114 &4815073041300483567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7160053702802794883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d160d9f88f5ddb54db220856b7127e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrossbowDefense
+  muzzle: {fileID: 2950857933176153155}
+  boltModel: {fileID: 3846581268647286323, guid: 08c5003b8d677664b9ee405ef51a95ee, type: 3}
+--- !u!1 &8091099014846218442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2950857933176153155}
+  m_Layer: 0
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2950857933176153155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8091099014846218442}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.21, z: 1.36}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6743772443406034676}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8859407096022573526
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,6 +674,7 @@ Transform:
   - {fileID: 7993706951616012893}
   - {fileID: 7231966607360115236}
   - {fileID: 5017656575659519454}
+  - {fileID: 2950857933176153155}
   m_Father: {fileID: 8408012492263942596}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4300432941426355511

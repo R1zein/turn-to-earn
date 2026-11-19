@@ -19,8 +19,6 @@ public class BuildService
     [Inject] private BuildingPlacer placer;
     [Inject] private BuildGrid grid;
     [Inject] private BuildGridOverlay overlay;
-    [Inject] private WallCorners wallCorners;
-    [Inject] private WallStairs wallStairs;
     [Inject] private GameConfig config;
 
     private readonly HashSet<GridBuilding> tinted = new HashSet<GridBuilding>();
@@ -148,10 +146,7 @@ public class BuildService
     {
         placed.Claim(cells, turns, price);
         if (placed.TryGetComponent(out WallSegment wall))
-        {
-            wallCorners.Add(wall);
-            wallStairs.Add(wall);
-        }
+            wall.Join();
     }
 
     // The nearest footprint that joins a free socket of a placed building, within

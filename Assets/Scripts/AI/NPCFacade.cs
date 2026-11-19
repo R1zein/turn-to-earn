@@ -16,6 +16,9 @@ public abstract class NPCFacade : MonoBehaviour
     public AllResources requiredResources;
     private bool isHeldStill;
 
+    public StatsHandler Health => statsHandler;
+    public Vector3 AimPoint => _collider.bounds.center;
+
     // What others see this NPC as; null = nobody targets it.
     protected abstract TargetKind? Kind { get; }
 
@@ -27,6 +30,8 @@ public abstract class NPCFacade : MonoBehaviour
         _collider = GetComponent<Collider>();
         navigation = GetComponent<NPCNavigation>();
         statsHandler = GetComponent<StatsHandler>();
+        if (navigation != null)
+            rb.isKinematic = true;
     }
     private void OnEnable()
     {
@@ -42,7 +47,7 @@ public abstract class NPCFacade : MonoBehaviour
     }
     protected void Update()
     {
-        if (isHeldStill)
+        if (isHeldStill || statsHandler.IsDead)
             return;
 
         Navigation();
@@ -58,6 +63,7 @@ public abstract class NPCFacade : MonoBehaviour
         agent.enabled = false;
         if (navigation != null)
             navigation.enabled = false;
+        rb.isKinematic = false;
         rb.constraints = RigidbodyConstraints.FreezeRotation
             | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         animator.SetBool("Idle", true);
@@ -84,17 +90,22 @@ public abstract class NPCFacade : MonoBehaviour
 
     protected virtual void NPCAnimationControl()
     {
-        if (navigation.target == null)
+        bool attacking = navigation.InAttackRange(navigation.attackDistance);
+        animator.SetBool("Attack", attacking);
+        animator.SetBool("Run", !attacking && navigation.IsMoving);
+        animator.SetBool("Idle", !attacking && !navigation.IsMoving);
+        if (agent.enabled && agent.isOnNavMesh)
         {
-            animator.SetBool("Idle", true);
-            return;
-        }
-        animator.SetBool("Run", true);
-        if (Vector3.Distance(transform.position, navigation.target.transform.position) <= navigation.attackDistance)
-        {
-            animator.SetBool("Attack", true);
-            animator.SetBool("Run", false);
-            return;
+            agent.isStopped = attacking;
+            agent.updateRotation = !attacking;
+            if (attacking)
+            {
+                Vector3 direction = navigation.target.position - transform.position;
+                direction.y = 0f;
+                if (direction.sqrMagnitude > 0.01f)
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                        Quaternion.LookRotation(direction), agent.angularSpeed * Time.deltaTime);
+            }
         }
     }
 }

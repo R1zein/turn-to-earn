@@ -14,29 +14,59 @@ public class StructureUpgrades
     [Inject] private BuildGrid grid;
     [Inject] private BuildingPlacer placer;
     [Inject] private BuildService buildService;
-    [Inject] private WallCorners wallCorners;
-    [Inject] private WallStairs wallStairs;
 
     // The old structure and the one that took its place.
     public event Action<Structure, Structure> OnUpgraded;
 
     public bool CanAfford(StructureUpgrade upgrade) => wallet.Current >= upgrade.Price;
 
+    public bool IsOffered(Structure structure, StructureUpgrade upgrade)
+    {
+        if (upgrade.Action == StructureUpgradeAction.Replace)
+            return true;
+
+        return structure.TryGetComponent(out TowerMount mount)
+            && mount.HasWeapon == (upgrade.Action == StructureUpgradeAction.RemoveMount);
+    }
+
     // The first of the upgrade's results that fits where the structure stands, or null.
     public Structure Fitting(Structure structure, StructureUpgrade upgrade)
     {
+        if (!IsOffered(structure, upgrade) || structure.Stats.IsDead)
+            return null;
+
         GridBuilding standing = structure.GetComponent<GridBuilding>();
+        if (upgrade.Action != StructureUpgradeAction.Replace)
+            return standing != null && standing.IsClaimed ? upgrade.Result : null;
+
         foreach (Structure result in upgrade.Results)
-            if (standing == null || Fits(result.GetComponent<GridBuilding>(), standing))
+            if (standing == null || (result.TryGetComponent(out GridBuilding gridResult) && Fits(gridResult, standing)))
                 return result;
         return null;
     }
 
     public bool TryUpgrade(Structure structure, StructureUpgrade upgrade)
     {
+        if (structure == null || !structure.isActiveAndEnabled)
+            return false;
+
         Structure result = Fitting(structure, upgrade);
         if (result == null || !wallet.TrySpend(upgrade.Price))
             return false;
+
+        if (upgrade.Action != StructureUpgradeAction.Replace)
+        {
+            var mount = structure.GetComponent<TowerMount>();
+            if (upgrade.Action == StructureUpgradeAction.RemoveMount)
+                mount.RemoveWeapon();
+            else
+            {
+                Transform socket = mount.Socket;
+                GameObject weapon = placer.Place(result.gameObject, socket.position, socket.rotation);
+                mount.Install(weapon.GetComponent<Structure>(), upgrade.Price);
+            }
+            return true;
+        }
 
         Transform body = structure.transform;
         GridBuilding standing = structure.GetComponent<GridBuilding>();
@@ -45,13 +75,6 @@ public class StructureUpgrades
 
         // The old one lets go of its cells and joints now, not when it is destroyed at
         // the end of the frame, so the new one finds them free.
-        if (standing != null)
-            standing.Leave();
-        if (structure.TryGetComponent(out WallSegment wall))
-        {
-            wallCorners.Remove(wall);
-            wallStairs.Remove(wall);
-        }
         structure.gameObject.SetActive(false);
         Object.Destroy(structure.gameObject);
 

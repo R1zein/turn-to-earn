@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
     <Style src="MainStyle.uss" />
-    <ui:Template name="ResourceMarks" src="Templates/ResourceMarks.uxml" />
+    <ui:Template name="UpgradeRow" src="Templates/UpgradeRow.uxml" />
     <!-- One window for every structure the player interacts with (E). The header is the
          structure itself; below are the tabs it has: what it does (BOTS and BASE at the
          shop table) and what it can turn into (MODIFY). -->
     <ui:VisualElement name="StructureWindow" class="fill center hidden" picking-mode="Ignore">
-        <ui:VisualElement class="bg-surface frame frame-lit-left" style="width: 1240px; padding: 18px 24px 20px 24px;">
+        <ui:VisualElement name="WindowFrame" class="bg-surface frame frame-lit-left" style="width: 1240px; padding: 18px 24px 20px 24px;">
             <ui:VisualElement class="divider-bottom" style="flex-direction: row; align-items: center; margin-bottom: 14px; padding-bottom: 12px;">
                 <ui:VisualElement name="WindowIcon" picking-mode="Ignore" style="width: 84px; height: 84px; margin-right: 18px; border-radius: 10px; -unity-background-scale-mode: scale-to-fit;" />
                 <ui:VisualElement picking-mode="Ignore" style="width: 380px;">
@@ -24,36 +24,24 @@
             </ui:VisualElement>
             <!-- A tab and its page are named "<name>Tab" and "<name>Page" after an
                  IStructureTab; only the tabs the structure has are shown. -->
-            <ui:VisualElement style="flex-direction: row; margin-bottom: 12px;">
+            <ui:VisualElement name="WindowTabs" style="flex-direction: row; margin-bottom: 12px;">
                 <ui:Button name="BotsTab" text="BOTS" class="btn" style="margin-right: 10px; padding: 10px 22px;" />
                 <ui:Button name="BaseTab" text="BASE" class="btn" style="margin-right: 10px; padding: 10px 22px;" />
                 <ui:Button name="ModifyTab" text="MODIFY" class="btn" style="margin-right: 10px; padding: 10px 22px;" />
             </ui:VisualElement>
-            <ui:VisualElement style="min-height: 400px;">
+            <ui:VisualElement>
                 <!-- Each list is filled from the ItemCard template. -->
-                <ui:VisualElement name="BotsPage">
+                <ui:VisualElement name="BotsPage" style="min-height: 400px;">
                     <ui:VisualElement name="BotOptions" class="row" style="justify-content: center;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="BasePage">
+                <ui:VisualElement name="BasePage" style="min-height: 400px;">
                     <ui:Label name="BaseHint" text="CHOOSE WHERE TO BUILD THE BASE" class="text-muted text-sm tracking heavy" style="-unity-text-align: middle-center; margin-bottom: 6px;" />
                     <ui:VisualElement name="FortificationOptions" class="row" style="justify-content: center;" />
                     <ui:VisualElement name="PartOptions" class="row" style="justify-content: center;" />
                 </ui:VisualElement>
-                <!-- Cards from the BuildCard template, one per upgrade of the structure;
-                     the card under the mouse is described below them. -->
-                <ui:VisualElement name="ModifyPage" style="flex-grow: 1;">
-                    <ui:VisualElement name="UpgradeOptions" style="flex-grow: 1; flex-direction: row; flex-wrap: wrap; align-content: flex-start;" />
-                    <ui:VisualElement name="UpgradeDetail" class="divider-top" style="flex-direction: row; align-items: center; margin-top: 10px; padding-top: 12px; min-height: 112px;">
-                        <ui:VisualElement name="UpgradeIcon" picking-mode="Ignore" style="width: 96px; height: 96px; margin-right: 18px; border-radius: 10px; -unity-background-scale-mode: scale-to-fit;" />
-                        <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; flex-shrink: 1;">
-                            <ui:Label name="UpgradeTitle" text="TITLE" picking-mode="Ignore" class="text-accent text-md bold tracking-wide" />
-                            <ui:Label name="UpgradeDescription" text="DESCRIPTION" picking-mode="Ignore" class="text-muted text-sm tracking heavy" style="margin-top: 6px; white-space: normal;" />
-                        </ui:VisualElement>
-                        <ui:VisualElement picking-mode="Ignore" style="align-items: flex-end; margin-left: 20px;">
-                            <ui:Label name="UpgradeHint" text="CLICK - UPGRADE AND PAY" picking-mode="Ignore" class="text-muted text-sm tracking heavy" />
-                            <ui:Instance template="ResourceMarks" name="UpgradePrice" picking-mode="Ignore" style="margin-top: 6px;" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
+                <ui:VisualElement name="ModifyPage">
+                    <ui:Instance template="UpgradeRow" name="UpgradeRowTemplate" class="hidden" />
+                    <ui:VisualElement name="UpgradeOptions" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

@@ -177,7 +177,7 @@ public class GridBuilding : MonoBehaviour
         grid.Release(this, occupied);
     }
 
-    private void OnDestroy() => Leave();
+    private void OnDisable() => Leave();
 
     public void SetConflict(bool isInConflict)
     {

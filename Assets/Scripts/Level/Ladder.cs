@@ -18,10 +18,19 @@ public class Ladder : MonoBehaviour
     public Vector3 Up => transform.TransformDirection(rails).normalized;
 
     // Level, from the climber to what the ladder leans on.
-    public Vector3 Toward => Vector3.ProjectOnPlane(Up, Vector3.up).normalized;
+    public Vector3 Toward
+    {
+        get
+        {
+            Vector3 lean = Vector3.ProjectOnPlane(Up, Vector3.up);
+            return lean.sqrMagnitude > 0.001f ? lean.normalized : transform.forward;
+        }
+    }
 
     // World height of the deck at its top.
     public float TopY => transform.position.y + topHeight;
+
+    public Vector3 RailAt(float height) => transform.position + Up * ((height - transform.position.y) / Up.y);
 
     private void OnTriggerEnter(Collider other)
     {

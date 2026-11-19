@@ -204,8 +204,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8429889297581041637, guid: c6b771275223a97468bae7983cd0d365, type: 3}
+      propertyPath: upgrades.Array.data[0].actionLabel
+      value: REMOVE LADDER
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429889297581041637, guid: c6b771275223a97468bae7983cd0d365, type: 3}
       propertyPath: upgrades.Array.data[0].description
-      value: TAKE THE LADDER DOWN
+      value: Take down the ladder and free its grid cell.
       objectReference: {fileID: 0}
     - target: {fileID: 8429889297581041637, guid: c6b771275223a97468bae7983cd0d365, type: 3}
       propertyPath: upgrades.Array.data[0].results.Array.size

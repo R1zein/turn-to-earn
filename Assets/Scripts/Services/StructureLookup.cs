@@ -13,4 +13,12 @@ public class StructureLookup
         WallSegment wall = corners.WallAt(hit);
         return wall != null ? wall.GetComponent<Structure>() : hit.collider.GetComponentInParent<Structure>();
     }
+
+    public Structure ForInteraction(RaycastHit hit)
+    {
+        Structure aimed = At(hit);
+        if (aimed != null && aimed.GetComponentInParent<TowerMount>() is TowerMount mount && mount.Weapon == aimed)
+            return mount.GetComponent<Structure>();
+        return aimed;
+    }
 }

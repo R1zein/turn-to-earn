@@ -2,6 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum StructureUpgradeAction
+{
+    Replace,
+    Mount,
+    RemoveMount,
+}
+
 // What a structure can turn into in its own place (StructureUpgrades): a wall into a
 // wall with a ladder, later a wooden wall into a stone one. The card in the MODIFY tab
 // shows the result's icon and name.
@@ -13,11 +20,15 @@ public class StructureUpgrade
     [SerializeField] private AllResources price = new AllResources();
     [Tooltip("One line under the cards about what the upgrade gives")]
     [SerializeField] private string description;
+    [SerializeField] private string actionLabel;
+    [SerializeField] private StructureUpgradeAction action;
 
     public IReadOnlyList<Structure> Results => results;
     public Structure Result => results[0];
     public AllResources Price => price;
     public string Description => description;
+    public string ActionLabel => string.IsNullOrWhiteSpace(actionLabel) ? "UPGRADE TO " + Result.Title : actionLabel;
+    public StructureUpgradeAction Action => action;
 }
 
 // Anything the player builds: a wall, a tower, a gate, a turret. Has a name, an

@@ -34,21 +34,14 @@ public class StatsHandler : MonoBehaviour
             currHP = Mathf.Min(currHP + amount, maxHP);
     }
 
-    private bool hasStartHP;
-
     // A body that takes another's place (an upgraded wall) starts with what that one
     // had left instead of full health. Called right after it is born, before Start.
     public void StartWith(float hp)
     {
         currHP = hp;
-        hasStartHP = true;
     }
 
-    private void Start()
-    {
-        if (!hasStartHP)
-            currHP = maxHP;
-    }
+    private void Awake() => currHP = maxHP;
 
 }
 

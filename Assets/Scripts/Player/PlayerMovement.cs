@@ -33,8 +33,10 @@ public class PlayerMovement : MonoBehaviour
     // count as standing on something.
     private const float ContactOffset = 0.2f;
     private const float TouchDistance = 0.02f;
-    // A ladder: looking further down than this, forward climbs down.
-    private const float LadderLookDown = -35f;
+    private const float LadderFacingDot = 0.35f;
+    private const float LadderMountDistance = 0.8f;
+    private const float LadderMountWidth = 0.45f;
+    private const float LadderDeckEdge = 0.12f;
     // The feet go this far above the top before stepping off, to clear the deck's edge.
     private const float LadderStepOffLift = 0.1f;
     // Ground this far below the top is the bottom of a ladder: forward climbs from it.
@@ -104,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpBufferLeft;
     private float airTime;
     private float ladderLetGoLeft;
+    private Ladder climbing;
 
     public event Action Jumped;
     public event Action Landed;
@@ -177,7 +180,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         ladderLetGoLeft -= dt;
-        if (Ladder != null && ladderLetGoLeft <= 0f && Climb(ref velocity))
+        if (climbing != Ladder)
+            climbing = null;
+        if (Ladder != null && ladderLetGoLeft <= 0f && Climb(ref velocity, dt))
         {
             // Hanging on a ladder is not a fall: letting go starts the air time anew.
             airTime = 0f;
@@ -207,25 +212,47 @@ public class PlayerMovement : MonoBehaviour
         groundContacts = stepContacts = 0;
     }
 
-    // On a ladder the keys climb: forward goes up the rails (down, if looking down),
-    // back goes down, sideways moves along it; with no keys the body hangs. At the
-    // top forward steps off onto the deck the ladder leans on. Jump lets go.
-    // False when the legs walk instead: on the ground at its foot unless forward is
-    // held, and anywhere on the deck at its top.
-    private bool Climb(ref Vector3 velocity)
+    private bool Climb(ref Vector3 velocity, float dt)
     {
         Vector2 move = Vector2.ClampMagnitude(input.Move, 1f);
-        float upward = look.Pitch < LadderLookDown ? -move.y : move.y;
+        Vector3 facing = Quaternion.Euler(0f, look.Yaw, 0f) * Vector3.forward;
+        float facingLadder = Vector3.Dot(facing, Ladder.Toward);
+        float upward = Mathf.Abs(facingLadder) >= LadderFacingDot ? Mathf.Sign(facingLadder) * move.y : 0f;
         float feet = body.position.y;
-        if (IsGrounded && (move.y <= 0f || upward <= 0f || feet > Ladder.TopY - LadderDeckMargin))
-            return false;
+        Vector3 side = Vector3.Cross(Vector3.up, Ladder.Toward);
+        Vector3 offset = body.position - Ladder.RailAt(feet);
+        float inFront = -Vector3.Dot(offset, Ladder.Toward);
+        if (climbing == null)
+        {
+            bool centered = Mathf.Abs(Vector3.Dot(offset, side)) <= LadderMountWidth;
+            bool atFoot = feet < Ladder.TopY - LadderDeckMargin && IsGrounded && upward > 0f && move.y > 0f;
+            // Walking across the deck or brushing the trigger in midair must not stop the player.
+            bool atEdge = Mathf.Abs(feet - Ladder.TopY) <= LadderDeckMargin && inFront >= LadderDeckEdge
+                && upward < 0f;
+            if (!centered || inFront < -LadderDeckEdge || inFront > LadderMountDistance || (!atFoot && !atEdge))
+                return false;
+            climbing = Ladder;
+        }
 
         if (jumpBufferLeft > 0f)
         {
-            jumpBufferLeft = 0f;
             ladderLetGoLeft = LadderLetGoTime;
-            velocity = (Vector3.up - Ladder.Toward) * climbSpeed;
+            climbing = null;
+            velocity = -Ladder.Toward * climbSpeed;
+            Jump(ref velocity, dt);
             return true;
+        }
+
+        if (IsGrounded && upward < 0f && feet < Ladder.TopY - LadderDeckMargin)
+        {
+            climbing = null;
+            return false;
+        }
+
+        if (IsGrounded && feet >= Ladder.TopY - LadderStepOffLift && inFront < -LadderDeckEdge)
+        {
+            climbing = null;
+            return false;
         }
 
         if (upward > 0f && feet >= Ladder.TopY + LadderStepOffLift)
@@ -234,8 +261,7 @@ public class PlayerMovement : MonoBehaviour
             return true;
         }
 
-        Vector3 side = Vector3.Cross(Vector3.up, Ladder.Toward);
-        velocity = Ladder.Up * (upward * climbSpeed) + side * (move.x * climbSpeed);
+        velocity = Ladder.Up * (upward * climbSpeed) + side * (move.x * Mathf.Sign(facingLadder) * climbSpeed);
         return true;
     }
 

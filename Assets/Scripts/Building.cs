@@ -22,6 +22,7 @@ public class Building : MonoBehaviour
 
     private void Death()
     {
+        gameObject.SetActive(false);
         Destroy(gameObject);
     }
     private void OnDisable()

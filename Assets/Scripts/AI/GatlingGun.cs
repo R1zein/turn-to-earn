@@ -3,33 +3,27 @@ using Zenject;
 
 public class GatlingGun : MonoBehaviour
 {
+    private const float ScanInterval = 0.25f;
+
     [Inject] private TargetRegistry registry;
     [Inject] private TargetingService targeting;
-
-    private Enemy target;
 
     public Transform go_baseRotation;
     public Transform go_GunBody;
     public Transform go_barrel;
-
     public float barrelRotationSpeed;
-    float currentRotationSpeed;
-
     public float firingRange;
     public ParticleSystem muzzelFlash;
-
-    private StatsHandler stats;
-
-    bool canFire = false;
-    private float timer;
-
     public float fireRate = 0.1f;
     public float damage;
 
-    private float damageTimer;
+    private NPCFacade target;
+    private StatsHandler stats;
+    private float spin;
+    private float nextScan;
+    private float nextShot;
 
-    
-    void Awake()
+    private void Awake()
     {
         GetComponent<SphereCollider>().radius = firingRange;
         stats = GetComponent<StatsHandler>();
@@ -47,92 +41,49 @@ public class GatlingGun : MonoBehaviour
         stats.OnDeath -= Death;
     }
 
-    void Update()
+    private void Update()
     {
-        timer += Time.deltaTime;
-        damageTimer += Time.deltaTime;
-        AimAndFire();
-        if (timer > 1f)
+        Vector3 origin = muzzelFlash.transform.position;
+        if (Time.time >= nextScan)
         {
-            timer = 0f;
-            ScanForTarget();
-            if (target != null)
+            target = targeting.FindVisibleEnemy(transform, origin, firingRange);
+            nextScan = Time.time + ScanInterval;
+        }
+
+        bool canFire = targeting.CanSeeEnemy(transform, origin, target, firingRange);
+        if (canFire)
+        {
+            Vector3 aim = target.AimPoint;
+            Vector3 horizontal = Vector3.ProjectOnPlane(aim - go_baseRotation.position, Vector3.up);
+            if (horizontal.sqrMagnitude > 0.001f)
+                go_baseRotation.rotation = Quaternion.LookRotation(horizontal);
+            if ((aim - go_GunBody.position).sqrMagnitude > 0.001f)
+                go_GunBody.LookAt(aim);
+
+            if (Time.time >= nextShot && targeting.CanSeeEnemy(transform, muzzelFlash.transform.position, target, firingRange))
             {
-                canFire = true;
-            }
-            else
-            {
-                canFire = false;
+                nextShot = Time.time + fireRate;
+                target.Health.TakeDamage(damage);
             }
         }
+
+        spin = Mathf.MoveTowards(spin, canFire ? barrelRotationSpeed : 0f, barrelRotationSpeed * 6f * Time.deltaTime);
+        go_barrel.Rotate(0f, 0f, spin * Time.deltaTime);
+        if (canFire && !muzzelFlash.isPlaying)
+            muzzelFlash.Play();
+        else if (!canFire && muzzelFlash.isPlaying)
+            muzzelFlash.Stop();
     }
 
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, firingRange);
     }
 
-
-    void AimAndFire()
-    {
-        go_barrel.transform.Rotate(0, 0, currentRotationSpeed * Time.deltaTime);
-
-        if (canFire)
-        {
-            currentRotationSpeed = barrelRotationSpeed;
-
-            Vector3 baseTargetPostition = new Vector3(target.transform.position.x, this.transform.position.y, target.transform.position.z);
-            Vector3 gunBodyTargetPostition = new Vector3(target.transform.position.x, target.transform.position.y, target.transform.position.z);
-
-            go_baseRotation.transform.LookAt(baseTargetPostition);
-            go_GunBody.transform.LookAt(gunBodyTargetPostition);
-
-            if (!muzzelFlash.isPlaying)
-            {
-                muzzelFlash.Play();
-            }
-            if (damageTimer > fireRate)
-            {
-                target.GetComponent<StatsHandler>().TakeDamage(damage);
-                damageTimer = 0;
-            }
-        }
-        else
-        {
-            currentRotationSpeed = Mathf.Lerp(currentRotationSpeed, 0, 10 * Time.deltaTime);
-
-            if (muzzelFlash.isPlaying)
-            {
-                muzzelFlash.Stop();
-            }
-        }
-    }
-    private void ScanForTarget()
-    {
-        Enemy currentTarget = targeting.FindNearest<Enemy>(TargetKind.Enemy, transform.position, firingRange);
-        if (currentTarget != null && currentTarget != target)
-        {
-            currentTarget.GetComponent<StatsHandler>().OnDeath += CheckTarget;
-            if(target != null)
-            {
-                target.GetComponent<StatsHandler>().OnDeath -= CheckTarget;
-            }
-            target = currentTarget;
-        }
-    }
-    private void CheckTarget()
-    {
-        target.GetComponent<StatsHandler>().OnDeath -= CheckTarget;
-        target = null;
-        canFire = false;
-    }
-
-
     private void Death()
     {
+        gameObject.SetActive(false);
         Destroy(gameObject);
     }
-
-
 }

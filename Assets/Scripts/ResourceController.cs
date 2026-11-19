@@ -35,6 +35,8 @@ public abstract class ResourceController : MonoBehaviour
         registry.Remove(TargetKind.ResourceNode, this);
     }
 
+    private void OnDestroy() => spawner.Release(this);
+
     private async Awaitable DeathEffect()
     {
         // Mined out: bots stop walking to it while the effect plays.
@@ -42,16 +44,15 @@ public abstract class ResourceController : MonoBehaviour
         nodeCollider.enabled = false;
         nodeRenderer.enabled = false;
         Instantiate(destroyEffect, transform.position, Quaternion.identity);
-        await Awaitable.WaitForSecondsAsync(2f);
-        spawner.Release(this);
+        await Awaitable.WaitForSecondsAsync(2f, destroyCancellationToken);
         Destroy(gameObject);
     }
     protected void Death()
     {
         if(isDying == false)
         {
-            DeathEffect();
             isDying = true;
+            _ = DeathEffect();
         }
     }
 

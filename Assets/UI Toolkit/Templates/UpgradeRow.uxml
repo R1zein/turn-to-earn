@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../MainStyle.uss" />
+    <ui:Template name="ResourceMarks" src="ResourceMarks.uxml" />
+    <ui:VisualElement class="divider-bottom" style="flex-direction: row; align-items: center; padding: 12px 0;">
+        <ui:VisualElement name="UpgradeIcon" picking-mode="Ignore" style="width: 84px; height: 84px; margin-right: 16px; -unity-background-scale-mode: scale-to-fit;" />
+        <ui:VisualElement style="flex-grow: 1; flex-shrink: 1; padding-right: 16px;">
+            <ui:Label name="UpgradeTitle" class="text-accent text-md bold tracking" />
+            <ui:Label name="UpgradeDescription" class="text-muted text-sm tracking" style="white-space: normal; margin-top: 5px;" />
+            <ui:Label name="UpgradeStatus" class="text-hot text-sm bold" style="white-space: normal;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="align-items: flex-end;">
+            <ui:Instance template="ResourceMarks" name="UpgradePrice" picking-mode="Ignore" style="margin-bottom: 6px;" />
+            <ui:Button name="UpgradeAction" class="btn" style="min-width: 176px; padding: 8px 12px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

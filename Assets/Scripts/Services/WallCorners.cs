@@ -69,7 +69,10 @@ public class WallCorners
             cuts.Remove(corners[i]);
             foreach (GameObject part in corners[i].Parts)
                 if (part != null)
+                {
+                    part.SetActive(false);
                     Object.Destroy(part);
+                }
             corners.RemoveAt(i);
         }
     }

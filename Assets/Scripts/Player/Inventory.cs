@@ -10,6 +10,7 @@ public class Inventory : MonoBehaviour
     [Inject] private BuildService buildService;
     [Inject] private Dismantler dismantler;
     [Inject] private InputService input;
+    [Inject] private Camera aimCamera;
 
     public float buildDistance;
     public float scrollSpeed;
@@ -38,8 +39,8 @@ public class Inventory : MonoBehaviour
         // Triggers are not ground: a turret's 15 m range sphere or the sea's hull would
         // catch the ray long before it reaches the terrain.
         RaycastHit hit;
-        Ray screenRay = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-        bool isHit = Physics.Raycast(screenRay, out hit, buildDistance, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
+        Ray screenRay = aimCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+        bool isHit = Physics.Raycast(screenRay, out hit, buildDistance, Physics.DefaultRaycastLayers & ~LayerMask.GetMask("Viewmodel"), QueryTriggerInteraction.Ignore);
         if (dismantler.IsActive)
             dismantler.Aim(isHit ? hit.collider : null);
         else if (isHit)

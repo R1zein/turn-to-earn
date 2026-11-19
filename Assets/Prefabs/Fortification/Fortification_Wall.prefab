@@ -326,5 +326,7 @@ MonoBehaviour:
       ore: 0
       gold: 0
       copper: 0
-    description: A LADDER UP TO THE WALKWAY FROM INSIDE. NEEDS ONE FREE CELL IN FRONT
-      OF THE WALKWAY
+    description: Add access to the walkway from ground level. Requires one free cell
+      beside the wall.
+    actionLabel: BUILD LADDER
+    action: 0

@@ -36,9 +36,13 @@ public class Dismantler
         if (target == null)
             return;
 
-        wallet.Add(target.Price);
+        AllResources price = target.Price;
+        if (target.TryGetComponent(out TowerMount mount))
+            price += mount.InstalledCost;
+        target.gameObject.SetActive(false);
         Object.Destroy(target.gameObject);
         target = null;
+        wallet.Add(price);
     }
 
     private void SetTarget(GridBuilding building)

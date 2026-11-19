@@ -26,10 +26,10 @@ public class PlayerInteraction : IInitializable, IDisposable
             return;
 
         Ray ray = camera.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-        if (!Physics.Raycast(ray, out RaycastHit hit, Reach, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
+        if (!Physics.Raycast(ray, out RaycastHit hit, Reach, Physics.DefaultRaycastLayers & ~LayerMask.GetMask("Viewmodel"), QueryTriggerInteraction.Ignore))
             return;
 
-        Structure structure = structures.At(hit);
+        Structure structure = structures.ForInteraction(hit);
         if (structure != null)
             window.Open(structure);
     }

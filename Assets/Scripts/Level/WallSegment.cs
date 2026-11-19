@@ -16,8 +16,21 @@ public class WallSegment : MonoBehaviour
 
     public GridFootprint Cells => GetComponent<GridBuilding>().Footprint;
 
-    private void OnDestroy()
+    private bool isJoined;
+
+    public void Join()
     {
+        isJoined = true;
+        corners.Add(this);
+        stairs.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        if (!isJoined)
+            return;
+
+        isJoined = false;
         corners.Remove(this);
         stairs.Remove(this);
         cuts.Forget(this);

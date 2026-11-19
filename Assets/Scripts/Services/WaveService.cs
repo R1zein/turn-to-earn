@@ -69,7 +69,7 @@ public class WaveService : IInitializable, IDisposable
         for (int i = 0; i < zombies + spiders; i++)
         {
             Enemy prefab = i < zombies ? config.WaveEnemy : config.SpiderEnemy;
-            spawner.Spawn(prefab, portal.SpawnPosition);
+            spawner.SpawnFromPortal(prefab, portal);
             await Awaitable.WaitForSecondsAsync(config.WaveSpawnInterval);
             // The scene unloaded while we waited: the portal is gone with it.
             if (isDisposed)

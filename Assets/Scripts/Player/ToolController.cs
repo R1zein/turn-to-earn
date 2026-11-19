@@ -13,6 +13,7 @@ public class ToolController : MonoBehaviour
     private List<MineableResource> mineableResources = new List<MineableResource>();
 
     [Inject] private InputService input;
+    [Inject] private Camera aimCamera;
 
     private void Awake()
     {
@@ -41,9 +42,9 @@ public class ToolController : MonoBehaviour
         //точка куда луч попал
         RaycastHit hit;
         //луч из центра экрана
-        Ray screenRay = Camera.main.ScreenPointToRay(new Vector2(Screen.width/2, Screen.height/2));
+        Ray screenRay = aimCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
         //проверяет попадания луча 
-        if (Physics.Raycast(screenRay, out hit, 1.5f))
+        if (Physics.Raycast(screenRay, out hit, 1.5f, Physics.DefaultRaycastLayers & ~LayerMask.GetMask("Viewmodel"), QueryTriggerInteraction.Ignore))
         {
             ResourceController resourceController = hit.collider.gameObject.GetComponentInParent<ResourceController>();
             if (resourceController != null )
