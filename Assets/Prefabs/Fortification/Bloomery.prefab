@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 406482974494329494}
   - component: {fileID: 2825155697075325977}
   - component: {fileID: 8838645293576005353}
+  - component: {fileID: 5991095217526027556}
   m_Layer: 0
   m_Name: Bloomery
   m_TagString: Untagged
@@ -379,6 +380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Structure
   title: BLOOMERY
   icon: {fileID: 21300000, guid: cdfc718843991b6428e52c592514be5e, type: 3}
+  upgrades: []
 --- !u!114 &8838645293576005353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,3 +397,19 @@ MonoBehaviour:
   footprintCentre: {x: -0.92755055, y: -0.003953457}
   sockets: []
   hasWalkway: 0
+  extraCells: []
+--- !u!114 &5991095217526027556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5556755178480298614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: bc4899c93686ddc4fa03366f032c8647, type: 2}
+  weightOffset: 0
+  capacity: 4

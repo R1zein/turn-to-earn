@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 398078207115733474}
   - component: {fileID: 1006960756931416901}
   - component: {fileID: 5370401879430597476}
+  - component: {fileID: 6164451324744821522}
   m_Layer: 0
   m_Name: Fortification_Gate
   m_TagString: Untagged
@@ -249,6 +250,7 @@ MonoBehaviour:
     openLeft: {fileID: 0}
     openRight: {fileID: 0}
   hasWalkway: 1
+  extraCells: []
 --- !u!114 &5370401879430597476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +265,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Structure
   title: GATE
   icon: {fileID: 21300000, guid: 87686bdfc54f98d45bb057473144983e, type: 3}
+  upgrades: []
+--- !u!114 &6164451324744821522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118856984699074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: bc4899c93686ddc4fa03366f032c8647, type: 2}
+  weightOffset: 0
+  capacity: 8
 --- !u!1 &1244547235134560
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3508391259509540673}
   - component: {fileID: 5687838781647076729}
   - component: {fileID: 5182121501502424566}
+  - component: {fileID: 7790254614331316396}
   m_Layer: 0
   m_Name: Fir_Tree
   m_TagString: Untagged
@@ -125,8 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyEffect: {fileID: 8944714569178099255, guid: 0dc495e6dc8197c478f81ea1e6e64c21, type: 3}
-  positionID: 0
-  resourse: 1
+  resource: 1
   resourceStore: 100
   oneHitResource: 20
 --- !u!114 &5687838781647076729
@@ -159,3 +159,18 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &7790254614331316396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: 0d66eac69121ae643be02e028106d2be, type: 2}
+  weightOffset: 0
+  capacity: 2

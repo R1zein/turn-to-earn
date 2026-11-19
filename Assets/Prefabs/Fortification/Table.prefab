@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 8115950408874615026}
   - component: {fileID: 901833399665584692}
   - component: {fileID: 1501234044459166192}
+  - component: {fileID: 8362406552480813615}
   m_Layer: 0
   m_Name: Table
   m_TagString: Untagged
@@ -321,3 +322,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Structure
   title: SHOP TABLE
   icon: {fileID: 21300000, guid: d91cec31ff1571a45b9666f0e56ef59a, type: 3}
+  upgrades: []
+--- !u!114 &8362406552480813615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4456711033581844889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: bc4899c93686ddc4fa03366f032c8647, type: 2}
+  weightOffset: 0
+  capacity: 4

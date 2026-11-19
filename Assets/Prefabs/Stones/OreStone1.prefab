@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8403996448149607361}
   - component: {fileID: 910200459947233955}
   - component: {fileID: 6039415108837272450}
+  - component: {fileID: 6622662285214154419}
   m_Layer: 7
   m_Name: OreStone1
   m_TagString: Untagged
@@ -157,8 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyEffect: {fileID: 5508850351725424096, guid: 01d3026e89d9b7c4a8e9d582f1010911, type: 3}
-  positionID: 0
-  resourse: 0
+  resource: 0
   resourceStore: 150
   oneHitResource: 30
 --- !u!208 &6039415108837272450
@@ -177,6 +177,21 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0.91, z: -0.04}
   m_TimeToStationary: 0.5
+--- !u!114 &6622662285214154419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5207556482062960348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: 0d66eac69121ae643be02e028106d2be, type: 2}
+  weightOffset: 0
+  capacity: 2
 --- !u!1001 &6317040780197975331
 PrefabInstance:
   m_ObjectHideFlags: 0

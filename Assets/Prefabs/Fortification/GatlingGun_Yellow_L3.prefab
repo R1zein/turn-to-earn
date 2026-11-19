@@ -21027,6 +21027,8 @@ GameObject:
   - component: {fileID: 1914985273686563301}
   - component: {fileID: 8844135208869808226}
   - component: {fileID: 7608337181616176495}
+  - component: {fileID: 1948451840226850628}
+  - component: {fileID: 4100257788905032627}
   m_Layer: 0
   m_Name: GatlingGun_Yellow_L3
   m_TagString: Bot
@@ -21162,6 +21164,7 @@ MonoBehaviour:
   footprintCentre: {x: 0, y: 0}
   sockets: []
   hasWalkway: 0
+  extraCells: []
 --- !u!114 &7608337181616176495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21176,6 +21179,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Structure
   title: TURRET
   icon: {fileID: 21300000, guid: 3280314d91772744284eafe884f5a3a7, type: 3}
+  upgrades: []
+--- !u!114 &1948451840226850628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979706888108350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: b4787118e28ec444d877e9e23b523e0a, type: 2}
+  weightOffset: 0
+  capacity: 3
+--- !u!114 &4100257788905032627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979706888108350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e074d79c9e5e24b43aeb0953610e2c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetSeeker
+  profile: {fileID: 11400000, guid: aae84b116ff58fe409e17d2b7b93ef38, type: 2}
 --- !u!1001 &8297979530800346880
 PrefabInstance:
   m_ObjectHideFlags: 0

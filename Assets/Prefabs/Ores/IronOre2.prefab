@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -4711110499338427445}
   - component: {fileID: 1565887930838772526}
   - component: {fileID: 553462759536969862}
+  - component: {fileID: 3205888525546845946}
   m_Layer: 0
   m_Name: IronOre2
   m_TagString: Untagged
@@ -135,8 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyEffect: {fileID: 22985309155431266, guid: 4d70f1474dd2df44fb0cab390220c661, type: 3}
-  positionID: 0
-  resourse: 3
+  resource: 3
   resourceStore: 100
   oneHitResource: 20
 --- !u!208 &1565887930838772526
@@ -176,3 +176,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.0212781
   m_Center: {x: 0.07602981, y: 0.55472344, z: -0.060835183}
+--- !u!114 &3205888525546845946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655105686453797490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: 0d66eac69121ae643be02e028106d2be, type: 2}
+  weightOffset: 0
+  capacity: 2

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8211618310671717237}
   - component: {fileID: 5737686348314737510}
   - component: {fileID: 1222338934723672510}
+  - component: {fileID: 6043018953024193411}
   m_Layer: 0
   m_Name: CopperOre2
   m_TagString: Untagged
@@ -179,3 +180,18 @@ MonoBehaviour:
   resource: 4
   resourceStore: 100
   oneHitResource: 20
+--- !u!114 &6043018953024193411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8177656777541547687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: 0d66eac69121ae643be02e028106d2be, type: 2}
+  weightOffset: 0
+  capacity: 2

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2754808146727433046}
   - component: {fileID: 3334809982497357840}
   - component: {fileID: 6114307407844689643}
+  - component: {fileID: 8183562321185884417}
   m_Layer: 0
   m_Name: GoldOre1
   m_TagString: Untagged
@@ -139,8 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyEffect: {fileID: 22985309155431266, guid: 58c3a76ec8cd82d4b829ccabd2c9833f, type: 3}
-  positionID: 0
-  resourse: 2
+  resource: 2
   resourceStore: 100
   oneHitResource: 10
 --- !u!208 &3334809982497357840
@@ -180,3 +180,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.0363092
   m_Center: {x: 0.0011839867, y: 0.6429574, z: -0.01565969}
+--- !u!114 &8183562321185884417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4217784339725792119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: 0d66eac69121ae643be02e028106d2be, type: 2}
+  weightOffset: 0
+  capacity: 2

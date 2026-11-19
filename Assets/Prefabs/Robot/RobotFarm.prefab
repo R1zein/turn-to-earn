@@ -128,6 +128,8 @@ GameObject:
   - component: {fileID: 3004494634473836026}
   - component: {fileID: 5442173694480960467}
   - component: {fileID: 4764134152931210440}
+  - component: {fileID: 3267202092924083620}
+  - component: {fileID: 3497299746068759626}
   m_Layer: 0
   m_Name: RobotFarm
   m_TagString: Bot
@@ -308,6 +310,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ccd001d83fa3a4ca9d49085bfaf178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCMotor
+--- !u!114 &3267202092924083620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5030082726617585826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: b7dc3f19c73aa4e4581ccd6ea96f1409, type: 2}
+  weightOffset: 0
+  capacity: 3
+--- !u!114 &3497299746068759626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5030082726617585826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e074d79c9e5e24b43aeb0953610e2c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetSeeker
+  profile: {fileID: 11400000, guid: f208f80504bf4634db2b4213692e1b1a, type: 2}
 --- !u!1 &5030082726617585828
 GameObject:
   m_ObjectHideFlags: 0

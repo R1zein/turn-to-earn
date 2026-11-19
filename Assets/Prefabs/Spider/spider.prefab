@@ -1640,6 +1640,8 @@ GameObject:
   - component: {fileID: 2972470448179811524}
   - component: {fileID: 5295341705710853900}
   - component: {fileID: 6726464969276284825}
+  - component: {fileID: 8221819659167541780}
+  - component: {fileID: 7380589203131550692}
   m_Layer: 0
   m_Name: spider
   m_TagString: Untagged
@@ -1839,6 +1841,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ccd001d83fa3a4ca9d49085bfaf178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCMotor
+--- !u!114 &8221819659167541780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7237286591617226822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: b7dc3f19c73aa4e4581ccd6ea96f1409, type: 2}
+  weightOffset: 0
+  capacity: 3
+--- !u!114 &7380589203131550692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7237286591617226822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e074d79c9e5e24b43aeb0953610e2c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetSeeker
+  profile: {fileID: 11400000, guid: 4abd2df14cd02564cac4da2549de3d21, type: 2}
 --- !u!1 &7272635695837676185
 GameObject:
   m_ObjectHideFlags: 0

@@ -1898,6 +1898,8 @@ GameObject:
   - component: {fileID: 1284650868752199256}
   - component: {fileID: 8099205486760493439}
   - component: {fileID: 5973497104617829425}
+  - component: {fileID: 2418947703538703504}
+  - component: {fileID: 5843245105645571766}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: Enemy
@@ -2089,6 +2091,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ccd001d83fa3a4ca9d49085bfaf178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCMotor
+--- !u!114 &2418947703538703504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4493914613880827488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f2fbede1a7e6348af73305104c7ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Targetable
+  type: {fileID: 11400000, guid: b7dc3f19c73aa4e4581ccd6ea96f1409, type: 2}
+  weightOffset: 0
+  capacity: 3
+--- !u!114 &5843245105645571766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4493914613880827488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e074d79c9e5e24b43aeb0953610e2c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetSeeker
+  profile: {fileID: 11400000, guid: 912c8b6caaa58494885e2f331dd64b9b, type: 2}
 --- !u!1 &4710940672626480558
 GameObject:
   m_ObjectHideFlags: 0
