@@ -17,6 +17,7 @@ public class TargetingService : ITickable
     private readonly HashSet<TargetSeeker> updated = new HashSet<TargetSeeker>();
     private readonly List<Targetable> deadTargets = new List<Targetable>();
     private readonly List<(Targetable body, float score)> ranked = new List<(Targetable, float)>();
+    private readonly TargetReachability reachability = new TargetReachability();
     private int cursor;
 
     public void Register(Targetable target) => targets.Add(target);
@@ -33,6 +34,7 @@ public class TargetingService : ITickable
     {
         if (!targets.Remove(target))
             return;
+        reachability.Forget(target);
 
         var affected = new List<TargetSeeker>();
         foreach (var assignment in assignments)
@@ -57,6 +59,7 @@ public class TargetingService : ITickable
         if (index < cursor)
             cursor--;
         queued.Remove(seeker);
+        reachability.Forget(seeker);
         Assign(seeker, null);
     }
 
@@ -64,6 +67,13 @@ public class TargetingService : ITickable
     {
         if (seeker != null && registered.Contains(seeker) && queued.Add(seeker))
             urgent.Enqueue(seeker);
+    }
+
+    public void ReportInterruptedPath(TargetSeeker seeker)
+    {
+        if (seeker.Current != null)
+            reachability.Invalidate(seeker, seeker.Current);
+        RequestRescan(seeker);
     }
 
     public void Tick()
@@ -102,11 +112,21 @@ public class TargetingService : ITickable
 
         assignments.TryGetValue(seeker, out Targetable current);
         TargetProfile profile = seeker.Profile;
+        NPCMotor motor = seeker.Motor;
+        if (motor != null && (motor.HasPortalOrder || motor.IsTraversingLink || motor.IsAirborne))
+            return;
+        if (profile.NeedsPath && motor == null)
+        {
+            Assign(seeker, null);
+            return;
+        }
+        if (profile.NeedsPath && !motor.CanPlanRoute)
+            return;
         Vector3 origin = seeker.Origin;
         ranked.Clear();
         foreach (Targetable target in targets)
         {
-            if (!target.IsAvailable || target.transform == seeker.transform || !profile.Targets(target.Faction)
+            if (target == null || !target.IsAvailable || target.transform == seeker.transform || !profile.Targets(target.Faction)
                 || !profile.TryGetWeight(target.Type, out float weight))
                 continue;
 
@@ -125,14 +145,21 @@ public class TargetingService : ITickable
 
         ranked.Sort((left, right) => right.score.CompareTo(left.score));
         Targetable next = null;
+        Vector3? navigationPoint = null;
         foreach (var candidate in ranked)
         {
-            if (seeker.CanSelect(candidate.body))
+            if (!seeker.CanSelect(candidate.body))
+                continue;
+            if (profile.NeedsPath)
             {
-                next = candidate.body;
-                break;
+                if (!reachability.TryGetDestination(seeker, candidate.body, out Vector3 reachablePoint))
+                    continue;
+                navigationPoint = reachablePoint;
             }
+            next = candidate.body;
+            break;
         }
+        seeker.NavigationPoint = navigationPoint;
         Assign(seeker, next);
     }
 
@@ -160,7 +187,11 @@ public class TargetingService : ITickable
         }
 
         if (seeker != null)
+        {
+            if (next == null)
+                seeker.NavigationPoint = null;
             seeker.Assign(next);
+        }
     }
 
     private void RemoveDestroyedBodies()

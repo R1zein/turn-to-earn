@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,6 +23,7 @@ public class NPCMotor : MonoBehaviour
     private float nextRepath;
     private float pushUntil;
     private bool hasOrder;
+    private bool hasRequestedPath;
     private Vector3? facingPoint;
     private Vector3? portalExit;
     private NavMeshPath portalPath;
@@ -31,6 +33,9 @@ public class NPCMotor : MonoBehaviour
     public Vector3 Velocity => body.linearVelocity;
     public bool IsMoving => Horizontal(Velocity).sqrMagnitude > 0.04f;
     public bool IsTraversingLink => IsOnNavMesh && agent.isOnOffMeshLink;
+    public bool CanPlanRoute => IsOnNavMesh && !IsAirborne && !IsTraversingLink;
+    public bool HasPortalOrder => portalExit.HasValue;
+    public event Action PathInterrupted;
     private bool IsOnNavMesh => agent.enabled && agent.isOnNavMesh;
 
     private void Awake()
@@ -49,6 +54,7 @@ public class NPCMotor : MonoBehaviour
     {
         agent.enabled = false;
         hasOrder = false;
+        hasRequestedPath = false;
     }
 
     public bool TrySample(Vector3 point, float radius, out NavMeshHit hit)
@@ -59,7 +65,7 @@ public class NPCMotor : MonoBehaviour
         return NavMesh.SamplePosition(point, out hit, radius, filter);
     }
 
-    public bool HasRoute(Vector3 point, NavMeshPath path) => IsOnNavMesh && !IsAirborne
+    public bool HasRoute(Vector3 point, NavMeshPath path) => CanPlanRoute
         && agent.CalculatePath(point, path) && path.status == NavMeshPathStatus.PathComplete;
 
     private bool HasOrder => hasOrder && IsOnNavMesh
@@ -83,6 +89,7 @@ public class NPCMotor : MonoBehaviour
 
         portalExit = null;
         hasOrder = false;
+        hasRequestedPath = false;
         return false;
     }
 
@@ -99,12 +106,15 @@ public class NPCMotor : MonoBehaviour
             return;
 
         agent.isStopped = false;
-        if (hasOrder && Time.time < nextRepath && (point - orderedPoint).sqrMagnitude < DestinationShift * DestinationShift)
+        if (hasRequestedPath && Time.time < nextRepath && (point - orderedPoint).sqrMagnitude < DestinationShift * DestinationShift)
             return;
 
-        hasOrder = agent.SetDestination(point);
+        hasRequestedPath = true;
         orderedPoint = point;
         nextRepath = Time.time + RepathInterval;
+        hasOrder = agent.SetDestination(point);
+        if (!hasOrder && !HasPortalOrder)
+            PathInterrupted?.Invoke();
     }
 
     public void Stop()
@@ -128,6 +138,21 @@ public class NPCMotor : MonoBehaviour
         body.AddForce(impulse, ForceMode.Impulse);
     }
 
+    private void Update()
+    {
+        if (!CanPlanRoute)
+            return;
+
+        agent.nextPosition = body.position;
+        if (!hasOrder || agent.isStopped || agent.pathPending || agent.pathStatus == NavMeshPathStatus.PathComplete)
+            return;
+
+        hasOrder = false;
+        float arrival = Mathf.Max(agent.stoppingDistance, DestinationShift);
+        if (!HasPortalOrder && Horizontal(orderedPoint - body.position).sqrMagnitude > arrival * arrival)
+            PathInterrupted?.Invoke();
+    }
+
     private void FixedUpdate()
     {
         Vector3 velocity = body.linearVelocity;
@@ -139,9 +164,6 @@ public class NPCMotor : MonoBehaviour
             Reattach();
         if (IsAirborne)
             return;
-
-        if (!IsTraversingLink && IsOnNavMesh)
-            agent.nextPosition = body.position;
 
         if (!IsGrounded)
             return;
@@ -193,6 +215,7 @@ public class NPCMotor : MonoBehaviour
             body.position = physicalPosition;
         }
         hasOrder = false;
+        hasRequestedPath = false;
     }
 
     private Vector3 DesiredVelocity()

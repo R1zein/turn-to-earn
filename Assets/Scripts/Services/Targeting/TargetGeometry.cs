@@ -59,9 +59,15 @@ public class TargetGeometry
 
         // Unity's ClosestPoint does not support concave meshes. Where possible,
         // use the real face hit by a ray instead of treating the whole box as solid.
+        Vector3 boundPoint = bounds.ClosestPoint(from);
+        Vector3 edge = boundPoint - from;
+        if (edge.sqrMagnitude > 0.0001f && solid.Raycast(new Ray(from, edge.normalized), out RaycastHit nearHit,
+            edge.magnitude + bounds.extents.magnitude))
+            return nearHit.point;
+
         Vector3 delta = bounds.center - from;
         if (delta.sqrMagnitude > 0.0001f && solid.Raycast(new Ray(from, delta.normalized), out RaycastHit hit, delta.magnitude))
             return hit.point;
-        return bounds.ClosestPoint(from);
+        return boundPoint;
     }
 }

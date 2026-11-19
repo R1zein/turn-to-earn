@@ -29,6 +29,16 @@ public class Targetable : MonoBehaviour
 
     public Vector3 ClosestPoint(Vector3 from) => geometry.ClosestPoint(from);
 
+    public Vector3 NavigationAnchor(Vector3 from)
+    {
+        // Use the near side at the target's base for wide targets such as walls.
+        // Preserve its height so a player on a deck is not snapped to the ground.
+        from.y = transform.position.y + 0.2f;
+        Vector3 point = geometry.ClosestPoint(from);
+        point.y = transform.position.y;
+        return point;
+    }
+
     private void OnEnable()
     {
         if (!IsAvailable || GetComponentInParent<Ghost>() != null)

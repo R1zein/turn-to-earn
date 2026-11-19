@@ -14,6 +14,7 @@ public abstract class NPCFacade : MonoBehaviour
     private Collider bodyCollider;
     private TargetSeeker seeker;
     private bool isHeldStill;
+    private bool wasFollowingPortalRoute;
 
     public StatsHandler Health => statsHandler;
     public Vector3 AimPoint => bodyCollider.bounds.center;
@@ -51,6 +52,9 @@ public abstract class NPCFacade : MonoBehaviour
             return;
 
         bool hasPortalOrder = motor.FollowPortalRoute();
+        if (wasFollowingPortalRoute && !hasPortalOrder)
+            seeker.RequestRescan();
+        wasFollowingPortalRoute = hasPortalOrder;
         Vector3 point = default;
         bool engaging = !hasPortalOrder && CanEngage(out point);
         if (engaging)
@@ -61,7 +65,7 @@ public abstract class NPCFacade : MonoBehaviour
         else if (!hasPortalOrder)
         {
             if (Target != null && Target.IsAvailable)
-                motor.MoveTo(Target.ClosestPoint(transform.position));
+                motor.MoveTo(seeker.NavigationPoint ?? Target.ClosestPoint(transform.position));
             else
                 motor.Stop();
         }
